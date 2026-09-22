@@ -100,7 +100,8 @@ Do not copy historical debate into current-contract docs.
 Apply only the relevant rule files:
 
 - Questions: `docs/rules/questions.md`
-- Context routing / Packs: `docs/rules/context-routing.md`\n- Repository exploration: `docs/rules/exploration.md`
+- Context routing / Packs: `docs/rules/context-routing.md`
+- Repository exploration: `docs/rules/exploration.md`
 - Current docs / four-document set: `docs/rules/docs-contract.md`
 - Testing / Flow IDs: `docs/rules/testing-strategy.md`
 - Git / Issue / PR: `docs/rules/git-workflow.md`
