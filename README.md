@@ -102,6 +102,7 @@ Human-on-Exception standardizes the repository machinery that makes autonomous w
 
 - [responsibility boundary](./docs/rules/responsibility-boundary.md)
 - [autonomy continuity](./docs/rules/autonomy-continuity.md)
+- [human attention as the scarce resource](./docs/rules/human-attention.md)
 - [progressive exploration](./docs/rules/exploration.md)
 - [Questions discipline](./docs/rules/questions.md)
 - [context routing and Packs](./docs/rules/context-routing.md)
@@ -236,6 +237,8 @@ These checks make drift observable. They do not define the operating philosophy.
 ## Behavioral evaluation
 
 Prompt-level evaluations exist under [docs/testing/prompt-evals/](./docs/testing/prompt-evals/) and [protocol-acceptance.md](./docs/testing/protocol-acceptance.md).
+
+Long-running evidence for the actual hypothesis is described in [operating-evidence.md](./docs/testing/operating-evidence.md).
 
 They are evidence that the operating model is being followed, not the purpose of the project.
 
