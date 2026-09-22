@@ -67,8 +67,6 @@ Do not merge while required checks fail, a valid finding remains unresolved, or 
 
 Completion includes leaving enough reusable repository context that the next agent does not need the previous agent or a human to reconstruct the work.
 
-See [autonomy-continuity.md](./autonomy-continuity.md).
-
 ## Anti-pattern
 
 This is not Human-on-Exception:
