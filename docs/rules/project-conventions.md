@@ -59,25 +59,3 @@ List exact lint/test/docs/survey commands required for each touched area.
 Agents must follow **this project's encoded conventions** before generic ecosystem advice or the sample architecture in this repository.
 
 If project architecture has not yet been chosen and a task would establish a meaningful long-term boundary, create a Question instead of silently adopting the starter's sample architecture.
-
-
-## Autonomous-readiness gate
-
-Do not claim Paw-like autonomous quality merely because this starter was copied.
-
-Before routine prompts 01–05 are expected to work with minimal human input, the adopting repository should have concrete answers for:
-
-- languages/framework versions and package managers
-- module/layer ownership and prohibited dependencies
-- API/error/public compatibility policy
-- persistence/transaction/migration/seed/master ownership
-- auth/security/audit rules
-- external service/cache/job failure semantics
-- frontend routing/state/server-client boundaries, when applicable
-- test locations and exact completion commands
-- feature routing via index/Pack/Flow or an equivalent explicit mechanism
-- Source-of-Truth conflict behavior
-
-Use `prompts/00-bootstrap.md` to establish these from repository evidence.
-
-If a category does not apply, encode N/A or the actual simpler rule. Do not invent architecture merely to fill a checklist.
