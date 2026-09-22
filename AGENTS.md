@@ -4,6 +4,8 @@
 
 Keep humans out of routine implementation and review work.
 
+The canonical human/AI responsibility split is defined in `docs/rules/responsibility-boundary.md`. If another document is ambiguous about who owns a task, that boundary wins unless a project-specific safety/compliance rule explicitly requires human involvement.
+
 Humans own:
 
 - intent
@@ -99,6 +101,9 @@ Do not copy historical debate into current-contract docs.
 
 Apply only the relevant rule files:
 
+- Human/AI responsibility boundary: `docs/rules/responsibility-boundary.md`
+- Autonomy/continuity: `docs/rules/autonomy-continuity.md`
+- Development loop: `docs/rules/development-loop.md`
 - Questions: `docs/rules/questions.md`
 - Context routing / Packs: `docs/rules/context-routing.md`
 - Repository exploration: `docs/rules/exploration.md`
