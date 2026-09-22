@@ -82,6 +82,8 @@ Pass only if the reviewer searches beyond the changed line when necessary for ca
 
 ## E. Human-on-Exception boundary
 
+The canonical ownership contract is [responsibility-boundary.md](../rules/responsibility-boundary.md).
+
 Pass only if the human is required for:
 
 - intent / why
@@ -127,3 +129,19 @@ For repeatable prompt-level evaluation cases and scoring, use:
 - [prompt-evals/README.md](./prompt-evals/README.md)
 
 Protocol acceptance should be treated as **empirically validated only after running the relevant prompt evals in fresh independent agent contexts**. Static repository review alone is not enough.
+
+
+## G. Human-attention sustainability
+
+Local correctness is not enough.
+
+Over repeated changes, pass only if:
+
+- routine human interventions do not grow proportionally with repository size
+- previously settled engineering decisions are not repeatedly re-asked
+- humans are not required to provide routine file/Flow coordinates
+- most review findings are adjudicated without human arbitration
+- AI can carry confirmed work through implementation/review/repair/merge readiness
+- correctness does not materially degrade as human routine involvement decreases
+
+See [human-attention.md](../rules/human-attention.md) and [operating-evidence.md](./operating-evidence.md).
