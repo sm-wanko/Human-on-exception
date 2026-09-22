@@ -1,34 +1,31 @@
 # Human Prompts
 
-These prompts are **entry commands**, not a second rule system.
+These prompts are entry commands, not a second rule system.
 
-Execution is governed by `AGENTS.md`, especially the canonical [Human / AI Responsibility Boundary](../docs/rules/responsibility-boundary.md).
+Execution is governed by `AGENTS.md` and the repository rules.
 
-## Human input should stay small
+## Core responsibility split
 
-The human should normally provide only:
+The human provides:
 
-- intent / what
+- what should be built
 - why / desired outcome
 - non-negotiable boundaries
 - Answers to genuine Questions
 
-The human should not need to provide:
+The AI provides:
 
-- Flow IDs
-- file paths
-- implementation decomposition
-- test plans
-- routine review verdicts
-- migration mechanics
+- repository investigation
+- Questions
+- Issue / Epic decomposition
+- implementation
+- current feature docs
+- tests
+- PR creation
+- review handling
+- merge preparation
 
-If a prompt routinely requires those, repository autonomy is incomplete.
-
-## One-time adoption
-
-0. **Bootstrap** — inspect the repository and establish project-specific rules/architecture/testing/data/security boundaries.
-
-Bootstrap exists so humans do not have to repeat engineering conventions on every feature.
+The human should not need to provide Flow IDs, file paths, implementation decomposition, test plans, or routine review verdicts.
 
 ## Normal loop
 
@@ -38,6 +35,15 @@ Bootstrap exists so humans do not have to repeat engineering conventions on ever
 4. Review findings
 5. Merge
 
-Humans may phrase these naturally. Exact wording is not required if intent is clear.
+The first three prompts are the core loop:
+
+```text
+Human wants something
+→ AI investigates and asks Questions
+→ Human answers
+→ AI implements and creates docs/tests/PR
+```
+
+Prompts 04 and 05 continue the same responsibility model after the PR exists.
 
 Keep prompts short; keep engineering policy in repository Source of Truth.
