@@ -2,293 +2,190 @@
 
 > **What if the human is the bottleneck?**
 
-Human-on-Exception is a repository protocol for continuously developing software with AI while keeping humans out of routine engineering loops.
+Human-on-Exception is a repository protocol for AI-driven software development built around one simple responsibility split:
 
-The central hypothesis is not that AI is always correct.
+```text
+Human wants something
+        ↓
+AI investigates the repository and creates Questions
+        ↓
+Human answers only the unresolved decisions
+        ↓
+AI creates Issues, implements, updates feature docs/tests, and opens PRs
+```
 
-It is:
+That is the core.
 
-> **Humans should own purpose, authority, and genuinely unresolved decisions. AI should own the engineering work required to turn those decisions into verified repository changes.**
+The goal is not to prove that AI never makes mistakes.
 
-The repository is structured so mistakes can be found and repaired without making a human permanently responsible for search, decomposition, coding, diff review, review triage, docs synchronization, or routine merge coordination.
+The goal is to prove that a human does not need to remain the permanent coordinator of search, decomposition, coding, documentation, testing, or routine review work.
 
-## Operating model
+## Responsibilities
 
-The canonical responsibility split is defined in:
+The canonical boundary is defined in [docs/rules/responsibility-boundary.md](./docs/rules/responsibility-boundary.md).
 
-- [Human / AI Responsibility Boundary](./docs/rules/responsibility-boundary.md)
-- [Autonomy and Continuity](./docs/rules/autonomy-continuity.md)
-- [Development Loop](./docs/rules/development-loop.md)
+### Human
 
-### Human owns
+Humans own:
 
 - what should exist
 - why it matters
 - desired product/experience outcome
 - non-negotiable boundaries
-- Answers to decisions the repository genuinely cannot resolve
+- Answers to decisions the repository cannot resolve
 
-### AI owns
+### AI
+
+AI owns:
 
 - repository search and context recovery
+- deciding which existing Flow/Pack/rules apply
 - Questions generation
 - Issue/Epic decomposition
-- coding and migrations
-- tests and current-contract docs
+- implementation
+- migrations and routine technical mechanics
+- tests
+- Flow/UI/Validation/DB current docs
 - Pack/index maintenance
-- independent review
-- reviewer finding adjudication
-- correction and re-verification
-- routine merge/repository maintenance
+- PR creation
+- independent review and finding adjudication
+- routine merge preparation
 
-### Human should not be required for
+A human should not need to tell the AI which files to inspect, which Flow ID to use, how to split routine work, or whether every review comment is correct.
 
-- locating files or Flow IDs
-- choosing implementation paths
-- routine code structure
-- reading every diff
-- interpreting every AI reviewer comment
-- reminding agents to update tests/docs
-- deciding routine migration mechanics
-- coordinating every child branch/Issue
-
-If normal development repeatedly requires those actions, the protocol is failing.
-
-## The loop
-
-```text
-Human intent / why
-        ↓
-AI search / context recovery
-        ↓
-AI Questions only for unresolved human-owned decisions
-        ↓
-Human Answers
-        ↓
-AI Issue / Epic decomposition
-        ↓
-AI implementation + migrations + tests + docs
-        ↓
-Independent AI review
-        ↓
-AI adjudication
-  ├─ valid → fix / verify / resolve
-  ├─ false positive → reject with evidence
-  └─ genuine ambiguity → Human decision
-        ↓
-AI resumes / merges / updates repository context
-        ↓
-Next feature should require equal or less human coordination
-```
-
-## Human commands
-
-When adopting the protocol into a repository, run **Bootstrap once**. After that, normal development uses five short commands.
-
-0. **Bootstrap (once)** — derive project-specific architecture, ownership, testing, security, data, and completion rules from repository evidence.
-1. **Define** — state what/why/desired experience; AI investigates and creates only necessary Questions.
-2. **Decide** — update Answers; AI asks only newly exposed blocking Questions or creates Issues/Epic.
-3. **Implement** — AI carries the Issue through code, tests, docs, checks, and PR creation.
-4. **Review** — AI independently adjudicates reviewer findings; humans see only genuine ambiguity.
-5. **Merge** — AI verifies completion conditions, merges, and updates routing/history.
+## The five human prompts
 
 See [prompts/](./prompts/).
 
-The prompts are intentionally small. They are entry commands, not a second rule system.
+1. **Define** — describe the feature / why / desired experience.
+2. **Decide** — update Answers; AI either asks the next real Question or creates Issues.
+3. **Implement** — AI implements the Issue through code, tests, docs, checks, and PR.
+4. **Review** — AI validates reviewer findings, fixes valid ones, rejects false positives, and asks the human only on genuine ambiguity.
+5. **Merge** — AI verifies completion conditions and prepares/completes the merge flow.
 
-## Why this is more than an AI coding template
+The first three contain the essential loop:
 
-Human-on-Exception standardizes the repository machinery that makes autonomous work sustainable:
+> **Human intent → AI Questions → Human Answers → AI implementation + feature overview + PR**
 
-- [responsibility boundary](./docs/rules/responsibility-boundary.md)
-- [autonomy continuity](./docs/rules/autonomy-continuity.md)
-- [human attention as the scarce resource](./docs/rules/human-attention.md)
-- [progressive exploration](./docs/rules/exploration.md)
-- [Questions discipline](./docs/rules/questions.md)
-- [context routing and Packs](./docs/rules/context-routing.md)
-- [four-document current contracts](./docs/rules/docs-contract.md)
-- [Flow-linked tests](./docs/rules/testing-strategy.md)
-- [Issue / Epic / PR workflow](./docs/rules/git-workflow.md)
-- [independent review + adjudication](./docs/rules/review.md)
-- [migration safety](./docs/rules/migration-safety.md)
-- [project-specific conventions](./docs/rules/project-conventions.md)
+The remaining prompts allow the same responsibility model to continue after the PR exists.
 
-The intended outcome is not "AI writes code faster."
+## Why the repository structure matters
 
-It is:
+Short prompts only work when the repository carries enough context for AI to investigate autonomously.
 
-> **Repository growth should not force proportional growth in human coordination.**
+The main rails are:
+
+- [AGENTS.md](./AGENTS.md) — operating contract and Source of Truth rules
+- [Questions rule](./docs/rules/questions.md) — what AI may ask a human
+- [Exploration rule](./docs/rules/exploration.md) — how AI finds the right context without asking for file paths
+- [Context routing / Packs](./docs/rules/context-routing.md) — feature-level attention routing
+- [Docs contract](./docs/rules/docs-contract.md) — Flow / UI / Validation / DB ownership
+- [Testing strategy](./docs/rules/testing-strategy.md) — Flow-linked verification
+- [Review rule](./docs/rules/review.md) — reviewer finding adjudication
+- [Git workflow](./docs/rules/git-workflow.md) — Issue / Epic / PR boundaries
+- [Project conventions](./docs/rules/project-conventions.md) — project-specific architecture and coding rules
+
+These rules exist so the human does not have to repeat engineering context in every prompt.
 
 ## Source of Truth
 
-Current behavior belongs in:
+For current behavior, agents investigate in this order:
 
 ```text
-Implementation
-    ↓
-Executable contract/system tests
-    ↓
-Flow / UI / Validation / DB current docs
+implementation
+→ executable system/integration contract tests
+→ current Flow / UI / Validation / DB docs
 ```
 
-Decision history belongs in:
+Questions and ADRs are decision history/rationale, not a substitute for current executable truth.
 
-```text
-Questions / Answers
-ADR
-Git history
-```
+If sources conflict, AI investigates the conflict instead of blindly rewriting working code or asking the human to sort out discoverable facts.
 
-Historical discussion does not override current executable truth by itself.
+## Questions
 
-If current sources conflict, agents investigate the conflict; they do not blindly rewrite working code because a document says otherwise.
+Questions are the human-attention boundary.
 
-## Questions are the human-attention boundary
+AI must first inspect the repository and separate:
 
-Questions are not a requirements checklist.
+- what is already decided
+- what is routine implementation detail
+- what genuinely requires human judgment
 
-Before asking the human, an agent must search the repository and separate:
+A Question is valid only when multiple materially valid outcomes remain and the repository cannot decide between them.
 
-- facts already encoded in rules/code/tests/docs
-- routine technical choices the AI owns
-- genuinely unresolved human-owned decisions
+After the human updates Answers, AI re-evaluates consequences. If nothing important remains ambiguous, it stops asking and creates the implementation Issue(s).
 
-A valid Question explains:
+## Feature overview docs
 
-- what was inspected
-- why evidence still cannot decide
-- materially different options
-- consequences / compatibility / risk
-- AI recommendation when defensible
+The sample follows the same four-document split used by the protocol:
 
-After Answers, AI re-evaluates second-order consequences and loops only when a new human decision is truly required.
+- **Flow** — scope, path, service/API order, test matrix
+- **UI** — visible behavior and operations
+- **Validation** — input/auth/error contract
+- **DB** — persistence/transaction contract
 
-See [questions.md](./docs/rules/questions.md).
+They are current behavior docs, not decision-history dumps.
 
-## Architecture is project-specific
+Questions preserve the decision process; ADRs preserve durable rationale when needed.
 
-**The Laravel + TypeScript code in this repository is only a runnable example. It is not the Human-on-Exception architecture.**
+## Architecture is replaceable
 
-Each adopting repository should define an architecture appropriate to its own:
+The Laravel + TypeScript sample is only an example.
 
-- existing codebase
-- size and complexity
-- deployment model
-- performance/operational constraints
-- maintenance horizon
-- team/agent scale
+Human-on-Exception does not require Laravel, React, Clean Architecture, repositories, or this exact directory layout.
 
-A small project may need fewer layers.
-A large project may need stronger dependency guards or multiple services.
+Each real project should encode its own architecture and prohibitions in project rules.
 
-The rule is:
+The important property is not a specific architecture.
 
-> **Choose an architecture that fits the project, then encode it clearly enough that agents do not reinvent it.**
+It is:
 
-Use [00-bootstrap](./prompts/00-bootstrap.md) to establish these rules from repository evidence.
+> **AI can discover the architecture from the repository and follow it without requiring the human to restate it every time.**
 
-## Example implementation
+## Example
 
-The sample Task CRUD demonstrates the protocol with Laravel + TypeScript:
+The included Task CRUD demonstrates:
 
-- [core feature index](./docs/testing/core-features.md)
+- Questions → Answers
+- Pack / Flow routing
+- Laravel application/infrastructure separation
+- Quick vs Detail read models
+- TypeScript feature structure
+- Flow-linked backend/frontend tests
+- Flow/UI/Validation/DB docs
+
+See:
+
 - [Pack](./docs/ai/packs/task-crud.md)
 - [Questions](./docs/testing/questions/task-crud.md)
 - [Flow](./docs/flow/task-crud.md)
 - [UI](./docs/ui/task-crud.md)
 - [Validation](./docs/validation/task-crud.md)
 - [DB](./docs/db/task-crud.md)
-- [backend](./backend/)
-- [frontend](./frontend/)
 
-The sample backend deliberately uses a right-sized architecture:
-
-```text
-Laravel HTTP
-    ↓
-Application use cases
-    ↓
-Application ports / Quick+Detail read models
-    ↑
-Eloquent Infrastructure
-```
-
-There is no ceremony-only Domain layer for trivial CRUD.
-
-## Mechanical verification
+## Verification
 
 ```bash
 python scripts/repo_survey.py
 ```
 
-CI currently verifies:
+CI verifies the sample implementation and the repository contract, including Flow/Pack/docs/test traceability.
 
-- Flow ↔ UI/Validation/DB structure
-- Flow ↔ Pack/core index
-- SYS/FE IDs ↔ executable source references
-- four-document Flow ID consistency
-- local Markdown links
-- Laravel Feature tests
-- TypeScript typecheck
-- frontend contract tests
-
-These checks make drift observable. They do not define the operating philosophy.
-
-## Behavioral evaluation
-
-Prompt-level evaluations exist under [docs/testing/prompt-evals/](./docs/testing/prompt-evals/) and [protocol-acceptance.md](./docs/testing/protocol-acceptance.md).
-
-Long-running evidence for the actual hypothesis is described in [operating-evidence.md](./docs/testing/operating-evidence.md).
-
-They are evidence that the operating model is being followed, not the purpose of the project.
-
-The stronger test is long-term:
-
-- does the human need to identify files less often?
-- do settled decisions stop being re-asked?
-- can AI review AI without human arbitration?
-- can repository size grow without requiring mandatory human diff review?
-- does human attention remain concentrated on new intent and exceptional decisions?
-
-## Repository map
-
-```text
-AGENTS.md                         Agent operating contract
-prompts/                          Bootstrap + five normal human commands
-
-docs/rules/responsibility-boundary.md
-docs/rules/autonomy-continuity.md
-docs/rules/development-loop.md
-docs/rules/                        Search, Questions, docs, tests, review, Git, migration rules
-
-docs/testing/core-features.md       Context-routing index
-docs/ai/packs/                      Feature attention-routing manifests
-docs/flow/                          Current behavior + test matrices
-docs/ui/                            Current UI contract
-docs/validation/                    Current input/auth/error contract
-docs/db/                            Current persistence/Tx contract
-docs/testing/questions/             Decision history
-docs/adr/                           Durable rationale
-
-backend/                            Runnable Laravel example
-frontend/                           Runnable TypeScript/React example
-.cursor/BUGBOT.md                   Independent reviewer role example
-scripts/repo_survey.py              Repository contract survey
-.github/                            Issue/PR templates + CI
-```
+Those checks support the loop; they are not the point of the project.
 
 ## Origin
 
-This protocol was extracted from a real solo repository that evolved by repeatedly removing human bottlenecks from context recovery, Issue decomposition, implementation, review, and review triage.
+This protocol was extracted from Paw-Pads after repeatedly removing human work from:
 
-The core principle is:
+- context recovery
+- Questions generation
+- Issue decomposition
+- implementation
+- documentation synchronization
+- review triage
 
-> **Do not make the agent infallible. Make mistakes observable and recoverable without requiring continuous human supervision.**
+The core idea is intentionally small:
 
-## Status
+> **Humans decide what and why. AI investigates, asks only what it cannot decide, then builds.**
 
-Experimental.
-
-Opinionated about the **human/AI responsibility model and development loop**.
-
-Application architecture is replaceable.
+If humans must continuously tell the AI where to look, how to code, what review findings mean, or what docs to update, the human is still the bottleneck.
