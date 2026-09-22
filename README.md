@@ -217,3 +217,23 @@ This structure was extracted from a real solo hobby repository that evolved unde
 Experimental and intentionally opinionated about the **development loop**.
 
 Application architecture is intentionally replaceable.
+
+
+## Prompt quality assurance
+
+Repository structure and CI do not by themselves guarantee that every agent invocation will produce Paw-level output.
+
+Human-on-Exception therefore includes **Prompt E2E evaluations** for the actual short human commands:
+
+- [Define / Questions](./docs/testing/prompt-evals/01-define.md)
+- [Answer LOOP / Issues](./docs/testing/prompt-evals/02-decide.md)
+- [Implementation](./docs/testing/prompt-evals/03-implement.md)
+- [Review/adjudication](./docs/testing/prompt-evals/04-review.md)
+- [Exploration](./docs/testing/prompt-evals/05-exploration.md)
+- [Bootstrap](./docs/testing/prompt-evals/06-bootstrap.md)
+
+These are behavioral evals: run the prompt in a fresh agent context against a disposable branch/repository, then score the resulting artifact/work.
+
+A prompt version should not be considered release-quality if it introduces a critical failure such as unnecessary human questions, fabricated repository facts, silent protected-boundary changes, blind reviewer acceptance, or false completion while required checks fail.
+
+See [prompt-evals/README.md](./docs/testing/prompt-evals/README.md).
