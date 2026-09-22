@@ -116,3 +116,14 @@ After repeated feature work:
 Passing this rubric does not prove an AI will never make a mistake.
 
 It verifies that the repository gives independent capable agents the same **decision/search/review rails** needed to make mistakes observable and recoverable without putting a human permanently inside the coding loop.
+
+
+## Executable evaluation process
+
+This rubric defines the target behavior.
+
+For repeatable prompt-level evaluation cases and scoring, use:
+
+- [prompt-evals/README.md](./prompt-evals/README.md)
+
+Protocol acceptance should be treated as **empirically validated only after running the relevant prompt evals in fresh independent agent contexts**. Static repository review alone is not enough.
