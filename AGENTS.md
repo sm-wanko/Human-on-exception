@@ -102,8 +102,6 @@ Do not copy historical debate into current-contract docs.
 Apply only the relevant rule files:
 
 - Human/AI responsibility boundary: `docs/rules/responsibility-boundary.md`
-- Autonomy/continuity: `docs/rules/autonomy-continuity.md`
-- Human attention: `docs/rules/human-attention.md`
 - Development loop: `docs/rules/development-loop.md`
 - Questions: `docs/rules/questions.md`
 - Context routing / Packs: `docs/rules/context-routing.md`
