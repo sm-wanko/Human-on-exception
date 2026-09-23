@@ -34,8 +34,52 @@ AI: 不明が無ければ Issue を起票し、実装・テスト・4点セッ�
 
 - ペット固有の機能・検索・データ・用語は含めない
 - Backend の実装例は Go ではなく Laravel
-- Frontend は TypeScript
+- Frontend は TypeScript / Next.js
 - AI 開発環境の構造・SoT・Pack / Flow / Questions / 4点セット / SIT / FE Contract / review 方針は Paw-Pads の形式に合わせる
+
+## ローカル起動
+
+Docker Compose V2 があれば、初回もこれだけで起動する。
+
+```bash
+make up
+```
+
+- Frontend: http://localhost:3000/
+- Task list: http://localhost:3000/tasks/
+- Backend health: http://localhost:8080/up
+- Backend API: http://localhost:8080/api/tasks
+- PostgreSQL: localhost:5432
+
+停止:
+
+```bash
+make down
+```
+
+再ビルド:
+
+```bash
+make build
+make up
+```
+
+DB migration は backend 起動時に自動適用する。`make init-db` / `make reset-db` でも実行可能。
+
+Task を作る例:
+
+```bash
+curl -X POST http://localhost:8080/api/tasks   -H 'Content-Type: application/json'   -d '{"title":"Try Human-on-Exception","description":"Laravel sample"}'
+```
+
+## 開発コマンド
+
+```bash
+make lint
+make test
+make survey
+make docs
+```
 
 ## Source of Truth
 

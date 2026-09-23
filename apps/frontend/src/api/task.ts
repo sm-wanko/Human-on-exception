@@ -15,10 +15,10 @@ export type TaskDetail = TaskQuick & {
 
 /** Task 一覧を取得する */
 export function getTasks(): Promise<TaskQuick[]> {
-  return request<TaskQuick[]>('/api/tasks')
+  return request<TaskQuick[]>('/api/tasks/')
 }
 
 /** Task 詳細を取得する */
 export function getTask(id: number): Promise<TaskDetail> {
-  return request<TaskDetail>(`/api/tasks/${id}`)
+  return request<TaskDetail>(`/api/tasks/${id}/`)
 }

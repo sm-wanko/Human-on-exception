@@ -26,6 +26,6 @@ describe('TASK_CRUD frontend flow contract', () => {
   })
 
   it('TASK_CRUD-FE-004: detail path', () => {
-    expect(resolveTaskOpenPath(42)).toBe('/tasks/42')
+    expect(resolveTaskOpenPath(42)).toBe('/tasks/42/')
   })
 })

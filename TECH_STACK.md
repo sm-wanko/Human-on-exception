@@ -2,12 +2,18 @@
 
 Paw-Pads の AI 開発環境を Laravel + TypeScript に置き換えたサンプル。
 
+## Local
+
+- Docker Compose V2
+- PostgreSQL 15
+
 ## Backend
 
 - PHP 8.3
 - Laravel 12
 - PHPUnit / Orchestra Testbench
-- SQLite in-memory（サンプル test）
+- PostgreSQL（Docker local）
+- SQLite in-memory（test）
 
 ## Frontend
 
@@ -16,11 +22,18 @@ Paw-Pads の AI 開発環境を Laravel + TypeScript に置き換えたサンプ
 - TypeScript 5.9.2
 - Vitest
 - React Testing Library
+- pnpm 10.13.1
 
-## 公開コマンド
+## Makefile ターゲット台帳
 
 | コマンド | 用途 |
 |---|---|
+| `make build` | Docker image build |
+| `make up` | Frontend / Backend / PostgreSQL 起動 |
+| `make down` | local services 停止 |
+| `make logs` | compose logs |
+| `make init-db` | Laravel migration |
+| `make reset-db` | local DB fresh migration |
 | `make lint` | Backend / Frontend lint + typecheck |
 | `make test` | Backend / Frontend / SIT |
 | `make survey` | Flow / SYS / FE / docs gap |

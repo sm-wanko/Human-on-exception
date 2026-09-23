@@ -18,12 +18,6 @@ const eslintConfig = [
       '@typescript-eslint/consistent-type-imports': 'warn',
     },
   },
-  {
-    files: ['src/app/**/page.tsx'],
-    rules: {
-      'import/no-default-export': 'off',
-    },
-  },
 ] satisfies Linter.Config[]
 
 export default eslintConfig

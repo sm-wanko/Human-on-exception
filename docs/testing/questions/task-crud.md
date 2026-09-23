@@ -79,7 +79,7 @@
 | ID | 質問 | 選択肢（案） |
 |----|------|----------------|
 | U1 | **一覧状態** | **A)** loading / empty / error を区別 / **B)** loading と結果だけ |
-| U2 | **詳細導線** | **A)** 一覧選択 → `/tasks/{id}` / **B)** modal のみ |
+| U2 | **詳細導線** | **A)** 一覧選択 → `/tasks/{id}/` / **B)** modal のみ |
 | U3 | **mutation UI** | **A)** 今回含める / **B)** API のみで UI は Scope 外 |
 
 | ID | 回答 | 理由 |
@@ -127,7 +127,7 @@
 | description | nullable / max 2000 |
 | list | `TaskQuick` |
 | detail | `TaskDetail` |
-| route | list → `/tasks/{id}` |
+| route | list → `/tasks/{id}/` |
 | mutation UI | Scope 外 |
 | 認証 / 会員監査 | N/A |
 | Backend | Controller → Service → Repository → Model / DTO |
