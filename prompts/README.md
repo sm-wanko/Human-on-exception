@@ -1,49 +1,11 @@
-# Human Prompts
+# 人間用プロンプト
 
-These prompts are entry commands, not a second rule system.
+Human-on-Exception で人間が使うプロンプトはこの 5 本のみ。
 
-Execution is governed by `AGENTS.md` and the repository rules.
+1. Questions 作成
+2. Answers 反映 / Issue 起票
+3. Issue 実装 / PR
+4. PR 指摘対応
+5. マージ / develop 更新
 
-## Core responsibility split
-
-The human provides:
-
-- what should be built
-- why / desired outcome
-- non-negotiable boundaries
-- Answers to genuine Questions
-
-The AI provides:
-
-- repository investigation
-- Questions
-- Issue / Epic decomposition
-- implementation
-- current feature docs
-- tests
-- PR creation
-- review handling
-- merge preparation
-
-The human should not need to provide Flow IDs, file paths, implementation decomposition, test plans, or routine review verdicts.
-
-## Normal loop
-
-1. Define
-2. Decide / answer-loop
-3. Implement
-4. Review findings
-5. Merge
-
-The first three prompts are the core loop:
-
-```text
-Human wants something
-→ AI investigates and asks Questions
-→ Human answers
-→ AI implements and creates docs/tests/PR
-```
-
-Prompts 04 and 05 continue the same responsibility model after the PR exists.
-
-Keep prompts short; keep engineering policy in repository Source of Truth.
+実装手順・SoT・規約はプロンプトへ重複記載せず、[AGENTS.md](../AGENTS.md) と `docs/rules/` を正本とする。

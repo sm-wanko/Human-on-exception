@@ -1,4 +1,17 @@
-__pycache__/
-*.pyc
-*.sqlite3
+# dependencies
+apps/backend/vendor/
+apps/frontend/node_modules/
+apps/frontend/.next/
+
+# test/cache
+apps/backend/.phpunit.cache/
+coverage/
+
+# env
+.env
+.env.*
+!.env.example
+
+# misc
 .DS_Store
+*.log

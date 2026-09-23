@@ -1,52 +1,34 @@
-# Bundle Completion
+# 束（pack）完了の定義
 
-A feature bundle is not Done merely because tests pass or the Flow-ID gap is zero.
+`docs/testing/core-features.md` の各束を Done にするときの共通ルール。**テスト Gap A = 0 だけでは Done にしない。**
 
-Before marking a Pack/Flow bundle complete, verify all applicable dimensions.
+## 完了順
 
-## 1. Current docs
+1. **docs** — 4 点セット・flow マトリクス・束境界（不足なら先に追記）
+2. **pack** — `docs/ai/packs/<bundle>.md`（チェックリスト・パス索引）
+3. **テスト** — `make fe-survey` / 代表 integration / SIT（flow に SYS がある場合）
+4. **Issue Done** — チェックリスト全 [x]
 
-- Flow is current
-- UI / Validation / DB are current or explicitly N/A
-- no historical debate is stored as current behavior
-- route/navigation docs are updated if the project has them
+## チェックリスト（各束で pack 内にコピー）
 
-## 2. Pack / routing
+### ドキュメント
 
-- Pack scope/non-scope is current
-- Pack points to current implementation/test paths
-- core-feature index maps the feature to the correct Pack and Flow
-- Pack does not duplicate feature specification prose
+- [ ] 4 点セット（flow / ui / validation / db）または N/A 明示
+- [ ] flow Scope と束境界
+- [ ] flow の FE / SYS マトリクスが実装と矛盾しない
 
-## 3. Implementation
+### pack
 
-- Issue acceptance criteria are satisfied
-- protected boundaries were not changed accidentally
-- architecture/dependency rules are respected
-- migrations/compatibility obligations are complete
+- [ ] `docs/ai/packs/<bundle>.md` あり（flow 本文はコピーしない）
+- [ ] 完了 `make`・禁止を記載
 
-## 4. Verification
+### テスト
 
-- every planned SYS/FE ID has executable coverage or explicit reasoned N/A
-- executable SYS/FE IDs are represented in the Flow matrix
-- normal and negative cases cover relevant request/response/state/side effects
-- required project lint/test commands pass
+- [ ] 当該 `*-FE-*` の Gap A = 0（`make fe-survey`）
+- [ ] 代表 integration（resolver 導線がある束）
+- [ ] 当該 `*-SYS-*` SIT（Backend 縦串がある場合）
 
-## 5. Review
+## 関連
 
-- valid reviewer findings are resolved
-- false positives are rejected with evidence rather than implemented blindly
-- no genuine ambiguity remains hidden in code
-
-## 6. Decision history
-
-- blocking Questions are answered
-- Confirmed Decisions reflect final boundaries
-- implementation handoff / Issue decomposition is no longer stale
-- durable cross-feature rationale is promoted to ADR when needed
-
-## 7. Survey
-
-Run the repository survey and project-specific structural checks.
-
-**Gap 0 is evidence, not the whole Done definition.**
+- [core-features.md](./core-features.md)
+- [frontend-flow-contract.md](./frontend-flow-contract.md)

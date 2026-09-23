@@ -1,0 +1,25 @@
+name: frontend-test
+
+on:
+  pull_request:
+
+jobs:
+  frontend-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: pnpm/action-setup@v4
+        with:
+          version: '10.13.1'
+      - name: Install
+        working-directory: apps/frontend
+        run: pnpm install --no-frozen-lockfile
+      - name: Typecheck
+        working-directory: apps/frontend
+        run: make typecheck
+      - name: Test
+        working-directory: apps/frontend
+        run: make test

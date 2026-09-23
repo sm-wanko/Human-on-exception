@@ -1,15 +1,11 @@
-# 01 — Define
+# 1. Questions 作成
 
-I want to implement this feature:
+この機能を実装したい。
 
-<what / why / desired experience / attachments / non-negotiable boundaries>
+<やりたいこと / 目的 / 添付資料など>
 
-Follow `AGENTS.md` and repository rules.
+既存 Flow があれば repo から該当 Flow / Pack / 実装 / test / rules を自分で調査すること。
+言語・アーキテクチャは既存 rules に準拠すること。
 
-Resolve the relevant Pack/Flow and repository context yourself. Do not require me to provide a Flow ID or file list.
-
-Create or update the Questions document using the repository Questions rule/template.
-
-Ask only for unresolved decisions that genuinely require human judgment. Record repository-resolved facts separately and do not ask me to reconfirm them.
-
-Stop after producing Questions if any blocking decision remains.
+この内容を実装するために、人間の判断が必要な不明点だけを `docs/testing/questions/` に、既存 Questions Archive と同じ形式で作成すること。
+repo を調べれば分かること、既存 rules で決まっていること、通常の実装詳細は質問しないこと。

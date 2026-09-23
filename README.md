@@ -1,191 +1,58 @@
 # Human-on-Exception
 
-> **What if the human is the bottleneck?**
+Paw-Pads で実際に使っている AI 開発環境からペットドメインを外し、Backend を Laravel に置き換えた最小サンプル。
 
-Human-on-Exception is a repository protocol for AI-driven software development built around one simple responsibility split:
+考え方は一つだけ。
+
+> **人間が開発ループのボトルネックになり得るなら、人間は「何を作るか」と未決事項への回答だけを持ち、AI が調査・Questions・Issue・実装・docs・PR・レビュー対応を行う。**
+
+## 人間が使う 5 本のプロンプト
+
+1. [Questions 作成](./prompts/01-define.md)
+2. [Answers 反映 / Issue 起票](./prompts/02-decide.md)
+3. [Issue 実装 / PR](./prompts/03-implement.md)
+4. [PR 指摘対応](./prompts/04-review.md)
+5. [マージ / develop 更新](./prompts/05-merge.md)
+
+通常の流れ:
 
 ```text
-Human wants something
-        ↓
-AI investigates the repository and creates Questions
-        ↓
-Human answers only the unresolved decisions
-        ↓
-AI creates Issues, implements, updates feature docs/tests, and opens PRs
+人間: この機能を作りたい
+  ↓
+AI: repo を調べて Questions を作る
+  ↓
+人間: Answers を更新する
+  ↓
+AI: 不明が無ければ Issue を起票し、実装・テスト・4点セット docs・PR まで作る
+  ↓
+別人格 AI: PR をレビューする
+  ↓
+実装 AI: 指摘を SoT で判定し、妥当なら修正。判断不能な点だけ人間へ戻す
 ```
 
-That is the core.
+## Paw-Pads との差分
 
-The goal is not to prove that AI never makes mistakes.
-
-The goal is to prove that a human does not need to remain the permanent coordinator of search, decomposition, coding, documentation, testing, or routine review work.
-
-## Responsibilities
-
-The canonical boundary is defined in [docs/rules/responsibility-boundary.md](./docs/rules/responsibility-boundary.md).
-
-### Human
-
-Humans own:
-
-- what should exist
-- why it matters
-- desired product/experience outcome
-- non-negotiable boundaries
-- Answers to decisions the repository cannot resolve
-
-### AI
-
-AI owns:
-
-- repository search and context recovery
-- deciding which existing Flow/Pack/rules apply
-- Questions generation
-- Issue/Epic decomposition
-- implementation
-- migrations and routine technical mechanics
-- tests
-- Flow/UI/Validation/DB current docs
-- Pack/index maintenance
-- PR creation
-- independent review and finding adjudication
-- routine merge preparation
-
-A human should not need to tell the AI which files to inspect, which Flow ID to use, how to split routine work, or whether every review comment is correct.
-
-## The five human prompts
-
-See [prompts/](./prompts/).
-
-1. **Define** — describe the feature / why / desired experience.
-2. **Decide** — update Answers; AI either asks the next real Question or creates Issues.
-3. **Implement** — AI implements the Issue through code, tests, docs, checks, and PR.
-4. **Review** — AI validates reviewer findings, fixes valid ones, rejects false positives, and asks the human only on genuine ambiguity.
-5. **Merge** — AI verifies completion conditions and prepares/completes the merge flow.
-
-The first three contain the essential loop:
-
-> **Human intent → AI Questions → Human Answers → AI implementation + feature overview + PR**
-
-The remaining prompts allow the same responsibility model to continue after the PR exists.
-
-## Why the repository structure matters
-
-Short prompts only work when the repository carries enough context for AI to investigate autonomously.
-
-The main rails are:
-
-- [AGENTS.md](./AGENTS.md) — operating contract and Source of Truth rules
-- [Questions rule](./docs/rules/questions.md) — what AI may ask a human
-- [Exploration rule](./docs/rules/exploration.md) — how AI finds the right context without asking for file paths
-- [Context routing / Packs](./docs/rules/context-routing.md) — feature-level attention routing
-- [Docs contract](./docs/rules/docs-contract.md) — Flow / UI / Validation / DB ownership
-- [Testing strategy](./docs/rules/testing-strategy.md) — Flow-linked verification
-- [Review rule](./docs/rules/review.md) — reviewer finding adjudication
-- [Git workflow](./docs/rules/git-workflow.md) — Issue / Epic / PR boundaries
-- [Project conventions](./docs/rules/project-conventions.md) — project-specific architecture and coding rules
-
-These rules exist so the human does not have to repeat engineering context in every prompt.
+- ペット固有の機能・検索・データ・用語は含めない
+- Backend の実装例は Go ではなく Laravel
+- Frontend は TypeScript
+- AI 開発環境の構造・SoT・Pack / Flow / Questions / 4点セット / SIT / FE Contract / review 方針は Paw-Pads の形式に合わせる
 
 ## Source of Truth
 
-For current behavior, agents investigate in this order:
+矛盾時は [AGENTS.md](./AGENTS.md) に従う。
 
 ```text
-implementation
-→ executable system/integration contract tests
-→ current Flow / UI / Validation / DB docs
+implementation → system test → docs/flow → coverage/*
 ```
 
-Questions and ADRs are decision history/rationale, not a substitute for current executable truth.
+現在仕様は code + flow / ui / validation / db。要件定義の経緯は `docs/testing/questions/`、有効な設計決定は `docs/testing/adr/`。
 
-If sources conflict, AI investigates the conflict instead of blindly rewriting working code or asking the human to sort out discoverable facts.
+## サンプル
 
-## Questions
+`TASK_CRUD` を 1 本だけ入れている。
 
-Questions are the human-attention boundary.
-
-AI must first inspect the repository and separate:
-
-- what is already decided
-- what is routine implementation detail
-- what genuinely requires human judgment
-
-A Question is valid only when multiple materially valid outcomes remain and the repository cannot decide between them.
-
-After the human updates Answers, AI re-evaluates consequences. If nothing important remains ambiguous, it stops asking and creates the implementation Issue(s).
-
-## Feature overview docs
-
-The sample follows the same four-document split used by the protocol:
-
-- **Flow** — scope, path, service/API order, test matrix
-- **UI** — visible behavior and operations
-- **Validation** — input/auth/error contract
-- **DB** — persistence/transaction contract
-
-They are current behavior docs, not decision-history dumps.
-
-Questions preserve the decision process; ADRs preserve durable rationale when needed.
-
-## Architecture is replaceable
-
-The Laravel + TypeScript sample is only an example.
-
-Human-on-Exception does not require Laravel, React, Clean Architecture, repositories, or this exact directory layout.
-
-Each real project should encode its own architecture and prohibitions in project rules.
-
-The important property is not a specific architecture.
-
-It is:
-
-> **AI can discover the architecture from the repository and follow it without requiring the human to restate it every time.**
-
-## Example
-
-The included Task CRUD demonstrates:
-
-- Questions → Answers
-- Pack / Flow routing
-- Laravel application/infrastructure separation
-- Quick vs Detail read models
-- TypeScript feature structure
-- Flow-linked backend/frontend tests
-- Flow/UI/Validation/DB docs
-
-See:
-
-- [Pack](./docs/ai/packs/task-crud.md)
-- [Questions](./docs/testing/questions/task-crud.md)
-- [Flow](./docs/flow/task-crud.md)
-- [UI](./docs/ui/task-crud.md)
-- [Validation](./docs/validation/task-crud.md)
-- [DB](./docs/db/task-crud.md)
-
-## Verification
-
-```bash
-python scripts/repo_survey.py
-```
-
-CI verifies the sample implementation and the repository contract, including Flow/Pack/docs/test traceability.
-
-Those checks support the loop; they are not the point of the project.
-
-## Origin
-
-This protocol was extracted from Paw-Pads after repeatedly removing human work from:
-
-- context recovery
-- Questions generation
-- Issue decomposition
-- implementation
-- documentation synchronization
-- review triage
-
-The core idea is intentionally small:
-
-> **Humans decide what and why. AI investigates, asks only what it cannot decide, then builds.**
-
-If humans must continuously tell the AI where to look, how to code, what review findings mean, or what docs to update, the human is still the bottleneck.
+- Pack: [docs/ai/packs/task-crud.md](./docs/ai/packs/task-crud.md)
+- Flow: [docs/flow/タスクCRUD.md](./docs/flow/タスクCRUD.md)
+- Questions: [docs/testing/questions/task-crud.md](./docs/testing/questions/task-crud.md)
+- Backend: `apps/backend/`
+- Frontend: `apps/frontend/`

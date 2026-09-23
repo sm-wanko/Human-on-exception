@@ -1,111 +1,101 @@
-# Task CRUD Questions
+# タスク CRUD — 着手前 QA（確定）
 
-**Status**: IMPLEMENTED / EXAMPLE  
+**Status**: 回答済み  
+**正本**: 本ファイルは要件定義の経緯 Archive。現在仕様は code + 4 点セット。  
 **Pack**: `task-crud`  
 **Flow**: `TASK_CRUD`  
-**Current contracts**: [Flow](../../flow/task-crud.md) · [UI](../../ui/task-crud.md) · [Validation](../../validation/task-crud.md) · [DB](../../db/task-crud.md)
+**関連**: [タスクCRUD flow](../../flow/タスクCRUD.md)
 
-## Human intent
+---
 
-Demonstrate the Human-on-Exception workflow on a familiar web feature while making repository rules, Questions, read-model ownership, docs, and tests visible.
+## サマリ
 
-The starter itself has already chosen Laravel + TypeScript for this **example only**. That choice is not a Human-on-Exception requirement.
+- **目的**: Laravel + TypeScript の最小 CRUD で、Human → Questions → Answers → Issue → 実装 → docs → PR の形を示す。
+- **API**: 一覧 / 詳細 / 作成 / 更新 / 削除。
+- **read model**: 一覧は Quick、詳細は Detail。
+- **削除**: hard delete。
+- **認証**: サンプルでは N/A。
 
-## Repository findings
+---
 
-Resolved without human Questions:
+## 現状（事実）
 
-- architecture rules already require thin Laravel HTTP layer
-- Application orchestrates use cases
-- persistence is repository-owned
-- frontend uses feature-oriented TypeScript structure
-- list/detail read models may differ
-- Flow owns system/frontend test IDs
+| 項目 | 現在 |
+|------|------|
+| Backend | Laravel Controller → Service → Repository → Eloquent / DTO |
+| Frontend | TypeScript。表示判断は `lib/task`、Presentation は `features/task` |
+| 一覧 | `TaskQuick` |
+| 詳細 | `TaskDetail` |
+| Flow | `TASK_CRUD` |
+| SIT | `TASK_CRUD-SYS-001`〜 |
+| FE | `TASK_CRUD-FE-001`〜 |
 
-## Confirmed summary
+---
 
-| ID | Decision | Boundary |
-|---|---|---|
-| Q1 | hard delete | DELETE permanently removes the row |
-| Q2 | title max 200 after trim | mutation validation |
-| Q3 | list uses Quick; detail uses Detail | API/read-model boundary |
+## 確定事項
 
-## Q1. Delete semantics
+| ID | 決定内容 |
+|----|----------|
+| Q1 | 削除は **hard delete** |
+| Q2 | title は trim 後必須・最大 200 文字 |
+| Q3 | list は **TaskQuick**、detail は **TaskDetail** |
+| Q4 | 認証・会員監査はサンプル Scope 外（N/A） |
 
-### Why this is unresolved
+---
 
-Hard delete and soft delete are both materially valid product/storage behaviors; repository architecture cannot decide product history requirements.
+## Questions — 確定回答
 
-### Affected areas
+### Q1. 削除単位
 
-- API delete behavior
-- DB lifecycle
-- tests
+| 選択肢 | 内容 |
+|--------|------|
+| A | hard delete |
+| B | soft delete |
 
-### Options
+**Answer**: A。監査・復元をサンプルの責務に含めない。
 
-A. Hard delete
-- minimal lifecycle semantics
-- no recovery/history
+### Q2. title 制約
 
-B. Soft delete
-- recoverable/history-friendly
-- adds filtering and restore semantics outside the example goal
+| 選択肢 | 内容 |
+|--------|------|
+| A | non-empty のみ |
+| B | trim 後 1〜200 文字 |
 
-### AI recommendation
+**Answer**: B。Validation / DB 制約を明示できるため。
 
-A. Keep the teaching feature focused on workflow and responsibility boundaries.
+### Q3. list / detail read model
 
-### Answer
+| 選択肢 | 内容 |
+|--------|------|
+| A | 1 DTO を共用 |
+| B | Quick / Detail を分ける |
 
-A. Hard delete.
+**Answer**: B。一覧で detail 専用データを読まない。
 
-## Q2. Title constraint
+### Q4. 認証
 
-### Why this is unresolved
+| 選択肢 | 内容 |
+|--------|------|
+| A | 認証を含める |
+| B | サンプル Scope 外 |
 
-The application needs a public input limit and no domain rule provides one.
+**Answer**: B。
 
-### Options
+---
 
-A. non-empty only
-B. trim then require non-empty and max 200
+## Issue 分割（起票案）
 
-### AI recommendation
+| 順 | タイトル（案） | Pack / Flow | 依存 |
+|----|----------------|-------------|------|
+| 1 | `feat: Task CRUD backend` | `task-crud` / `TASK_CRUD` | なし |
+| 2 | `feat: Task CRUD frontend list/detail` | `task-crud` / `TASK_CRUD` | 1 |
 
-B. Explicit, testable, and maps cleanly to DB/API constraints.
+---
 
-### Answer
+## 完了 `make`
 
-B.
-
-## Q3. List and detail response shape
-
-### Why this is unresolved
-
-Both a universal Task DTO and separate list/detail projections are viable API designs.
-
-### Options
-
-A. One Task response everywhere
-- simpler initial typing
-- list path carries detail-only fields and encourages response growth
-
-B. `TaskQuick` for list and `TaskDetail` for detail
-- clearer query/response ownership
-- slightly more types
-
-### AI recommendation
-
-B. It demonstrates an important practical boundary without exposing any project-specific production architecture.
-
-### Answer
-
-B.
-
-## Implementation result
-
-- current behavior moved into four-document contracts
-- Pack points to Laravel/TypeScript implementation paths
-- system/FE IDs are defined in Flow
-- Questions remain decision history
+```bash
+make lint
+make test
+make survey
+```

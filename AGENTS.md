@@ -1,209 +1,73 @@
-# Agent Contract
+# AI Agent Rules（Human-on-Exception）
 
-## Goal
+**対象**: Cursor / Claude Code / CodeX のみ。日本語でレビュー・応答すること。
 
-Keep humans out of routine implementation and review work.
-
-The canonical human/AI responsibility split is defined in `docs/rules/responsibility-boundary.md`. If another document is ambiguous about who owns a task, that boundary wins unless a project-specific safety/compliance rule explicitly requires human involvement.
-
-Humans own:
-
-- intent
-- rationale
-- product/experience direction
-- non-negotiable boundaries
-- genuinely unresolved decisions
-
-Agents own:
-
-- repository investigation
-- context routing
-- Question generation
-- Issue/Epic decomposition
-- implementation
-- tests
-- docs synchronization
-- review adjudication
-- routine merge/repository maintenance
-
-Escalate only when repository evidence cannot resolve a materially important choice.
+**機能索引**: [`docs/testing/core-features.md`](./docs/testing/core-features.md) → [`docs/ai/packs/`](./docs/ai/packs/)（パス列挙 + Flow ID + 完了 `make` のみ。flow 本文コピー禁止）。
 
 ---
 
-## Read order — minimum context first
+## 読む順（最小）
 
-Do not begin by reading the whole repository.
+0. **コア機能の束**: [`docs/testing/core-features.md`](./docs/testing/core-features.md)（該当 pack・Flow ID の索引）
+1. **Issue / PR** の Flow ID・触ってよいパス・禁止（Issue 起票前は依頼内容から該当束を自力で特定する）
+2. **該当 1 本だけ**: `docs/flow/<機能>.md`（Scope とマトリクス行。4 点セットはその機能に限り必要なら）
+3. **対応テスト**: 同 Flow の `*-SYS-*` → `apps/backend/tests/System/`、`*-FE-*` → `apps/frontend/src/**/*.contract.test.ts` / `*.integration.test.tsx`
+4. **実装ファイル**: Issue / PR または `docs/ai/packs/<bundle>.md` のマニフェスト
+5. **規約**: BE/FE は `docs/rules/backend-quick.md` / `frontend-quick.md`（常時）。詳細例のみ `*-coding-conventions.md`
 
-1. Human request / Issue / PR
-2. `docs/testing/core-features.md` — resolve the relevant Pack + Flow
-3. Relevant `docs/ai/packs/<pack>.md`
-4. Relevant project architecture/rules linked by the Pack
-5. The relevant Flow document
-6. Only affected UI / Validation / DB documents
-7. Executable tests for the same Flow IDs
-8. Implementation paths listed by the Pack
-9. ADRs / historical Questions only when rationale is needed
+## 読まない（初期探索で避ける）
 
-For a new feature with no matching Flow, inspect project rules and neighboring Packs/Flows before generating Questions. The human does not need to provide a Flow ID.
-
-See `docs/rules/context-routing.md` and `docs/rules/exploration.md`.
-
-## Avoid during initial exploration
-
-Unless the task actually requires them, do not:
-
-- read every file in `docs/rules/`
-- grep every Flow document
-- read every ADR or historical Question
-- treat generated reports/coverage output as primary context
-- load unrelated service/language conventions
-
-Use the Index and Pack to route attention.
+- `coverage/docs/*`（`make docs` 生成物。gitignore）
+- `docs/flow/` の全ファイル横断 grep
+- `TECH_STACK.md` / `README.md` 全文（コマンド・環境は不明時だけ該当節）
+- `docs/rules/*` の全読み（触った領域の規約だけ、必要な節を参照）
 
 ---
 
-## Source of Truth
+## 必須（毎タスク）
 
-### Current behavior — conflict order
+1. 上記 **読む順 0→5** でコンテキストを取る（flow は **該当 1 本**、pack は該当束のみ）。
+2. Issue / PR を起票・作成するときは **Pack**・**Flow ID**・**触ってよいパス**・完了時 **`make`** を必ず含める。
+3. 完了前に下表どおり `make lint-*` / `make test-*`（構造変更時は `make survey` 等）。触った exported には PHPDoc / JSDoc MUST。
+4. 検証は `make` または各 app の既存コマンドを使う。ad-hoc な別環境を正本にしない。
 
-When current sources disagree, use this investigation order:
+## 完了条件
 
-1. **implementation**
-2. **executable system/integration contract tests**
-3. **current Flow / UI / Validation / DB docs**
-4. **generated reports derived from those sources**
-
-This is not permission to silently accept drift. Determine whether code, tests, or docs are stale.
-
-**Never delete or rewrite working implementation/tests solely because a document says something different.** Investigate the conflict first. If intended behavior is still ambiguous, escalate.
-
-### Facts vs history
-
-Current facts belong in:
-
-- implementation
-- tests
-- Flow / UI / Validation / DB
-
-Decision history belongs in:
-
-- `docs/testing/questions/`
-- `docs/adr/`
-- Git history
-
-Questions/Answers and ADRs explain **why/how a decision was made**; they do not override current executable truth by themselves.
-
-Do not copy historical debate into current-contract docs.
+| 変更範囲 | 最低限 | 構造・docs 触ったとき |
+|----------|--------|------------------------|
+| Backend | ルート `make lint` → `cd apps/backend && make test` | 同上 + `make survey`（該当 flow） |
+| Frontend | ルート `make lint` → `cd apps/frontend && make test` | flow / route 変更時 `make survey` / `make docs` |
+| 横断 | `make test` | `make survey` / `make docs` |
 
 ---
 
-## Required rules
+## Source of Truth（矛盾時）
 
-Apply only the relevant rule files:
+1. implementation → 2. system test → 3. `docs/flow` → 4. `coverage/*`（生成物）
 
-- Human/AI responsibility boundary: `docs/rules/responsibility-boundary.md`
-- Development loop: `docs/rules/development-loop.md`
-- Questions: `docs/rules/questions.md`
-- Context routing / Packs: `docs/rules/context-routing.md`
-- Repository exploration: `docs/rules/exploration.md`
-- Current docs / four-document set: `docs/rules/docs-contract.md`
-- Testing / Flow IDs: `docs/rules/testing-strategy.md`
-- Git / Issue / PR: `docs/rules/git-workflow.md`
-- Review adjudication: `docs/rules/review.md`
-- Migrations: `docs/rules/migration-safety.md`
-- Project architecture/coding: `docs/rules/project-conventions.md`
-- Example Laravel: `docs/rules/php-laravel.md`
-- Example TypeScript: `docs/rules/typescript-frontend.md`
+**docs のみ**を根拠に既存実装・テストを削除しない。
 
-Sample Laravel/TypeScript architecture is not universal. An adopting repository's explicit project rules override sample architecture.
+**事実**は code · 4 点セット（flow / ui / validation / db）。**経緯**は [`docs/testing/questions/`](./docs/testing/questions/) · [`docs/testing/adr/`](./docs/testing/adr/)。4 点セットに経緯は書かない。
 
 ---
 
-## Question discipline
+## 禁止（依頼なく変更しない）
 
-Do not ask a human about:
-
-- facts discoverable in the repository
-- choices already fixed by rules/ADR/current contracts
-- style/naming covered by conventions
-- ordinary implementation mechanics
-- reversible internals with no meaningful external effect
-
-Ask only when multiple materially valid choices remain around:
-
-- product/UX behavior
-- public/API/storage contracts
-- destructive or compatibility-sensitive data changes
-- privacy/security boundaries
-- long-term architecture/ownership
-- conflicting current sources that cannot be resolved from evidence
-
-Every Question must explain what was investigated, why the ambiguity remains, real options, affected areas, tradeoffs, and an AI recommendation.
+- API 仕様（パラメータ・レスポンス）
+- ビジネスロジックの追加・削除・変更
+- 認証・CORS・セキュリティ設定の削除
+- レイヤー構造の書き換え、Laravel bootstrap / route 配線へのビジネスロジック追加
+- flow で N/A とした外部境界を「完成」扱い
 
 ---
 
-## Protected boundaries — do not change without an explicit confirmed decision
+## 規約（必要時のみ該当ファイルを開く）
 
-Unless the Issue/Answers/current contract explicitly require it, do not change:
-
-- public API parameters or response shapes
-- business behavior outside Issue scope
-- authentication/authorization/CORS/security posture
-- destructive data lifecycle semantics
-- ownership/dependency direction
-- externally observable fallback/error semantics
-- architecture/module boundaries
-- required audit/history behavior
-
-If such a change becomes necessary, stop at a Question instead of smuggling it into implementation.
-
----
-
-## Implementation discipline
-
-- Work only within Issue scope.
-- Resolve Pack/Flow/context before coding.
-- Follow project-specific architecture/language rules before generic ecosystem advice.
-- Update implementation, tests, and affected current-contract docs in the same change series.
-- Keep Flow SYS/FE IDs synchronized with executable tests.
-- Respect Pack scope, non-scope, prohibitions, and parity constraints.
-- Do not opportunistically refactor unrelated areas.
-- Prefer explicit local code over speculative abstractions.
-- For Epic child work, follow the parent/child branch rule.
-- Link PRs to Issues and include Pack / Flow / verification evidence.
-
----
-
-## Review discipline
-
-A review comment is a **claim**, not Source of Truth.
-
-For every finding:
-
-1. inspect the diff and relevant repository evidence
-2. classify as **valid**, **false positive**, or **genuinely ambiguous**
-3. valid → fix + tests/docs + reply + resolve
-4. false positive → reply with concrete repository evidence; do not change correct behavior
-5. ambiguous → escalate only that decision with options, impact, and recommendation
-
-Never ask the human merely because a reviewer disagrees.
-
----
-
-## Completion
-
-A feature is not Done merely because code compiles.
-
-Confirm:
-
-- Issue acceptance criteria satisfied
-- no blocking Question remains PENDING
-- four-document set is current or explicitly N/A
-- Flow matrix matches executable SYS/FE IDs
-- required lint/test/project checks pass
-- Pack/core-feature index is current
-- valid review findings are resolved
-- migration/data compatibility obligations are verified
-- historical Questions are marked implemented/archive when appropriate
-
-Run the repository's declared completion commands, including the repository survey when docs/structure/Flow mappings changed.
+| 触った領域 | 参照 |
+|------------|------|
+| Laravel Backend | [`docs/rules/backend-quick.md`](./docs/rules/backend-quick.md)（常時）。詳細のみ [`backend-coding-conventions.md`](./docs/rules/backend-coding-conventions.md) |
+| Frontend | [`docs/rules/frontend-quick.md`](./docs/rules/frontend-quick.md)（常時）。詳細のみ [`frontend-coding-conventions.md`](./docs/rules/frontend-coding-conventions.md) |
+| flow / docs 追従 | [`docs/rules/docs-follow.md`](./docs/rules/docs-follow.md) |
+| N/A 表記 | [`docs/rules/docs-na-conventions.md`](./docs/rules/docs-na-conventions.md) |
+| SIT / FE Contract | [`docs/rules/system-test-strategy.md`](./docs/rules/system-test-strategy.md), [`docs/testing/frontend-flow-contract.md`](./docs/testing/frontend-flow-contract.md) |
+| 会員向け mutation の監査 | [`docs/rules/audit-ui-persistence.md`](./docs/rules/audit-ui-persistence.md)（正本） |

@@ -1,13 +1,8 @@
-# 03 — Implement
+# 3. Issue 実装 / PR
 
-Implement the assigned Issue(s).
+Issue に沿って作業を実施すること。
 
-Follow `AGENTS.md`, the Issue boundaries, Pack/Flow, current contracts, and project-specific rules.
+子 Issue がある場合は Epic の作業ブランチを基準に、それぞれ作業ブランチを作成すること。
+実装・テスト・必要な 4 点セット docs を repo の rules / SoT に従って更新すること。
 
-If this is an Epic child, branch from the declared Epic/integration branch.
-
-Carry the work through implementation, tests, current-contract docs, repository survey/checks, and PR creation.
-
-Link the PR to its Issue and preserve explicitly protected/out-of-scope behavior.
-
-Escalate only if implementation exposes a genuinely unresolved human decision.
+PR には対象 Issue を紐付け、既存 PR Template と同じ形式で Pack / Flow ID / 触ってよいパス / 完了 make を記載すること。

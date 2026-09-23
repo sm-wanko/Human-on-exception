@@ -1,50 +1,31 @@
 ---
-name: Feature
-about: Implementation issue derived from confirmed Questions
+name: 🚀 機能追加
+about: 新機能の追加
+title: '[Feature] '
+labels: ['enhancement', 'feature']
 ---
 
-## Goal / outcome
+## 🤖 AI コンテキスト（Cursor / Claude Code / CodeX）
 
-## Decision sources
+| 項目 | 記入 |
+|------|------|
+| **Pack**（束） | 例: `task-crud` |
+| **Flow ID** | 例: `TASK_CRUD` / `TASK_CRUD-FE-003` |
+| **触ってよいパス** | 例: `apps/frontend/src/lib/task/` のみ |
+| **完了時 make** | 例: `make lint` → `make test` |
 
-- Questions:
-- ADR:
-- Pack:
-- Flow ID(s):
+手順: [`AGENTS.md`](../../AGENTS.md)
 
-## Allowed scope / paths
+## 📋 機能概要
 
-- 
+## 🎯 目的
 
-## Protected / explicitly unchanged
+## 💡 提案内容
 
-- public API:
-- behavior:
-- data ownership:
-- architecture/security:
-- out of scope:
+## 📋 要件
+- [ ] 要件1
+- [ ] 要件2
 
-## Acceptance criteria
+## 🧪 テスト要件
 
-- [ ]
-
-## Docs contract
-
-- [ ] Flow
-- [ ] UI or N/A
-- [ ] Validation or N/A
-- [ ] DB or N/A
-- [ ] Pack/core index if routing changed
-
-## Verification
-
-- SYS IDs:
-- FE IDs:
-- migration/compatibility:
-- lint/test/survey commands:
-
-## Dependencies / merge target
-
-- parent Epic:
-- depends on:
-- base branch:
+## 📚 参考資料

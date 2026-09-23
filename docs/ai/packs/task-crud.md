@@ -1,90 +1,79 @@
 # Pack: task-crud
 
-## Scope
+Task CRUD の 1 束。Flow ID: `TASK_CRUD`。
 
-Includes:
+## 束の境界（docs）
 
-- Laravel Task CRUD API reference implementation
-- `TaskQuick` list projection
-- `TaskDetail` detail projection
-- Application port + Eloquent implementation
-- migration/validation
-- TypeScript list/detail UI sample
-- Flow-linked backend/frontend test IDs
+| 含む | 含まない（別束） |
+|------|------------------|
+| Task list / detail | 認証 |
+| Task create / update / delete API | 会員監査 |
+| Quick / Detail read model | soft delete / audit history |
+| TASK_CRUD SYS / FE | 他ドメイン |
 
-Does not include:
+## 4 点セット
 
-- authentication
-- frontend mutation forms
-- soft-delete/audit history
-- full Laravel/Vite bootstrap scaffolding
-- deployment/container setup
+| 観点 | doc |
+|------|-----|
+| flow | [タスクCRUD.md](../../flow/タスクCRUD.md) |
+| ui | [ui/タスクCRUD.md](../../ui/タスクCRUD.md) |
+| validation | [validation/タスクCRUD.md](../../validation/タスクCRUD.md) |
+| db | [db/タスクCRUD.md](../../db/タスクCRUD.md) |
 
-## Flow
+## 束完了チェックリスト
 
-- `TASK_CRUD`
+**テスト Gap A = 0 のみでは Done にしない。**
 
-## Four-document set
+### ドキュメント
 
-- [Flow](../../flow/task-crud.md)
-- [UI](../../ui/task-crud.md)
-- [Validation](../../validation/task-crud.md)
-- [DB](../../db/task-crud.md)
+- [x] 4 点セット存在
+- [x] flow Scope
+- [x] FE / SYS マトリクス
 
-## Decision history
+### pack
 
-- [Questions](../../testing/questions/task-crud.md)
+- [x] 本ファイル
 
-## Architecture / rules
+### Frontend
 
-These are sample rules and may be replaced by adopters:
+- [x] `TASK_CRUD-FE-001`〜`004`
+- [x] list / detail Presentation
+- [x] lib resolver / viewmodel
 
-- [Backend architecture](../../architecture/backend.md)
-- [Frontend architecture](../../architecture/frontend.md)
-- [Dependency rules](../../architecture/dependency-rules.md)
-- [PHP / Laravel](../../rules/php-laravel.md)
-- [TypeScript frontend](../../rules/typescript-frontend.md)
+### Backend（SIT）
 
-## Implementation
+- [x] `TASK_CRUD-SYS-001`〜`004`
+- [x] `TASK_CRUD-SYS-101`〜`102`
 
-Backend:
+## Frontend（実装パス）
 
-- `backend/app/Http/Controllers/TaskController.php`
-- `backend/app/Application/Task/`
-- `backend/app/Infrastructure/Persistence/EloquentTaskRepository.php`
-- `backend/database/migrations/2026_09_22_000001_create_tasks_table.php`
+| ファイル | 役割 |
+|----------|------|
+| `apps/frontend/src/api/task.ts` | API |
+| `apps/frontend/src/lib/task/` | 表示意味 / resolver |
+| `apps/frontend/src/hooks/task/` | state / side effect |
+| `apps/frontend/src/features/task/` | Presentation |
 
-Frontend:
+## Backend（実装パス）
 
-- `frontend/src/features/task/`
+| ファイル | 役割 |
+|----------|------|
+| `apps/backend/app/Http/Controllers/TaskController.php` | HTTP |
+| `apps/backend/app/Services/Task/TaskService.php` | business / orchestration |
+| `apps/backend/app/Repositories/Task/TaskRepository.php` | persistence |
+| `apps/backend/app/DTO/Task/` | Quick / Detail |
+| `apps/backend/tests/System/TaskCrudSystemTest.php` | SYS-ID |
 
-## Tests / traceability
-
-Backend:
-
-- `backend/tests/Feature/TaskCrudTest.php`
-- `TASK_CRUD-SYS-001..004`
-- `TASK_CRUD-SYS-101..102`
-
-Frontend:
-
-- `frontend/src/features/task/presentation/TaskList.test.tsx`
-- `TASK_CRUD-FE-001..004`
-
-## Completion
-
-Starter-level repository contract:
+## 完了コマンド
 
 ```bash
-python scripts/repo_survey.py
+make lint
+make test
+make survey
 ```
 
-CI runs the repository survey, Laravel Feature tests, TypeScript typecheck, and frontend contract tests for this sample.
+## 禁止
 
-A real project must replace/add its actual framework lint, architecture, dependency, migration, and test commands.
-
-## Prohibitions
-
-- do not introduce soft delete unless Q1 is intentionally reopened by a new product decision
-- do not collapse Quick/Detail without a contract decision
-- do not treat this example architecture as mandatory for adopters
+- API 形状の無断変更
+- Quick / Detail の無断統合
+- 認証・soft delete を Scope に追加

@@ -1,0 +1,16 @@
+name: normalize-line-endings
+
+on:
+  pull_request:
+
+jobs:
+  line-endings:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check CRLF
+        run: |
+          if grep -rIl $'\r' --exclude-dir=.git --exclude='*.bat' .; then
+            echo "CRLF found"
+            exit 1
+          fi

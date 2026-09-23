@@ -1,15 +1,9 @@
-# 04 — Review Findings
+# 4. PR 指摘対応
 
-PR #<number> has review findings.
+PR #<number> に指摘あり。
 
-Follow `AGENTS.md` and the review/adjudication rule.
+各指摘を repo の SoT 順で確認すること。
+妥当なら修正・テスト・必要な docs 更新・reply / resolve まで実施すること。
+false positive なら根拠を示して修正しないこと。
 
-Evaluate every finding independently against current repository evidence.
-
-- valid → fix, update tests/docs as required, run checks, reply, resolve
-- false positive → do not change correct behavior; reply with concrete evidence
-- genuinely ambiguous → stop only on that decision and ask me with options, impact, and your recommendation
-
-After fixes, re-run affected verification and check for new contract/docs/test drift.
-
-Handle all non-ambiguous findings autonomously.
+repo の SoT だけでは判断できない不明点のみコンソールで相談すること。

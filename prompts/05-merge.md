@@ -1,11 +1,6 @@
-# 05 — Merge
+# 5. マージ / develop 更新
 
-Merge the completed work according to `AGENTS.md` and the Git/Issue/PR rules.
+対象 PR の unresolved な妥当指摘と必須チェックが無いことを確認すること。
 
-Before merging, verify required CI/checks, review resolution, Issue/Pack/Flow traceability, current docs, test matrices, and migration/compatibility obligations.
-
-Respect standalone vs Epic child/integration targets.
-
-After merge, synchronize the target/development branch and update Issue/Epic status, Pack/core index, and Questions lifecycle where applicable.
-
-Do not merge if a valid finding, required check, or genuine ambiguity remains unresolved.
+マージし、develop を更新すること。
+関連 Issue / Epic の状態も更新すること。
