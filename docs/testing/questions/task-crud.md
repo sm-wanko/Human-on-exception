@@ -69,6 +69,7 @@
 | 観点 | 本例での扱い |
 |---|---|
 | 意図・境界 | D1 / U1 / A1。復元・mutation UI・認証は対象外 |
+| 概念・意味 | [概念](../../concept/task-crud.md)。IDが同じTaskを一覧/詳細で示す。空と失敗を区別し、削除は完了状態と混同しない。専用の反復運用Policyは不要 |
 | 入力・一意性 | validation 境界・not found を SYS で確認。業務重複キーなし |
 | 作成・更新 | CRUD 正系と不正入力時の副作用を既存 test / flow で確認 |
 | UX continuity | list→detail の ID、loading / empty / error を FE-ID に対応 |

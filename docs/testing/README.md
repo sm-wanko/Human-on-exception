@@ -12,7 +12,9 @@ SIT の正本: [`docs/rules/system-test-strategy.md`](../rules/system-test-strat
 | | 置き場 | 書いてよいこと |
 |--|--------|----------------|
 | **事実** | ソースコード · `docs/flow` / `ui` / `validation` / `db` | いまの契約・手順・API・画面・SQL |
-| **経緯** | 本ディレクトリの `questions/` · `adr/` | なぜそうなったか、旧案、着地 Issue（questions は依頼者×AI の要件定義 Archive のみ） |
+| **経緯** | 本ディレクトリの `questions/` | なぜそうなったか、旧案、着地 Issue（依頼者×AI の要件定義 Archive） |
+| **設計判断** | `adr/` | 有効な決定・採用理由・置換履歴 |
+| **反復判断** | `policy/` | 合意済みの運用基準、AIが適用する範囲と人間へ戻す条件 |
 
 **4 点セットに経緯は書かない。**
 
@@ -74,6 +76,7 @@ SIT の正本: [`docs/rules/system-test-strategy.md`](../rules/system-test-strat
 | [frontend-flow-contract.md](./frontend-flow-contract.md) | FE Flow Contract 規約 |
 | [questions/](./questions/) | 起票前 QA Archive |
 | [adr/](./adr/) | 有効な設計決定 |
+| [policy/](./policy/README.md) | 合意済みの反復判断をAIが適用する基準 |
 | [`docs/rules/system-test-strategy.md`](../rules/system-test-strategy.md) | SIT |
 
 実行の権限境界は [ai-workflow](../rules/ai-workflow.md)、独立レビューは [ai-review](../rules/ai-review.md) を適用する。

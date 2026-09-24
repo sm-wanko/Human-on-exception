@@ -13,6 +13,8 @@ Codex の入口は root AGENTS.md の Review guidelines、Cursor Bugbot の入�
 - UI 入口から成功・失敗・戻り先までの連続性。正常な空結果と取得不能を区別。
 - 型・API・生成物・fake・テスト・4 点セットの追従。対になる機能も確認。
 - 意味付けの唯一の正本、レイヤ責務、範囲外変更。
+- [domain-decisions](./domain-decisions.md) に沿った concept・ADR・Policy の適用。集約単位や根拠の昇格条件、反例を壊していないか。複雑さへの指摘は守る要求と代替案を示す。
+- 最新revisionの実行結果と完了主張の一致。集約のFail=0や除外されたIDで未検証を隠していないか。
 - seed / migration と会員 UI mutation の監査差、理由付き N/A、確定済み制約を尊重する。
 
 各指摘は severity、path / 行、根拠となる AC または rule、再現条件、影響範囲、修正方向を含める。推測だけの要求、スタイルのみ、称賛による水増しをしない。証明できない前提は明示する。

@@ -36,6 +36,7 @@ AI: 不明が無ければ Issue を起票し、実装・テスト・4点セッ�
 
 ## 品質を維持する仕組み
 
+- 判断の根拠: concept で目的と概念、ADR で採用理由、Policy で合意済みの反復判断を保持する
 - Questions: 現状の根拠、選択肢の影響、推奨理由、未決・回答・改訂履歴
 - Issue: 合意した回答から受け入れ条件へ変換し、Flow / テスト / docs まで対応付ける
 - 実行: 実装・検証・自己レビュー・証拠作成を AI が所有する
@@ -43,6 +44,8 @@ AI: 不明が無ければ Issue を起票し、実装・テスト・4点セッ�
 - 完了: 必須チェック成功、妥当指摘解消、受け入れ条件充足を AI が確認する
 
 [Questions テンプレート](./docs/templates/questions.md) · [継承要件と検証例](./docs/testing/workflow-conformance.md) · [レビュー運用](./docs/rules/ai-review.md)
+
+[プロダクト概念の入口](./docs/concept/README.md) · [意味と判断の継承](./docs/rules/domain-decisions.md) · [Policyの役割](./docs/testing/policy/README.md)。4点セットは人間が機能を理解する資料としてAIが維持し、人間の文書・コードレビューを通常ゲートにしない。
 
 5 本は開始・再開の入口であり、工程ごとに人間の操作を要求するゲートではない。回答と範囲が確定すれば、許可済み工程を続行する。外部レビューサービスの接続・実行権限は導入環境で必要。規約ファイルを置くだけではサービスは起動しない。
 
@@ -98,7 +101,7 @@ make docs
 implementation → system test → docs/flow → coverage/*
 ```
 
-現在仕様は code + flow / ui / validation / db。要件定義の経緯は `docs/testing/questions/`、有効な設計決定は `docs/testing/adr/`。
+現在仕様は code + flow / ui / validation / db。目的と概念は `docs/concept/`、要件定義の経緯は `docs/testing/questions/`、有効な設計決定は `docs/testing/adr/`、反復作業の判断基準は `docs/testing/policy/`。
 
 ## サンプル
 

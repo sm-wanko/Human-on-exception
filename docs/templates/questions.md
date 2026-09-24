@@ -3,7 +3,7 @@
 **Status**: Draft / Awaiting answers / Partially decided / Ready / Superseded
 **Pack / Flow ID**: <既存または新規案>
 **調査 revision**: <SHA>
-**関連**: <Issue / ADR / 適用 rules / 4 点セット>
+**関連**: <concept / Issue / 有効な ADR / Policy / 適用 rules / 4 点セット>
 
 ## Goal / Scope
 
@@ -19,6 +19,8 @@
 | <調査済みの事実> | <実在する参照> | <UI / API / DB / 対機能> |
 
 ## Risks / Unknowns / Assumptions
+
+概念・単位・根拠の意味は [domain-decisions](../rules/domain-decisions.md) を調査し、適用基準・許容例・似ているが拒否する反例を記す。未知の概念を既存の近いものへ無理に対応付けない。
 
 | 区分 | 内容・影響 | 根拠 | 対応・判断者 |
 |---|---|---|---|

@@ -2,6 +2,8 @@
 
 flow / ui / validation / db・遷移・テスト ID の **同一変更系列**での揃え方。N/A の書き方は [`docs-na-conventions.md`](./docs-na-conventions.md)。SIT 戦略は [`system-test-strategy.md`](./system-test-strategy.md)。
 
+4点セットは、人間がコードを読まずに機能と制約を理解するための機能概要書でもある。AIが現在の実装・検証と揃えて作成・更新する。読者に実装や逐次レビューを要求しない。目的・概念は concept、採用理由は ADR、反復判断は Policy を参照し、[判断継承規約](./domain-decisions.md)に従う。
+
 ---
 
 ## MUST

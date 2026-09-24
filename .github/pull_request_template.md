@@ -8,6 +8,7 @@
 |---|---|
 | Issue / Epic | Closes #... / 親・依存 PR |
 | Questions / 決定 | パス・revision・Q-ID |
+| concept / ADR / Policy | 意味・単位・根拠の参照、変更点または適用不要の理由 |
 | Pack | |
 | Flow ID | |
 | 触ってよいパス | |

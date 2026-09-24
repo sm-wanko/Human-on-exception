@@ -18,6 +18,7 @@ PR レビューとして起動された Codex は [独立 AI レビュー契約]
 
 0. **コア機能の束**: [`docs/testing/core-features.md`](./docs/testing/core-features.md)（該当 pack・Flow ID の索引）
 1. **Issue / PR** の Flow ID・触ってよいパス・禁止（Issue 起票前は依頼内容から該当束を自力で特定する）
+   - 目的・用語・集約単位・根拠の意味を扱うときは、該当する [concept](./docs/concept/README.md)・有効な ADR・Policy を [判断継承規約](./docs/rules/domain-decisions.md) に従って先に確認する。
 2. **該当 1 本だけ**: `docs/flow/<機能>.md`（Scope とマトリクス行。4 点セットはその機能に限り必要なら）
 3. **対応テスト**: 同 Flow の `*-SYS-*` → `apps/backend/tests/System/`、`*-FE-*` → `apps/frontend/src/**/*.contract.test.ts` / `*.integration.test.tsx`
 4. **実装ファイル**: Issue / PR または `docs/ai/packs/<bundle>.md` のマニフェスト
@@ -56,6 +57,8 @@ PR レビューとして起動された Codex は [独立 AI レビュー契約]
 **docs のみ**を根拠に既存実装・テストを削除しない。この順序は現状の事実確認用。合意した変更後の仕様は Answers / Issue の AC に従う（[実行契約 §6](./docs/rules/ai-workflow.md)）。
 
 **事実**は code · 4 点セット（flow / ui / validation / db）。**経緯**は [`docs/testing/questions/`](./docs/testing/questions/) · [`docs/testing/adr/`](./docs/testing/adr/)。4 点セットに経緯は書かない。
+
+concept は目的と概念、ADR は有効な設計判断、[Policy](./docs/testing/policy/README.md) は合意済みの反復判断を持つ。人間向けの機能概要である4点セットを AI が更新・検証し、人間のコードレビューや文書承認を通常ゲートにしない。
 
 ---
 

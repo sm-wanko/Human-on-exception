@@ -10,6 +10,7 @@ labels: ['hotfix', 'urgent']
 | 項目 | 記入 |
 |------|------|
 | **Pack** | |
+| **触ってよいパス** | AIが対象実装・テスト・docsを具体化 |
 | **Flow ID** | |
 | **完了時 make** | 例: `make test` |
 
@@ -31,6 +32,7 @@ labels: ['hotfix', 'urgent']
 - Status: Design / Ready（実装 blocker 0 件）
 - Questions / 回答: パス・revision・Q-ID（既存バグ修正で新判断がなければ根拠）
 - Scope / Non-goals / 禁止:
+- concept / ADR / Policy: 意味・単位・根拠の参照、または適用不要の理由
 - 維持する契約 / Risks / Assumptions:
 - 依存 Issue / Epic / 実装順:
 - 4 点セット・Pack 更新先:
