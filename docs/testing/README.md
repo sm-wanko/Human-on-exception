@@ -24,7 +24,7 @@ SIT の正本: [`docs/rules/system-test-strategy.md`](../rules/system-test-strat
 やりたいこと（人間）
   → Questions 潰す（AI / 人間 · 必要なら questions/ に Archive）
   → Issue 起票（1 テーマ = 1 Issue）
-  → 実装 + テスト + docs（コミット分離）
+  → 実装 + テスト + docs（同一変更系列）
   → PR 前: 実装 === docs の確認
   → PR（関連 Issue 紐づけ必須）
   → 別人格 AI レビュー
@@ -44,7 +44,7 @@ SIT の正本: [`docs/rules/system-test-strategy.md`](../rules/system-test-strat
 | ルール | 内容 |
 |--------|------|
 | **1 Issue = 1 PR** | 1 テーマ 1 ブランチ 1 PR。チェーン分割は **Issue 本文**に書く |
-| **コミット分離** | **実装** · **テスト** · **docs** を別コミット（同一 PR 内） |
+| **変更単位** | 1 サブタスクの **実装** · **テスト** · **docs** を同一コミット・PRに揃える |
 | **PR 前チェック** | **実装 === docs**（触った `docs/flow` の `*-FE-*` / `*-SYS-*` とテスト名 1:1、必要なら `make survey`） |
 | **PR 紐づけ** | PR 本文 `Closes #n` 等で関連 Issue を必ずリンク |
 | **検証** | 触った範囲の `make lint-*` / `make test-*`（構造変更時 `make survey`） |
@@ -75,3 +75,5 @@ SIT の正本: [`docs/rules/system-test-strategy.md`](../rules/system-test-strat
 | [questions/](./questions/) | 起票前 QA Archive |
 | [adr/](./adr/) | 有効な設計決定 |
 | [`docs/rules/system-test-strategy.md`](../rules/system-test-strategy.md) | SIT |
+
+実行の権限境界は [ai-workflow](../rules/ai-workflow.md)、独立レビューは [ai-review](../rules/ai-review.md) を適用する。

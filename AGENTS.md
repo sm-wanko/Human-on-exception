@@ -6,6 +6,14 @@
 
 ---
 
+## 実行と意思決定
+
+[AI 実行契約](./docs/rules/ai-workflow.md) を全工程に適用する。人間は Intent / Scope / Answer / Risk acceptance、AI は execution を所有する。人間コードレビューを required gate にしない。
+
+## Review guidelines
+
+PR レビューとして起動された Codex は [独立 AI レビュー契約](./docs/rules/ai-review.md) を適用する。以下の実装遂行手順を実行する役ではなく、別コンテキストのレビュー者として Issue の AC・diff・rules・test を照合する。
+
 ## 読む順（最小）
 
 0. **コア機能の束**: [`docs/testing/core-features.md`](./docs/testing/core-features.md)（該当 pack・Flow ID の索引）
@@ -45,7 +53,7 @@
 
 1. implementation → 2. system test → 3. `docs/flow` → 4. `coverage/*`（生成物）
 
-**docs のみ**を根拠に既存実装・テストを削除しない。
+**docs のみ**を根拠に既存実装・テストを削除しない。この順序は現状の事実確認用。合意した変更後の仕様は Answers / Issue の AC に従う（[実行契約 §6](./docs/rules/ai-workflow.md)）。
 
 **事実**は code · 4 点セット（flow / ui / validation / db）。**経緯**は [`docs/testing/questions/`](./docs/testing/questions/) · [`docs/testing/adr/`](./docs/testing/adr/)。4 点セットに経緯は書かない。
 

@@ -9,3 +9,7 @@
 | backlog 索引（questions 起点） | 実装手順・運用 runbook・コード地図 |
 
 矛盾時: **実装 → test → flow**（[AGENTS.md](../../../AGENTS.md)）。本フォルダは経緯のみで、既存実装を docs だけで削除しない。
+
+作成時は [Questions テンプレート](../../templates/questions.md) と [実行契約](../../rules/ai-workflow.md) §2–3 を適用する。
+
+[Task CRUD](./task-crud.md) は既存実装に基づく教材用決定例で、実在する人間回答の証拠ではない。新規依頼でこれを回答として流用しない。

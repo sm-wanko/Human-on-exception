@@ -11,6 +11,10 @@
 
 認証済み UI / API から触る mutation を変更・追加する PR では、監査 rule の MUST を指摘対象とする。SIT は `docs/rules/system-test-strategy.md` §4.1。
 
+# 独立レビュー
+
+[ai-review.md](../docs/rules/ai-review.md) を適用する。実装者の自己レビューを独立レビューで代替済みと見なさない。
+
 # Review Priority
 
 - 実装提案よりリスク検知を優先

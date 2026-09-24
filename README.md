@@ -1,10 +1,14 @@
 # Human-on-Exception
 
-Paw-Pads で実際に使っている AI 開発環境からペットドメインを外し、Backend を Laravel に置き換えた最小サンプル。
+人間が目的と境界を決め、AI が調査から実装・検証・PR・レビュー対応までを担う、汎用スタートアップ向け開発リポジトリ。Laravel / Next.js の最小 Task CRUD を実例として含む。
 
 考え方は一つだけ。
 
-> **人間が開発ループのボトルネックになり得るなら、人間は「何を作るか」と未決事項への回答だけを持ち、AI が調査・Questions・Issue・実装・docs・PR・レビュー対応を行う。**
+> **Humans decide intent and boundaries. AI owns execution.**
+
+人間の役割は **Intent / Scope / Answer / Risk acceptance**。人間によるコーディング・逐次コードレビューを通常フローから外し、コードを読めることを利用条件にしない。任意の人間レビューは可能だが required gate にしない。
+
+この名前の Exception は **AI に判断権限がない意思決定**を指す。通常の実装エラー・テスト失敗・レビュー修正は AI が解決する。[実行契約](./docs/rules/ai-workflow.md) が全工程の正本。
 
 ## 人間が使う 5 本のプロンプト
 
@@ -12,7 +16,7 @@ Paw-Pads で実際に使っている AI 開発環境からペットドメイン�
 2. [Answers 反映 / Issue 起票](./prompts/02-decide.md)
 3. [Issue 実装 / PR](./prompts/03-implement.md)
 4. [PR 指摘対応](./prompts/04-review.md)
-5. [マージ / develop 更新](./prompts/05-merge.md)
+5. [マージ / 対象ブランチ更新](./prompts/05-merge.md)
 
 通常の流れ:
 
@@ -30,12 +34,17 @@ AI: 不明が無ければ Issue を起票し、実装・テスト・4点セッ�
 実装 AI: 指摘を SoT で判定し、妥当なら修正。判断不能な点だけ人間へ戻す
 ```
 
-## Paw-Pads との差分
+## 品質を維持する仕組み
 
-- ペット固有の機能・検索・データ・用語は含めない
-- Backend の実装例は Go ではなく Laravel
-- Frontend は TypeScript / Next.js
-- AI 開発環境の構造・SoT・Pack / Flow / Questions / 4点セット / SIT / FE Contract / review 方針は Paw-Pads の形式に合わせる
+- Questions: 現状の根拠、選択肢の影響、推奨理由、未決・回答・改訂履歴
+- Issue: 合意した回答から受け入れ条件へ変換し、Flow / テスト / docs まで対応付ける
+- 実行: 実装・検証・自己レビュー・証拠作成を AI が所有する
+- 独立レビュー: Codex / Cursor Bugbot 等が実装者の自己レビューとは別のコンテキストで評価する
+- 完了: 必須チェック成功、妥当指摘解消、受け入れ条件充足を AI が確認する
+
+[Questions テンプレート](./docs/templates/questions.md) · [継承要件と検証例](./docs/testing/workflow-conformance.md) · [レビュー運用](./docs/rules/ai-review.md)
+
+5 本は開始・再開の入口であり、工程ごとに人間の操作を要求するゲートではない。回答と範囲が確定すれば、許可済み工程を続行する。外部レビューサービスの接続・実行権限は導入環境で必要。規約ファイルを置くだけではサービスは起動しない。
 
 ## ローカル起動
 
