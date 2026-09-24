@@ -1,16 +1,38 @@
-## 🔗 関連Issue
+## 目的と変更
 
-<!-- 例: Fixes #123, Closes #456 -->
+<!-- 問題、変更後の挙動、維持する契約 -->
 
-## AI / 実装スコープ（該当時）
+## AI コンテキスト
 
-<!-- 人間・AI 共通。未記載のまま実装しない -->
+| 項目 | 内容 |
+|---|---|
+| Issue / Epic | Closes #... / 親・依存 PR |
+| Questions / 決定 | パス・revision・Q-ID |
+| concept / ADR / Policy | 意味・単位・根拠の参照、変更点または適用不要の理由 |
+| Pack | |
+| Flow ID | |
+| 触ってよいパス | |
+| 実際の差分・範囲外差分 | |
+| 禁止 / Non-goals | |
+| 完了時 make | |
+| base / head | |
 
-- **Flow ID**:
-- **触ってよいパス**:
-- **禁止**:
-- **完了**: `make test`。必要なら `make survey` / `make docs`
+## 受け入れ条件と Evidence
 
-<!-- 機能 pack がある場合: docs/ai/packs/<name>.md を参照 -->
+| AC-ID / 決定 | SYS / FE-ID または検証方法 | command・対象 revision | 結果・ログ |
+|---|---|---|---|
 
-## 📝 備考
+## docs / Risks
+
+- 4 点セット・Pack・対機能の更新または理由付き N/A:
+- 既知リスク・許容判断への参照:
+- 未実行・失敗・保留と理由:
+
+## 独立 AI レビュー
+
+- 実装者の自己レビュー:
+- 独立レビュー者・対象 commit・結果リンク（未実施なら pending）:
+- 指摘一覧・valid / false positive / decision required・修正/判断の証拠:
+- 再レビューと必須チェックの対象 head:
+
+<!-- 人間コードレビューを required gate にしない。完了判定は docs/rules/ai-workflow.md §5。 -->

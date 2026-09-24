@@ -4,7 +4,7 @@ AI が初期探索で読む索引。実装本文は書かず、**束・Flow ID�
 
 | # | 束 | Pack | Flow ID | 主な実装 |
 |---|----|------|---------|----------|
-| 1 | Task CRUD | `task-crud` | `TASK_CRUD` | `apps/backend/app/Application/Task/`, `apps/frontend/src/lib/task/`, `apps/frontend/src/features/task/` |
+| 1 | Task CRUD | `task-crud` | `TASK_CRUD` | `apps/backend/app/Services/Task/`, `apps/frontend/src/lib/task/`, `apps/frontend/src/features/task/` |
 
 ## 束（pack）一覧
 

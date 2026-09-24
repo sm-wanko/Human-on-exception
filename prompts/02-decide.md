@@ -1,10 +1,8 @@
-# 2. Answers 反映 / LOOP
+# 2. Answers 反映 / Issue 起票
 
-Answers を更新した。
+<Questions のパス / Q-ID ごとの回答 / Scope / リスク許容判断>
 
-Questions と repo の SoT を再確認すること。
-追加で人間判断が必要な不明点があれば Questions に追加して相談すること。
-
-不明点が無ければ GitHub Issue を起票すること。
-分割が必要な場合は Epic とし、子 Issue を紐付けること。
-Issue は既存 Issue Template と同じ形式で Pack / Flow ID / 触ってよいパス / 完了 make を含めること。
+AGENTS.md と docs/rules/ai-workflow.md §3 に従い、回答と改訂履歴を反映すること。
+継続する設計判断はADR、反復作業の基準はPolicy、目的と概念はconceptへ必要に応じて反映し、本文の重複を避けること。
+追加で人間判断が必要な項目だけ相談し、実装 blocker がなければ Issue を起票すること。Q-ID → AC-ID → 検証方法の対応、Pack / Flow ID / 許可パス / 禁止 / 完了 make を含めること。
+分割・Epic・依存順は AI が具体化し、実在する Issue と Questions を相互リンクすること。未決の設計 Issue を実装 Ready にしないこと。既に実装まで許可されていれば続行すること。

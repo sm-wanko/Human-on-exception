@@ -41,7 +41,7 @@ FE は SIT を置き換えない。
 
 ## 2. 基本原則（MUST）
 
-1. **resolver 化しないと continuity test を増やさない**  
+1. **resolver 化しないと continuity test を増やさない**
    Presentation / hook に分岐ロジックを足したまま matrix を増やさない。先に `lib/<domain>/` へ pure 関数を抽出する。
 
 2. **contract と integration を分離**
@@ -54,19 +54,21 @@ FE は SIT を置き換えない。
    - 正本: `docs/flow/<機能>.md` の Frontend 契約マトリクス
    - `it('<FLOW>-FE-NNN: …')` の ID は完全一致
 
-5. **docs を flow contract の正本として扱う**  
+5. **docs を flow contract の正本として扱う**
    実装変更時は同一変更系列で docs マトリクス・test・resolver を更新。
 
-6. **実装と docs は常に同一変更系列（MUST）**
+6. **実装と docs は常に同一変更系列（MUST）**。resolver / contract / fixture / flow は 1 PR・1 コミット単位で揃える。機能変更を実装だけ・テストだけ・docs だけへ切り離さない。
 
-7. **UX 判断が絡むときは推測実装しない（Question 必須）**  
-   仕様が docs に無い、または continuity の正解が複数ある場合は実装前に Question を出す。
+   ブラウザ実機 E2E は標準検証に追加せず、責務外の境界は理由付き N/A とする。
+
+7. **UX 判断が絡むときは推測実装しない（Question 必須）**
+   既存の決定・rules・実装を調査しても UX の正解が決まらない場合は実装前に Question を出す。承認済みの選択を聞き直さない。
 
 ### 2.1 Question 必須条件（推測実装禁止）
 
 | 状況 | 対応 |
 |---|---|
-| `docs/flow` / `docs/ui` に該当分岐・期待 URL が無い | Question → 合意後に docs マトリクス行 |
+| `docs/flow` / `docs/ui` に該当分岐・期待 URL が無い | 既存の決定を調査し、UX 未決なら Question → 合意後に docs マトリクス行 |
 | continuity の正解が複数あり UX で決める必要がある | Question（オプション提示） |
 | 技術的には自然だが UX 文脈を壊しうる | Question |
 
@@ -76,6 +78,8 @@ Question の記録先:
 - `docs/testing/questions/*.md` — **起票前 QA の Archive**
 
 ---
+
+必須検討: 成功後 redirect、戻り先、query/context 引継ぎ、new/edit、選択状態、候補 0/1/複数、modal/直行、失敗時の入力保持。確定済みは AI が適用する。
 
 ## 3. 二層アーキテクチャ
 

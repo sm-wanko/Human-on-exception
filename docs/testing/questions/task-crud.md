@@ -1,178 +1,99 @@
-# タスク CRUD — 着手前 QA（確定）
+# Task CRUD — 意思決定と実行の例
 
-**Status**: 回答済み  
-**Issue 候補**: Task CRUD 実装  
-**束**: `task-crud`（`TASK_CRUD`）  
-**関連**: [core-features.md](../core-features.md) · [タスクCRUD flow](../../flow/タスクCRUD.md) · [task-crud pack](../../ai/packs/task-crud.md)
+**Status**: Example（既存実装から再構成した教材。実際の人間回答・Ready 承認を捏造しない）
+**Pack / Flow**: `task-crud` / `TASK_CRUD`
+**調査 revision**: `4d6c691c4702285323b5c494a3193ff19416882a`
+**関連**: [Pack](../../ai/packs/task-crud.md) · [Flow](../../flow/タスクCRUD.md) · [Issue 例](../examples/task-crud-issue.md)
 
----
+## Goal / Scope
 
-## 用語
+最小のタスク管理を通して、AI が要件定義から検証まで自律実行できることを示す。
+対象は一覧・詳細 UI と CRUD API。認証・会員監査・削除履歴・復元・mutation UI は対象外。認証なしの教材を公開サービスの認可設計として転用しない。
 
-| 呼び方 | 意味 |
-|--------|------|
-| **TaskQuick** | 一覧用 read model。id / title のみ |
-| **TaskDetail** | 詳細用 read model。description / timestamps を含む |
-| **4 点セット** | flow / ui / validation / db |
+## 現状の事実
 
----
+| 事実 | 根拠 |
+|---|---|
+| Controller → Service → Repository / DTO | Pack の Backend マニフェスト |
+| 一覧と詳細のデータを分離 | `apps/backend/app/DTO/Task/TaskQuick.php` / `TaskDetail.php` |
+| title / description の入力制約 | `apps/backend/app/Http/Requests/TaskWriteRequest.php` |
+| 正系・逆系の縦串 | `apps/backend/tests/System/TaskCrudSystemTest.php` |
+| loading / empty / error / detail path | `apps/frontend/src/lib/task/taskCrudFlow.contract.test.ts` |
 
-## 現状（事実）
+## 人間に提示する Questions の例
 
-| 層 | 状態 |
-|----|------|
-| **Backend** | Laravel Controller → Service → Repository → Eloquent / DTO |
-| **Frontend** | TypeScript。表示判断は `lib/task`、Presentation は `features/task` |
-| **API** | list / detail / create / update / delete |
-| **一覧** | `TaskQuick` |
-| **詳細** | `TaskDetail` |
-| **Flow** | `TASK_CRUD` |
-| **SIT** | `TASK_CRUD-SYS-001`〜`004`, `101`〜`102` |
-| **FE** | `TASK_CRUD-FE-001`〜`004` |
-| **認証** | サンプル Scope 外 |
-| **監査** | 認証済み会員 mutation 自体が Scope 外のため N/A |
+### D1 — 削除したタスクを復元できる必要がある？
 
----
+- 背景: 削除 API はデータを消す。保存方式の選択より先に、利用者が復元できる約束を決める必要がある。
+- A: 復元しない。機能は小さいが、削除後に元へ戻せない。
+- B: 復元できる。誤操作から戻せるが、保存期間・復元画面も範囲に入る。
+- この教材の推奨: A。最小 CRUD が目的のため。
+- 未回答なら削除仕様の変更を止める。実データ破壊の許可としては扱わない。
 
-## 質問（回答は A/B/C… の ID で返信可）
+### U1 — タスクの登録・編集・削除画面も今回作る？
 
-### 削除・データ
+- A: API のみ。画面は一覧・詳細まで。一般利用者は画面で登録・編集できない。
+- B: mutation UI まで作る。利用者が画面で管理できるが、入力・完了・戻り先の設計が増える。
+- この教材の推奨: A。最小の縦串を示す目的に合う。
+- 未回答なら mutation UI の追加を止める。
 
-| ID | 質問 | 選択肢（案） |
-|----|------|----------------|
-| D1 | **Task 削除の意味** | **A)** hard delete / **B)** soft delete |
-| D2 | **削除履歴・復元** | **A)** 今回は持たない / **B)** 履歴・復元まで含める |
+### A1 — この教材にログインと利用者ごとの所有権を含める？
 
-| ID | 回答 | 理由 |
-|----|------|------|
-| D1 | **A** | 最小 CRUD の責務に限定する |
-| D2 | **A** | soft delete / audit history は Scope を広げるため |
+- A: 含めない。教材として限定し、会員向け公開サービスの完成例にはしない。
+- B: 含める。誰がどのタスクを操作できるか・監査まで別の契約を決める。
+- この教材の推奨: A。認証を作った扱いにはしない。
+- 未回答なら認証・権限に関する範囲拡張を止める。
 
-### Validation / API
+## Answers の教材例
 
-| ID | 質問 | 選択肢（案） |
-|----|------|----------------|
-| V1 | **title 制約** | **A)** non-empty のみ / **B)** trim 後 1〜200 文字 |
-| V2 | **description** | **A)** nullable / max 2000 / **B)** required |
-| V3 | **not found** | **A)** 404 / **B)** 200 + null body |
+| Q-ID | 教材で採用する回答 | 理由 | 出所 |
+|---|---|---|---|
+| D1 | A | 最小 CRUD、復元なし | 既存サンプル仕様。実ユーザー回答ではない |
+| U1 | A | list/detail + API CRUD に限定 | 同上 |
+| A1 | A | 認証・会員監査は N/A | 同上 |
 
-| ID | 回答 | 理由 |
-|----|------|------|
-| V1 | **B** | Validation / DB 契約を明示できる |
-| V2 | **A** | Task の最小入力は title のみでよい |
-| V3 | **A** | REST API の既存契約として自然 |
+本例を新しい依頼に適用するときは実際の目的と回答を取得する。推奨を自動採用しない。
 
-### Read model
+## AI が調査・規約で決める事項
 
-| ID | 質問 | 選択肢（案） |
-|----|------|----------------|
-| R1 | **list / detail response** | **A)** 1 DTO 共用 / **B)** Quick / Detail を分離 |
-| R2 | **list の description** | **A)** 含める / **B)** 含めない |
+| 項目 | 決定・根拠 |
+|---|---|
+| Quick / Detail | 既存 DTO と backend-quick の query 責務に従う |
+| title・description・404 | 新しい要求がなければ既存 validation 契約を維持する |
+| レイヤ配置 | BE / FE quick rules に従う |
+| SIT / FE / 4 点セット | 必須 rules に従う。省略するかを質問しない |
+| Issue 分割 | AI が依存に応じて決める。人間に作業管理をさせない |
 
-| ID | 回答 | 理由 |
-|----|------|------|
-| R1 | **B** | 一覧と詳細で query / response の責務を分ける |
-| R2 | **B** | detail 専用データを list で読まない |
+## Risks / Unknowns / Assumptions と検討観点
 
-### Frontend / UX
+| 観点 | 本例での扱い |
+|---|---|
+| 意図・境界 | D1 / U1 / A1。復元・mutation UI・認証は対象外 |
+| 概念・意味 | [概念](../../concept/task-crud.md)。IDが同じTaskを一覧/詳細で示す。空と失敗を区別し、削除は完了状態と混同しない。専用の反復運用Policyは不要 |
+| 入力・一意性 | validation 境界・not found を SYS で確認。業務重複キーなし |
+| 作成・更新 | CRUD 正系と不正入力時の副作用を既存 test / flow で確認 |
+| UX continuity | list→detail の ID、loading / empty / error を FE-ID に対応 |
+| 障害 | API error を empty と区別。外部 API・有償境界は N/A（未使用） |
+| 証拠・安全 | hard delete は復元不可。既存サンプルの合意例と実データ操作許可を区別 |
+| 横断 | 一覧/詳細 DTO、BE/FE、4 点セットの整合 |
+| 検証 | 下記対応表。ID の存在は実行成功の証拠ではない |
 
-| ID | 質問 | 選択肢（案） |
-|----|------|----------------|
-| U1 | **一覧状態** | **A)** loading / empty / error を区別 / **B)** loading と結果だけ |
-| U2 | **詳細導線** | **A)** 一覧選択 → `/tasks/{id}/` / **B)** modal のみ |
-| U3 | **mutation UI** | **A)** 今回含める / **B)** API のみで UI は Scope 外 |
+新規依頼の Unknowns / Assumptions は別途調査する。本例には実在する未回答の質問はない。
 
-| ID | 回答 | 理由 |
-|----|------|------|
-| U1 | **A** | FE Flow Contract の最小例になる |
-| U2 | **A** | route continuity を FE-ID で示せる |
-| U3 | **B** | サンプルを list/detail + API CRUD に限定する |
+## 決定 → AC → 検証
 
-### 認証・監査
+| 決定 | AC-ID | 結果 | 検証 |
+|---|---|---|---|
+| CRUD 範囲 | AC-01 | 作成・取得・更新・削除が既存契約どおり | `TASK_CRUD-SYS-001`〜`004` |
+| 既存入力契約 | AC-02 | 不正入力 / 不存在の応答と副作用が契約どおり | `TASK_CRUD-SYS-101`〜`102` |
+| U1 | AC-03 | loading / empty / error を区別する | `TASK_CRUD-FE-001`〜`003` |
+| U1 | AC-04 | 一覧から選択 ID の詳細へ進む | `TASK_CRUD-FE-004` + 代表 integration |
+| D1 / A1 | AC-05 | 復元・認証・会員監査を完成扱いしない | 4 点セットの Scope / N/A 照合 |
 
-| ID | 質問 | 選択肢（案） |
-|----|------|----------------|
-| A1 | **認証** | **A)** 含める / **B)** Scope 外 |
-| A2 | **会員監査** | **A)** created_by 等を入れる / **B)** 認証 Scope 外に合わせ N/A |
+docs は [flow](../../flow/タスクCRUD.md) / [ui](../../ui/タスクCRUD.md) / [validation](../../validation/タスクCRUD.md) / [db](../../db/タスクCRUD.md)。
 
-| ID | 回答 | 理由 |
-|----|------|------|
-| A1 | **B** | Human-on-Exception の開発フロー例に不要 |
-| A2 | **B** | [audit-ui-persistence.md](../../rules/audit-ui-persistence.md) の適用対象外 |
+## Issue / 完了 make
 
-### テスト・docs・Issue
+[教材用 Issue 本文](../examples/task-crud-issue.md) へ対応を引き継ぐ。実際の起票番号・実行結果は存在するときだけ記録する。
 
-| ID | 質問 | 選択肢（案） |
-|----|------|----------------|
-| T1 | **SIT** | **A)** CRUD 正系 + validation/not-found 逆系 / **B)** Feature test のみ |
-| T2 | **FE Contract** | **A)** loading / empty / error / detail path / **B)** integration のみ |
-| T3 | **4 点セット** | **A)** flow/ui/validation/db 全て / **B)** flow のみ |
-| T4 | **Issue / PR 分割** | **A)** Backend と Frontend を子 Issue に分割 / **B)** 1 Issue 1 PR で全部 |
-
-| ID | 回答 | 理由 |
-|----|------|------|
-| T1 | **A** | API / DB 状態の縦串を示す |
-| T2 | **A** | Paw と同じ pure contract + 代表 integration |
-| T3 | **A** | docs-follow の正本どおり |
-| T4 | **A** | Backend 完了後に Frontend を接続でき、review 単位も明確 |
-
----
-
-## 確定事項（実装）
-
-| 項目 | 内容 |
-|------|------|
-| 削除 | hard delete |
-| title | trim 後 1〜200 |
-| description | nullable / max 2000 |
-| list | `TaskQuick` |
-| detail | `TaskDetail` |
-| route | list → `/tasks/{id}/` |
-| mutation UI | Scope 外 |
-| 認証 / 会員監査 | N/A |
-| Backend | Controller → Service → Repository → Model / DTO |
-| Frontend | api → lib → hooks → features |
-| SIT | SYS-001〜004 / 101〜102 |
-| FE | FE-001〜004 |
-
----
-
-## Issue 分割（起票案）
-
-| 順 | タイトル（案） | Pack / Flow | 依存 |
-|----|----------------|-------------|------|
-| 1 | `feat: Task CRUD backend` | `task-crud` / `TASK_CRUD` | なし |
-| 2 | `feat: Task CRUD frontend list/detail` | `task-crud` / `TASK_CRUD` | **1 完了後** |
-
-**マージ順（推奨）**: Backend → Frontend。
-
----
-
-## 回答後に AI が行うこと
-
-1. 本ファイルへ回答・確定事項を反映
-2. 追加不明点があれば Questions を追加
-3. 不明点が無ければ GitHub Issue 起票
-4. Pack / Flow ID / 触ってよいパス / 完了 make を Issue に記載
-5. Issue に沿って実装・test・4 点セット docs を更新
-6. PR 作成後は別人格 AI review → 実装 AI が指摘を判定
-
----
-
-## 完了 `make`
-
-```bash
-make lint
-make test
-make survey
-```
-
----
-
-## 関連
-
-- flow: [タスクCRUD.md](../../flow/タスクCRUD.md)
-- ui: [タスクCRUD.md](../../ui/タスクCRUD.md)
-- validation: [タスクCRUD.md](../../validation/タスクCRUD.md)
-- db: [タスクCRUD.md](../../db/タスクCRUD.md)
-- pack: [task-crud.md](../../ai/packs/task-crud.md)
+`make lint` → `make test` → `make survey`

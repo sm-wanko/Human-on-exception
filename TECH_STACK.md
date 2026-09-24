@@ -1,6 +1,6 @@
 # Technology Stack
 
-Paw-Pads の AI 開発環境を Laravel + TypeScript に置き換えたサンプル。
+AI が実装・検証を担う開発フローの Laravel + TypeScript サンプル。
 
 ## Local
 

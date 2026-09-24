@@ -2,6 +2,8 @@
 
 Task CRUD の 1 束。Flow ID: `TASK_CRUD`。
 
+意味の入口: [Task CRUD の概念](../../concept/task-crud.md)。既存制約と人間判断の教材: [Questions](../../testing/questions/task-crud.md)。
+
 ## 束の境界（docs）
 
 | 含む | 含まない（別束） |

@@ -28,6 +28,14 @@
 - [ ] 代表 integration（resolver 導線がある束）
 - [ ] 当該 `*-SYS-*` SIT（Backend 縦串がある場合）
 
+### 対になる機能・独立検証
+
+- [ ] 同じ契約を持つ対機能・作成/更新・一覧/詳細の追従（対象がなければ理由付き N/A）
+- [ ] AC ごとの検証証拠・最新差分の独立 AI レビュー
+- [ ] 必須チェック成功、妥当指摘・未判定指摘なし
+
+人間コードレビューは required gate にしない。詳細は [実行契約](../rules/ai-workflow.md)。
+
 ## 関連
 
 - [core-features.md](./core-features.md)

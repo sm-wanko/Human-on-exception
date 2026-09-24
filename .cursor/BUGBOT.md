@@ -1,6 +1,7 @@
 # Bugbot（Human-on-Exception）
 
 PR diff レビュー用。IDE Agent 用の `.cursor/rules/*.mdc` とは別系統。
+[独立 AI レビュー契約](../docs/rules/ai-review.md) を適用し、実装者とは別コンテキストで AC / diff / test を評価する。
 コメントは日本語。実装提案より **バグ・セキュリティ・仕様逸脱・回帰リスク** を優先する。
 スタイルのみ・推測での称賛・変更意図の推測はしない。問題が無ければ簡潔に。
 
