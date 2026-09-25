@@ -1,3 +1,108 @@
+# Task CRUD — Decision and Execution Example
+
+**Status**: Example reconstructed from existing implementation. It is teaching material and does not fabricate a real human answer or Ready approval.  
+**Pack / Flow**: `task-crud` / `TASK_CRUD`  
+**Investigation revision**: `4d6c691c4702285323b5c494a3193ff19416882a`  
+**Related**: [Pack](../../ai/packs/task-crud.md) · [Flow](../../flow/タスクCRUD.md) · [Issue example](../examples/task-crud-issue.md)
+
+## Goal / Scope
+
+Demonstrate, through a minimal task-management feature, that AI can execute from requirement investigation through verification.
+
+Scope includes list/detail UI and CRUD API. Authentication, member audit, deletion history, restore, and mutation UI are out of scope. Do not reuse an unauthenticated teaching sample as an authorization design for a public member-facing service.
+
+## Current facts
+
+| Fact | Evidence |
+|---|---|
+| Controller → Service → Repository / DTO | Backend manifest in Pack |
+| list/detail data are separated | `TaskQuick.php` / `TaskDetail.php` |
+| title/description input constraints | `TaskWriteRequest.php` |
+| positive/reverse vertical tests | `TaskCrudSystemTest.php` |
+| loading/empty/error/detail path | `taskCrudFlow.contract.test.ts` |
+
+## Example Questions shown to a human
+
+### D1 — Must deleted Tasks be restorable?
+
+- Context: the delete API removes data. The user-facing promise about restoration must be decided before choosing a persistence technique.
+- A: no restore. Smaller feature, but deletion cannot be undone.
+- B: restorable. Safer against mistakes, but retention and restore UI enter scope.
+- Teaching recommendation: A, because the sample's purpose is minimal CRUD.
+- Without an answer, stop changing delete semantics. Never interpret this sample as authorization to destroy real production data.
+
+### U1 — Should create/edit/delete screens be built now?
+
+- A: API only; UI ends at list/detail.
+- B: include mutation UI; users can manage through screens, but input/completion/return-path design expands.
+- Teaching recommendation: A.
+- Without an answer, do not add mutation UI.
+
+### A1 — Should login and per-user ownership be part of this sample?
+
+- A: no. Keep the sample bounded and do not present it as a completed member-facing public service.
+- B: yes. Then define authorization, ownership, and audit as separate contracts.
+- Teaching recommendation: A.
+- Without an answer, do not expand auth/permission scope.
+
+## Teaching Answers
+
+| Q-ID | Answer used by sample | Reason | Source |
+|---|---|---|---|
+| D1 | A | minimal CRUD; no restore | existing sample behavior, not a real user answer |
+| U1 | A | list/detail + CRUD API only | same |
+| A1 | A | auth/member audit are N/A | same |
+
+When applying this pattern to a new request, collect the actual goal and answers. Never auto-adopt the recommendation.
+
+## AI technical decisions
+
+| Item | Decision / evidence |
+|---|---|
+| Quick / Detail | follow existing DTO and backend-quick query responsibility |
+| title / description / 404 | preserve existing validation contract unless a new requirement changes it |
+| layer placement | follow BE/FE quick rules |
+| SIT / FE / 4-point docs | required by rules; do not ask whether to omit them |
+| Issue split | AI decides from dependencies; do not push work-management decisions to humans |
+
+## Risks / Unknowns / Assumptions and dimensions
+
+| Dimension | Treatment in this example |
+|---|---|
+| Intent/boundary | D1 / U1 / A1. restore, mutation UI, auth are out of scope |
+| Concept/meaning | [concept](../../concept/task-crud.md). Same Task ID across list/detail; empty differs from failure; delete differs from complete/archive |
+| Input/uniqueness | validation boundary and not-found verified by SYS; no business duplicate key |
+| Create/update | CRUD positives and invalid-input side effects covered by existing tests/flow |
+| UX continuity | list→detail ID and loading/empty/error mapped to FE-ID |
+| Failure | API error differs from empty. External/paid boundaries are N/A because unused |
+| Evidence/safety | hard delete is non-restorable; teaching decision differs from permission to touch real data |
+| Cross-cutting | list/detail DTO, BE/FE, 4-point docs aligned |
+| Verification | mapping below; existence of an ID is not proof a test executed successfully |
+
+New requests require their own investigation of Unknowns / Assumptions. This example has no real unresolved human Question.
+
+## Decision → AC → verification
+
+| Decision | AC-ID | Result | Verification |
+|---|---|---|---|
+| CRUD scope | AC-01 | create/read/update/delete follow existing contract | `TASK_CRUD-SYS-001`–`004` |
+| input contract | AC-02 | invalid/not-found response and side effects follow contract | `TASK_CRUD-SYS-101`–`102` |
+| U1 | AC-03 | distinguish loading / empty / error | `TASK_CRUD-FE-001`–`003` |
+| U1 | AC-04 | navigate from list to selected ID detail | `TASK_CRUD-FE-004` + representative integration |
+| D1 / A1 | AC-05 | do not claim restore/auth/member-audit completion | Scope / N/A in 4-point docs |
+
+4-point docs: [flow](../../flow/タスクCRUD.md) / [ui](../../ui/タスクCRUD.md) / [validation](../../validation/タスクCRUD.md) / [db](../../db/タスクCRUD.md).
+
+## Issue / completion make
+
+Continue into the [teaching Issue body](../examples/task-crud-issue.md). Record real Issue numbers/results only when they actually exist.
+
+`make lint` → `make test` → `make survey`
+
+---
+
+## 日本語（既存教材の原意）
+
 # Task CRUD — 意思決定と実行の例
 
 **Status**: Example（既存実装から再構成した教材。実際の人間回答・Ready 承認を捏造しない）
@@ -97,3 +202,4 @@ docs は [flow](../../flow/タスクCRUD.md) / [ui](../../ui/タスクCRUD.md) /
 [教材用 Issue 本文](../examples/task-crud-issue.md) へ対応を引き継ぐ。実際の起票番号・実行結果は存在するときだけ記録する。
 
 `make lint` → `make test` → `make survey`
+
