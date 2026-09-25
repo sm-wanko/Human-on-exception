@@ -8,10 +8,10 @@ Task CRUD の 1 束。Flow ID: `TASK_CRUD`。
 
 | 含む | 含まない（別束） |
 |------|------------------|
-| Task list / detail | 認証 |
-| Task create / update / delete API | 会員監査 |
-| Quick / Detail read model | soft delete / audit history |
-| TASK_CRUD SYS / FE | 他ドメイン |
+| 本人の Task list / detail / 登録 / 編集 | アカウント登録 |
+| 論理削除と STATUS | 復元 |
+| Quick / Detail read model | 他人の Task |
+| TASK_CRUD SYS / FE | 持ち主の無い行の削除 |
 
 ## 4 点セット
 
@@ -38,14 +38,13 @@ Task CRUD の 1 束。Flow ID: `TASK_CRUD`。
 
 ### Frontend
 
-- [x] `TASK_CRUD-FE-001`〜`004`
+- [x] `TASK_CRUD-FE-001`〜`007`
 - [x] list / detail Presentation
 - [x] lib resolver / viewmodel
 
 ### Backend（SIT）
 
-- [x] `TASK_CRUD-SYS-001`〜`004`
-- [x] `TASK_CRUD-SYS-101`〜`102`
+- [x] `TASK_CRUD-SYS-001`〜`010` の実装分（001〜010、101〜102）
 
 ## Frontend（実装パス）
 
@@ -76,6 +75,7 @@ make survey
 
 ## 禁止
 
-- API 形状の無断変更
-- Quick / Detail の無断統合
-- 認証・soft delete を Scope に追加
+- Quick / Detail の統合
+- 物理削除へ戻すこと
+- 他人の Task を 403 で知らせること
+- 終了予定日で STATUS を変えること

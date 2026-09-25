@@ -2,7 +2,7 @@
 
 ## English
 
-This document explains the existing minimal implementation. It does **not** represent actual human approval for a new product.
+This document explains the original sample before login. The accepted meaning for the current product change is [owned-task.md](./owned-task.md). It does **not** represent a new approval by itself.
 
 Its purpose is to demonstrate a complete path for listing/viewing Tasks and creating/updating/deleting them through the API, with responsibilities mapped to tests and human-readable docs. Login, restore, and create/edit/delete screens are outside scope.
 
@@ -21,7 +21,7 @@ The decision-teaching material is [Questions](../testing/questions/task-crud.md)
 
 ## 日本語
 
-既存の最小実装を説明する資料。実際の新規プロダクトに対する人間の回答・承認を表すものではない。
+ログイン前の元サンプルを説明する資料。現行の合意は [owned-task.md](./owned-task.md)。このファイル自体が新しい承認を表すものではない。
 
 目的は、タスクの一覧・詳細を閲覧し、APIで登録・更新・削除する一連の処理を、責務・テスト・説明文書と対応づけて示すこと。ログイン、復元、登録・編集・削除の画面は範囲外。
 

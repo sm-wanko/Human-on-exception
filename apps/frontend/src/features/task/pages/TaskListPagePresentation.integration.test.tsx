@@ -15,9 +15,12 @@ describe('TaskListPagePresentation', () => {
   it('TASK_CRUD-FE-004 representative: selected id is delegated', () => {
     const onOpenTask = vi.fn()
     mockedUseTaskList.mockReturnValue({
+      hide: vi.fn(),
       state: {
         kind: 'ready',
-        tasks: [{ id: 42, title: 'Buy milk' }],
+        tasks: [
+          { id: 42, title: 'Buy milk', status: 'not_started', due_on: null },
+        ],
       },
     })
 
