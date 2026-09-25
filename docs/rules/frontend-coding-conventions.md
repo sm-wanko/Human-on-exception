@@ -1,27 +1,27 @@
-# Frontend コーディング規約（詳細・索引）
+# Frontend Coding Conventions — Detailed Reference
 
-> **AI（Cursor / Claude Code / CodeX）**: 毎回読む正本は **[frontend-quick.md](./frontend-quick.md)**。  
-> 本ファイルは **コード例・手順の深掘り**用。MUST / レイヤ責務 / lib 正本の正本は quick に集約済み。
+> **AI (Cursor / Claude Code / CodeX)**: the always-read source of truth is [frontend-quick.md](./frontend-quick.md).  
+> This file provides deeper examples/procedures. MUST rules, layer responsibility, and lib ownership remain authoritative in quick.
 
-**適用範囲**: `apps/frontend/` のみ。
-
----
-
-## quick との対応
-
-| トピック | 正本 |
-|----------|------|
-| MUST NOT・完了 | [frontend-quick.md §1, §10](./frontend-quick.md) |
-| レイヤ・lib/hooks 境界 | [§2, §3](./frontend-quick.md) |
-| 配置 | [§4](./frontend-quick.md) |
-| API・types・命名 | [§5–6](./frontend-quick.md) |
-| **JSDoc** | quick §7 + 本ファイル §コメント |
-| 画面遷移 | quick §9 + 本ファイル §画面遷移 |
-| テスト・Flow Contract | quick §10 + [frontend-flow-contract.md](../testing/frontend-flow-contract.md) |
+**Scope**: `apps/frontend/` only.
 
 ---
 
-## プロジェクト構成（参照用）
+## Mapping to quick
+
+| Topic | Source |
+|---|---|
+| MUST NOT / completion | [frontend-quick.md §1, §10](./frontend-quick.md) |
+| Layer / lib-hooks boundary | [§2, §3](./frontend-quick.md) |
+| Placement | [§4](./frontend-quick.md) |
+| API / types / naming | [§5–6](./frontend-quick.md) |
+| **JSDoc** | quick §7 + this file: Comments |
+| Navigation | quick §9 + this file: Navigation |
+| Tests / Flow Contract | quick §10 + [frontend-flow-contract.md](../testing/frontend-flow-contract.md) |
+
+---
+
+## Project structure reference
 
 ```
 apps/frontend/src/
@@ -37,7 +37,7 @@ apps/frontend/src/
 
 ---
 
-## API：request
+## API request example
 
 ```typescript
 export async function request<T>(url: string, options?: RequestInit): Promise<T> {
@@ -47,28 +47,28 @@ export async function request<T>(url: string, options?: RequestInit): Promise<T>
 }
 ```
 
-通信は api 層、意味付けは lib。
+Transport belongs in api; meaning belongs in lib.
 
 ---
 
-## lib 内サブ分割例
+## Example lib subdivision
 
-`lib/task/` — `buildTaskListViewModel`, `resolveTaskDetailState` 等の純関数。
+`lib/task/` — pure functions such as `buildTaskListViewModel`, `resolveTaskDetailState`.
 
-### hooks 分割例
+### Example hook split
 
-- `useTaskListQuery` — 取得 + lib 呼び出し
-- `useTaskActions` — 遷移・mutation
-- Presentation は hook の結果を描画するだけ
+- `useTaskListQuery` — fetch + lib call
+- `useTaskActions` — navigation/mutation
+- Presentation only renders hook output
 
 ---
 
-## コメント（JSDoc）詳細
+## Comments / JSDoc
 
-quick §7 が正本。触った exported は同一 PR で付与。
+Quick §7 is authoritative. Add JSDoc to touched exported surfaces in the same PR.
 
 ```typescript
-/** 一覧表示用 Task view model を生成する */
+/** Builds the Task view model used by list presentation. */
 export function buildTaskListViewModel(tasks: TaskQuick[]): TaskListViewModel {
   // ...
 }
@@ -76,18 +76,18 @@ export function buildTaskListViewModel(tasks: TaskQuick[]): TaskListViewModel {
 
 ---
 
-## 画面遷移ドキュメント
+## Navigation documentation
 
-route / Link / navigate 変更時は **同一 PR** で:
+When route / Link / navigate changes, in the **same PR**:
 
-1. `docs/transition/遷移定義.md`
-2. `make docs`
-3. `make survey`
+1. update `docs/transition/遷移定義.md`
+2. run `make docs`
+3. run `make survey`
 
 ---
 
-## 自動反復レビュー（AI 作業手順）
+## Automated iterative AI review
 
-1. 現状レビュー → 2. 修正 → 3. 再レビュー → 4. 禁止違反ゼロまで繰り返し
+1. Review current state → 2. Fix → 3. Review again → 4. repeat until no prohibited violation remains.
 
-**完了条件**: 禁止違反なし／未対応項目を明示／影響範囲を説明できる／テスト追加または既存で担保
+**Done**: no prohibited violation, unresolved items stated, impact explainable, and tests added or demonstrably existing.
