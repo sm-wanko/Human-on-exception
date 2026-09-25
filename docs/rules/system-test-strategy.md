@@ -1,104 +1,104 @@
-# System Integration Test 方針
+# System Integration Test Strategy
 
-## 概要
+## Overview
 
-このドキュメントは、`apps/backend/tests/System/` 配下に置く **System Integration Test（SIT）** の思想・用語・運用ルールを定義する。
+This document defines the philosophy, terminology, and operating rules for **System Integration Tests (SIT)** under `apps/backend/tests/System/`.
 
-SIT のゴール:
+SIT goal:
 
-- **人 = 未確定の UX 意図・許容判断**。任意の UI 確認は可能だが、通常の完了 gate にしない
-- **機械 = 全通信パターン + DB 状態 + 跨境界契約の網羅**（自動・客観領域）
+- **Human = unresolved UX intent and risk/acceptance decisions**. Optional UI inspection is allowed but is not a normal completion gate.
+- **Machine = exhaustive communication patterns + DB state + cross-boundary contracts** within the automated deterministic scope.
 
-「ブラウザ E2E」ではなく **HTTP → Laravel → DB** の縦串を API 契約と DB 状態で自動検証する。
+This is not browser E2E. It verifies the vertical path **HTTP → Laravel → DB** through API contracts and persisted state.
 
-### MUST: docs・実装・SIT の三者整合
+### MUST: docs / implementation / SIT alignment
 
-- Docs は [docs-follow.md](./docs-follow.md)
-- N/A は [docs-na-conventions.md](./docs-na-conventions.md)
-- Flow マトリクスのすべての `<FLOW>-SYS-NNN` は test 名 / data provider 名から抽出可能にする
+- Docs follow [docs-follow.md](./docs-follow.md).
+- N/A follows [docs-na-conventions.md](./docs-na-conventions.md).
+- Every `<FLOW>-SYS-NNN` in the Flow matrix must be extractable from a test name or data-provider name.
 
-## 1. テスト戦略の3層
+## 1. Three test layers
 
-| 層 | 配置 | 責務 | 道具 |
-|----|------|------|------|
-| unit | `apps/backend/tests/Unit/` | ロジック単体 | PHPUnit |
-| integration / feature | `apps/backend/tests/Feature/` | Laravel + 実 DB | PHPUnit / Laravel test |
-| **system** | **`apps/backend/tests/System/`** | **HTTP → Laravel → DB 縦串** | PHPUnit / Laravel |
-| frontend 契約（API） | `apps/frontend/src/**/*.integration.test.tsx` | 補助：操作 → API 呼び出し | Vitest + RTL |
-| **frontend flow contract** | `apps/frontend/src/lib/**/*.contract.test.ts` | 補助：route / state / context continuity | Vitest（pure resolver） |
+| Layer | Location | Responsibility | Tool |
+|---|---|---|---|
+| unit | `apps/backend/tests/Unit/` | isolated logic | PHPUnit |
+| integration / feature | `apps/backend/tests/Feature/` | Laravel + real DB | PHPUnit / Laravel test |
+| **system** | **`apps/backend/tests/System/`** | **HTTP → Laravel → DB vertical path** | PHPUnit / Laravel |
+| frontend contract (API) | `apps/frontend/src/**/*.integration.test.tsx` | supporting check: interaction → API call | Vitest + RTL |
+| **frontend flow contract** | `apps/frontend/src/lib/**/*.contract.test.ts` | supporting check: route/state/context continuity | Vitest pure resolver |
 
-**主役は system**。Frontend は補助。永続化・DB 副作用は Backend 側で担保する。
+**System is primary** for persistence/cross-boundary backend behavior. Frontend tests are complementary.
 
-Frontend Flow Contract の正本は [`docs/testing/frontend-flow-contract.md`](../testing/frontend-flow-contract.md)。
+Frontend Flow Contract is defined in [`docs/testing/frontend-flow-contract.md`](../testing/frontend-flow-contract.md).
 
-### 1.1 Frontend 契約テスト（API 呼び出し）の境界
+### 1.1 Frontend API-call contract boundary
 
-Frontend integration は「期待した API が method / URL / payload で呼ばれるか」を補助的に検証する。DB 状態・跨サービス副作用は対象外。
+Frontend integration verifies that the expected API is called with the expected method/URL/payload. DB state and cross-service side effects are outside that test's scope.
 
 ### 1.2 Frontend Flow Contract
 
-コア導線の分岐・route・context は pure resolver + `*-FE-*` で保証する。
+Core journey branching, route, and context continuity use pure resolvers + `*-FE-*`.
 
 ---
 
-## 2. Flow ID
+## 2. Flow IDs
 
-- 正系: `<FLOW>-SYS-001`〜`099`
-- 逆系: `<FLOW>-SYS-101`〜`199`
-- FE: `<FLOW>-FE-NNN`
+- positive: `<FLOW>-SYS-001`–`099`
+- reverse/negative: `<FLOW>-SYS-101`–`199`
+- frontend: `<FLOW>-FE-NNN`
 
-Flow ID は `docs/flow/<機能>.md` のマトリクスとテスト名で完全一致させる。
-
----
-
-## 3. SIT が検証するもの
-
-正常系:
-
-1. request（method / path / payload）
-2. response（status / body）
-3. DB 状態
-4. side effect（該当時）
-
-逆系:
-
-- status / body
-- **意図しない DB write が無い**
-- side effect が発火していないこと（該当時）
+Flow IDs must exactly match between the `docs/flow/<feature>.md` matrix and test names.
 
 ---
 
-## 4. 認証・監査
+## 3. What SIT verifies
 
-会員向け mutation を追加・変更する場合は [audit-ui-persistence.md](./audit-ui-persistence.md) に従い、正常系 SIT で監査値を assert する。
+Positive path:
 
-### 4.1 監査 assert
+1. request — method/path/payload
+2. response — status/body
+3. DB state
+4. side effects when applicable
+
+Reverse path:
+
+- status/body
+- **no unintended DB write**
+- no side effect when it must not fire
+
+---
+
+## 4. Authentication / audit
+
+When adding or changing a member-facing mutation, follow [audit-ui-persistence.md](./audit-ui-persistence.md) and assert audit values in the positive SIT.
+
+### 4.1 Audit assertions
 
 - `created_by` / `created_app`
-- update 時 `updated_by` / `updated_app`
-- seed / migration 由来は対象外
+- `updated_by` / `updated_app` on update
+- seed/migration-origin rows are excluded
 
-認証 N/A の Flow は flow / validation で N/A を明示する。
-
----
-
-## 5. 外部境界
-
-有償 API / OAuth / 実メール等、決定論的ローカル縦串にできない経路は flow マトリクスで理由付き N/A とする。stub 可能なら request contract を検証する。
+If authentication is N/A for a Flow, state N/A in flow / validation.
 
 ---
 
-## 6. Frontend との境界
+## 5. External boundaries
 
-- 全 UI matrix を RTL で回さない
-- pure な分岐は contract
-- 代表 user interaction は integration
-- DB / 永続化は system
+Paid APIs, OAuth, real email, or other paths that cannot be deterministic local vertical tests are reasoned N/A in the Flow matrix. When stubbing is appropriate, verify the request contract.
 
 ---
 
-## 7. 完了
+## 6. Frontend boundary
+
+- do not run every UI matrix row through RTL
+- pure branching → contract test
+- representative user interaction → integration test
+- DB/persistence → system test
+
+---
+
+## 7. Completion
 
 - `make test`
-- flow / SYS / FE を触ったら `make survey`
-- Gap がある場合は「未実装」か「N/A」かを明示する
+- when flow / SYS / FE changes, run `make survey`
+- if a gap remains, state whether it is unimplemented or N/A
