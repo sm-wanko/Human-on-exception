@@ -6,6 +6,8 @@ export default function HomePage() {
     <main>
       <h1>Human-on-Exception</h1>
       <p>Laravel + TypeScript Task CRUD sample.</p>
+      <Link href="/login/">ログイン</Link>
+      <Link href="/register/">登録</Link>
       <Link href="/tasks/">Open tasks</Link>
     </main>
   )
