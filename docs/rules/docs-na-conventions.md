@@ -1,66 +1,62 @@
-# Docs N/A 宣言規約
+# Documentation N/A Conventions
 
-## 目的
+## Purpose
 
-DB 書き込み・参照がない API や、クライアント入力バリデーションの対象がない API は、単なる「書き忘れ」と区別するために各仕様 docs で明示的に **N/A** と宣言する。
+When an API has no DB read/write responsibility or no client-input validation responsibility, explicitly declare that dimension **N/A** so it is distinguishable from missing documentation.
 
-## 基本原則
+## Principles
 
-### 正本のみ記載（経緯・旧仕様は書かない）
+### Current contract only
 
-`docs/flow` / `docs/ui` / `docs/validation` / `docs/db` は **現行実装・現行契約の正本**。
+`docs/flow` / `docs/ui` / `docs/validation` / `docs/db` describe the **current implementation and current contract**.
 
-- **書く**: いまの API 契約・DB 状態・SIT 期待値
-- **書かない**: 旧 status、旧 ID、移行経緯
-- 経緯は `docs/testing/questions/`、有効な決定は `docs/testing/adr/`
+- **Include**: current API contract, DB state, SIT expectations.
+- **Do not include**: old status, old IDs, migration history.
+- Decision history belongs in `docs/testing/questions/`; active decisions belong in `docs/testing/adr/`.
 
-### N/A の扱い
+### Meaning of N/A
 
-- N/A は **当該観点の責務がないことを明示する仕様記述**
-- DB 非関与は `docs/db/*.md`
-- Validation 非適用は `docs/validation/*.md`
-- 外部 API / cache / auth 等の別責務は N/A で消さない
+- N/A is an explicit specification that the dimension has no responsibility.
+- DB non-participation belongs in `docs/db/*.md`.
+- Validation non-applicability belongs in `docs/validation/*.md`.
+- Do not use N/A to erase other responsibilities such as external API, cache, or auth.
 
-## 標準セクション名
+## Standard section names
 
 ### DB docs
 
 ```markdown
-## DB 非関与エンドポイント（N/A）
+## DB Non-Participation Endpoints (N/A)
 ```
 
 ### Validation docs
 
 ```markdown
-## バリデーション非適用エンドポイント（N/A）
+## Validation-Not-Applicable Endpoints (N/A)
 ```
 
-## 推奨テーブルフォーマット
+Existing project-specific headings may remain when surveys depend on exact text; change them only with the corresponding tooling/docs update.
 
-| method | path | 振る舞い | 実装ファイル |
+## Recommended table
+
+| method | path | behavior | implementation |
 |---|---|---|---|
-| GET | `/api/example` | DB を触らず固定値を返す | `apps/backend/...` |
+| GET | `/api/example` | returns a fixed value without DB access | `apps/backend/...` |
 
-## レビュー時のチェックポイント
+## Review checks
 
-- 標準セクション名が完全一致
-- method / path が実装 route と一致
-- N/A 理由が実装根拠を持つ
-- N/A で別責務を隠していない
+- Standard section heading matches the repository convention.
+- method/path matches the implemented route.
+- N/A reason has implementation evidence.
+- N/A is not hiding a different responsibility.
 
-## アンチパターン
+## Anti-patterns
 
-- N/A と書きながら DB を触る
-- N/A と書きながら入力検証が必要
-- 「未調査」「たぶん不要」を N/A 理由にする
-- API 仕様の欠損を N/A で隠す
+- declaring N/A while touching DB
+- declaring N/A while input validation is required
+- using "not investigated" or "probably unnecessary" as an N/A reason
+- hiding missing API specification behind N/A
 
-## SIT マトリクスにおけるスコープ外の明示
+## Out-of-scope SIT paths
 
-`docs/flow/*.md` のテストマトリクスで縦串 SIT に含めない境界は:
-
-```markdown
-### SIT スコープ外（N/A）
-```
-
-として対象経路・理由を明示する。未着手と混同しない。
+For boundaries intentionally excluded from vertical SIT in a `docs/flow/*.md` test matrix, use the repository's standard **SIT out-of-scope (N/A)** section and record path + reason. Do not confuse this with unfinished implementation.
