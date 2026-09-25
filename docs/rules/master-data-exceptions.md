@@ -1,47 +1,48 @@
-# Master Data 例外許可ルール
+# Master Data Exception Rules
 
-**原則**: 本番 path では、マスタ由来ラベル・seed ID 直書き・生成物の手編集を避け、DB / API / project が定めた Source of Truth を使う。  
-**本 doc**: 意図的な例外だけを列挙する。
+**Principle**: on production paths, avoid hard-coded master labels, seed-ID literals, and manual edits to generated artifacts. Use the DB / API / project-defined Source of Truth.
 
----
-
-## 1. 本番 path との境界
-
-| 区分 | 扱い |
-|------|------|
-| 本番 | DB / API / 正式な設定が正本 |
-| test fixture | 本番 mirror として運用しない。契約検証に必要な最小値のみ |
-| 生成物 | 生成元を正本とし、手編集しない |
+**This document** lists only intentional exceptions.
 
 ---
 
-## 2. 例外一覧
+## 1. Production-path boundary
 
-現在のサンプル `TASK_CRUD` には **Master Data 例外なし**。
-
-新しい例外を追加する場合は、この表に正本・許可理由・検証方法を同一 PR で追加する。
-
-| ID | 種別 | 正本 | 許可内容 | 検証 |
-|----|------|------|----------|------|
-| — | — | — | 該当なし | — |
+| Category | Handling |
+|---|---|
+| production | DB / API / official configuration is authoritative |
+| test fixture | do not operate as a production mirror; keep only values needed for contract verification |
+| generated artifact | generator/source is authoritative; do not hand-edit |
 
 ---
 
-## 3. URL / 固定値マッピング
+## 2. Exceptions
 
-現在は該当なし。
+The current sample `TASK_CRUD` has **no master-data exceptions**.
+
+When adding an exception, add its source of truth, allowed reason, and verification method to this table in the same PR.
+
+| ID | category | source of truth | allowed exception | verification |
+|---|---|---|---|---|
+| — | — | — | none | — |
 
 ---
 
-## 4. CI 検証
+## 3. URL / constant mappings
 
-例外が追加された場合は、その例外が drift しない検証を `make lint` / `make survey` のどちらかへ追加する。
+None currently.
 
 ---
 
-## 5. 完了判定
+## 4. CI verification
 
-- [ ] 例外が本当に必要
-- [ ] Source of Truth が明示
-- [ ] 本番 path の二重管理になっていない
-- [ ] drift 検知方法がある
+If an exception is added, add drift detection to either `make lint` or `make survey`.
+
+---
+
+## 5. Completion check
+
+- [ ] the exception is genuinely necessary
+- [ ] Source of Truth is explicit
+- [ ] production data is not managed in two places
+- [ ] a drift-detection method exists
