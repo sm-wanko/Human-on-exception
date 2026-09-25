@@ -1,6 +1,6 @@
 # AI Agent Rules (Human-on-Exception)
 
-**Target agents**: Cursor / Claude Code / CodeX.
+**Target agents**: Cursor / Claude Code / CodeX. **Review and response language remains Japanese**, preserving the repository's existing behavior.
 
 **Feature index**: [`docs/testing/core-features.md`](./docs/testing/core-features.md) → [`docs/ai/packs/`](./docs/ai/packs/) (paths + Flow IDs + completion `make` commands only; do not copy flow bodies into packs).
 
