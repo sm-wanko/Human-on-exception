@@ -1,56 +1,59 @@
-# Bugbot（Human-on-Exception）
+# Bugbot (Human-on-Exception)
 
-PR diff レビュー用。IDE Agent 用の `.cursor/rules/*.mdc` とは別系統。
-[独立 AI レビュー契約](../docs/rules/ai-review.md) を適用し、実装者とは別コンテキストで AC / diff / test を評価する。
-コメントは日本語。実装提案より **バグ・セキュリティ・仕様逸脱・回帰リスク** を優先する。
-スタイルのみ・推測での称賛・変更意図の推測はしない。問題が無ければ簡潔に。
+For PR diff review. This is separate from IDE Agent rules under `.cursor/rules/*.mdc`.
 
-共有の正本（必要時のみ参照）:
+Apply the [independent AI review contract](../docs/rules/ai-review.md) and evaluate AC / diff / tests from a context separate from the implementer.
+
+**Write review comments in Japanese**, preserving the repository's existing review-language behavior.
+
+Prioritize **bugs, security, specification deviation, and regression risk** over implementation suggestions. Do not add style-only comments, speculative praise, or speculation about change intent. If there is no issue, keep the review concise.
+
+Shared sources of truth — open only when needed:
 
 - [AGENTS.md](../AGENTS.md)
 - [.github/copilot-instructions.md](../.github/copilot-instructions.md)
 
 ---
 
-## 指摘してよいこと
+## Valid findings
 
-- 実バグ・回帰・データ破壊・権限漏れ・認証/CORS の危険な緩和
-- 依頼範囲外の API 仕様変更・ビジネスロジック変更・レイヤー破壊
-- 会員向け mutation の監査抜け
-- テスト欠落が動作リスクに直結する場合
+- real bugs, regressions, destructive data changes, authorization leaks, unsafe auth/CORS relaxation
+- out-of-scope API contract or business-logic changes, or layer violations
+- missing audit behavior on member-facing mutations
+- missing tests when the absence creates concrete behavior risk
 
-## 指摘しなくてよいこと（false positive 抑制）
+## Findings to suppress as false positives
 
-- migration / seed / fixture 由来行の監査列が会員 UI 経路と同じでないこと
-- schema に監査列が無い table へ audit migration が無いこと
-- flow で N/A とした境界が「未完成」であること
-- docs のみを根拠にした「実装が docs と違うので実装を直せ」（SoT: implementation → system test → flow）
-- lint/format だけの差分、純粋なコメント・docs 文言整理（リスクが無い限り）
-
----
-
-## Backend: 会員向け mutation の監査（ブロッカー寄り）
-
-`apps/backend/app/**` で認証済み UI/API からの登録・更新・削除相当を追加・変更している場合は、[docs/rules/audit-ui-persistence.md](../docs/rules/audit-ui-persistence.md) の MUST を適用する。
+- migration / seed / fixture audit values differing from member UI-path audit values
+- no audit migration for a table whose schema intentionally has no audit columns
+- treating a Flow boundary explicitly marked N/A as "unfinished"
+- demanding implementation changes based only on docs when current-state SoT is implementation → system test → flow
+- lint/format-only differences or pure comment/docs wording cleanup unless they create risk
 
 ---
 
-## 変更範囲のガードレール
+## Backend: member-facing mutation audit
 
-依頼・PR 説明に無い限り、次は高優先で指摘する:
-
-- API パラメータ / レスポンス形の変更
-- 認証・CORS・セキュリティ設定の削除や緩和
-- route / bootstrap へのビジネスロジック追加
-- レイヤー責務の跨ぎ（Controller が DB、Repository が HTTP 等）
+When a PR adds or changes create/update/delete-equivalent behavior under `apps/backend/app/**` reachable from authenticated UI/API, apply the MUST rules in [audit-ui-persistence.md](../docs/rules/audit-ui-persistence.md).
 
 ---
 
-## コメントの書き方
+## Change-scope guardrails
 
-各指摘に次を含める:
+Unless explicitly requested or explained in the PR, treat these as high-priority findings:
 
-1. 何が問題か（1〜2 文）
-2. 影響範囲（誰・どのデータ・どの経路）
-3. 再現または確認手順（分かれば）
-4. 望ましい修正の方向（コード丸ごと書き換え提案は控えめに）
+- API parameter / response-shape changes
+- removal or weakening of auth, CORS, or security settings
+- business logic added to route/bootstrap wiring
+- layer responsibility crossing such as Controller→DB or Repository→HTTP
+
+---
+
+## Finding format
+
+Each finding should include:
+
+1. what is wrong in 1–2 sentences
+2. impact scope — who/data/path
+3. reproduction or confirmation steps when known
+4. preferred correction direction without rewriting the whole implementation
