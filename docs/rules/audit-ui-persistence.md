@@ -1,28 +1,28 @@
-# 監査（会員経由の永続化）
+# Audit for Member-Facing Persistence
 
-画面または認証済み API からの **会員向け mutation**（登録・更新・削除相当の DB 書き込み）における監査カラム（`created_by` / `created_app` / `updated_*`）の正本。
+This is the source of truth for audit columns (`created_by` / `created_app` / `updated_*`) on **member-facing mutations** initiated from UI or authenticated APIs.
 
-ツール専用フック: [`.cursor/rules/01-audit-ui-persistence.mdc`](../../.cursor/rules/01-audit-ui-persistence.mdc)、[`.github/copilot-instructions.md`](../../.github/copilot-instructions.md)。
+Tool-specific hooks: [`.cursor/rules/01-audit-ui-persistence.mdc`](../../.cursor/rules/01-audit-ui-persistence.mdc), [`.github/copilot-instructions.md`](../../.github/copilot-instructions.md).
 
 ---
 
-## MUST（実装）
+## MUST — implementation
 
-- **Controller**: 認証済みユーザー ID を取得し、**Service の引数に渡す**
-- **Service**: mutation の actor / app / action を監査 context/value として Repository へ渡す
-- **Repository（write path）**: 監査値を DB に bind。会員経路で `"USER"` / `"system"` 等を場当たり的に直書きしない
+- **Controller**: obtain the authenticated user/member ID and pass it into the Service.
+- **Service**: pass mutation actor / app / action to the Repository through the project's audit context/value.
+- **Repository (write path)**: bind audit values into DB writes. Do not ad-hoc hard-code values such as `"USER"` or `"system"` on member-facing paths.
 
-Laravel 実装では project の Audit DTO / ValueObject / observer 等、既存方式を正本とする。新しい監査方式を勝手に並立させない。
+For Laravel, the project's existing Audit DTO / ValueObject / observer mechanism is authoritative. Do not introduce a parallel audit mechanism without an explicit decision.
 
-## MUST（SIT）
+## MUST — SIT
 
-- 新規または変更した会員向け mutation は [system-test-strategy.md](./system-test-strategy.md) §4.1 に従い正常系で **DB 監査 assert**
-- migration / seed / fixture 由来の行は画面経路監査の対象外
+- New or changed member-facing mutations must assert DB audit values on the positive path according to [system-test-strategy.md](./system-test-strategy.md) §4.1.
+- Rows originating from migration / seed / fixtures are outside UI-path audit requirements.
 
-## スキーマ上監査列が無いテーブル
+## Tables without audit columns
 
-監査列がない junction 等へ、本 rule だけを理由に migration を追加しない。親行または既存監査方式で追跡する。
+Do not add a migration to junction tables or similar solely because of this rule when the schema intentionally has no audit columns. Track through the parent record or existing audit mechanism.
 
-## サンプル TASK_CRUD
+## Sample TASK_CRUD
 
-認証自体が Flow Scope 外のため監査も N/A。これは `docs/validation/タスクCRUD.md` / `docs/db/タスクCRUD.md` に明示する。
+Authentication itself is outside Flow Scope, so audit is N/A. State this explicitly in `docs/validation/タスクCRUD.md` / `docs/db/タスクCRUD.md`.
