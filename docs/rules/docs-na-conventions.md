@@ -21,21 +21,23 @@ When an API has no DB read/write responsibility or no client-input validation re
 - Validation non-applicability belongs in `docs/validation/*.md`.
 - Do not use N/A to erase other responsibilities such as external API, cache, or auth.
 
-## Standard section names
+## Standard section names — exact strings are part of the current contract
+
+The existing Japanese headings are intentionally preserved because repository surveys may depend on exact text.
 
 ### DB docs
 
 ```markdown
-## DB Non-Participation Endpoints (N/A)
+## DB 非関与エンドポイント（N/A）
 ```
 
 ### Validation docs
 
 ```markdown
-## Validation-Not-Applicable Endpoints (N/A)
+## バリデーション非適用エンドポイント（N/A）
 ```
 
-Existing project-specific headings may remain when surveys depend on exact text; change them only with the corresponding tooling/docs update.
+Do not translate or rename these headings unless the corresponding survey/tooling and docs contract are changed in the same authorized change.
 
 ## Recommended table
 
@@ -59,4 +61,10 @@ Existing project-specific headings may remain when surveys depend on exact text;
 
 ## Out-of-scope SIT paths
 
-For boundaries intentionally excluded from vertical SIT in a `docs/flow/*.md` test matrix, use the repository's standard **SIT out-of-scope (N/A)** section and record path + reason. Do not confuse this with unfinished implementation.
+For boundaries intentionally excluded from vertical SIT in a `docs/flow/*.md` test matrix, use the exact current heading below and record path + reason:
+
+```markdown
+### SIT スコープ外（N/A）
+```
+
+ Do not confuse this with unfinished implementation.
