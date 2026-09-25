@@ -1,36 +1,40 @@
-# Docs 追従（正本）
+# Documentation Synchronization
 
-flow / ui / validation / db・遷移・テスト ID の **同一変更系列**での揃え方。N/A の書き方は [`docs-na-conventions.md`](./docs-na-conventions.md)。SIT 戦略は [`system-test-strategy.md`](./system-test-strategy.md)。
+This rule defines how flow / ui / validation / db docs, transitions, and test IDs stay aligned in the **same change series**.
 
-4点セットは、人間がコードを読まずに機能と制約を理解するための機能概要書でもある。AIが現在の実装・検証と揃えて作成・更新する。読者に実装や逐次レビューを要求しない。目的・概念は concept、採用理由は ADR、反復判断は Policy を参照し、[判断継承規約](./domain-decisions.md)に従う。
+For N/A declarations, see [docs-na-conventions.md](./docs-na-conventions.md). For SIT strategy, see [system-test-strategy.md](./system-test-strategy.md).
+
+The 4-point set is also a human-facing feature overview that lets people understand behavior and constraints without reading code. AI creates and maintains it in sync with current implementation and verification. Readers are not required to implement or perform line-by-line review.
+
+Purpose/core concepts live in concept, adopted reasons in ADR, repeatable decisions in Policy. Follow [domain-decisions.md](./domain-decisions.md).
 
 ---
 
 ## MUST
 
-- **4 点セットを同一変更系列で揃える**: `docs/flow/<機能>.md` をアンカーに、関連する `docs/ui` / `docs/validation` / `docs/db` を同じ PR / 変更系列で更新する。
-- **`docs === 実装`**: Scope / Entry Point / Normal Flow / **テストマトリクス**を実装と矛盾させない。
-- **不要な観点は N/A**: 本当に責務が無いクアドラントだけ省略し、該当 docs で **N/A** と明示する。
-- **画面追加**: route 追加時は同一変更系列で [`docs/transition/遷移定義.md`](../transition/遷移定義.md) を更新し、`make docs` / `make survey`。
-- **SYS-ID / FE-ID を追従**: Backend 縦串は `*-SYS-*`、画面起点の契約は `*-FE-*` を併記し、テスト名と突き合わせ可能にする。
-- **SIT 不能はマトリクスで N/A**: 外部本番サービス等は理由付き N/A。未着手と混同しない。
+- **Keep the 4-point set aligned in the same change series**: use `docs/flow/<feature>.md` as the anchor and update related `docs/ui` / `docs/validation` / `docs/db` in the same PR/change series.
+- **`docs === implementation`**: Scope, Entry Point, Normal Flow, and the **test matrix** must not contradict implementation.
+- **Use N/A only for genuinely absent responsibility**: omit a quadrant only when that responsibility does not exist, and mark the relevant doc explicitly N/A.
+- **New screen/route**: update [`docs/transition/遷移定義.md`](../transition/遷移定義.md) in the same change series and run `make docs` / `make survey`.
+- **Keep SYS-ID / FE-ID aligned**: backend vertical contracts use `*-SYS-*`; UI-origin contracts use `*-FE-*`; IDs must be traceable to test names.
+- **SIT-impossible boundaries are reasoned N/A**: production-only external services, etc. must be marked N/A with a reason; do not confuse N/A with not implemented.
 
-## 4 点セットの責務（文章コピー禁止）
+## 4-point responsibilities — do not copy prose across files
 
-| 文書 | 書くこと |
-|------|----------|
-| `flow` | ユーザー導線、API 順序、テストマトリクス |
-| `ui` | 画面表示・操作 |
-| `validation` | 入力、認証、エラー |
-| `db` | 永続状態、Tx、更新結果 |
+| Document | Owns |
+|---|---|
+| `flow` | user journey, API order, test matrix |
+| `ui` | display and interaction |
+| `validation` | input, auth, errors |
+| `db` | persisted state, transactions, write results |
 
-同じ API レスポンス定義・正常系・エラーコード表を複数ファイルにコピーしない。
+Do not duplicate the same response contract, happy-path prose, or error table across multiple files.
 
-## 機能単位（1 : 有界な N）
+## Feature unit — 1 : bounded N
 
-- 同一機能は原則 **4 点セット**を上限とする。
-- 新規は `docs/templates/` または既存セットの複製から束ねて追加する。
+- A feature should normally have at most the 4-point set.
+- For a new feature, start from `docs/templates/` or an existing set and keep the bundle cohesive.
 
-## 完了コマンド（docs 触ったとき）
+## Completion when docs change
 
-- `make docs` / `make survey`。詳細はルート [`AGENTS.md`](../../AGENTS.md)。
+Run `make docs` / `make survey`. See root [`AGENTS.md`](../../AGENTS.md).
