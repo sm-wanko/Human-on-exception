@@ -1,36 +1,36 @@
-# Backend コーディング規約（詳細・索引）
+# Backend Coding Conventions — Detailed Reference
 
-> **AI（Cursor / Claude Code / CodeX）**: 毎回読む正本は **[backend-quick.md](./backend-quick.md)**。  
-> 本ファイルは **コード例・手順の深掘り**用。MUST / 禁止 / レイヤ責務の正本は quick に集約済み（ここに重複記載しない）。
+> **AI (Cursor / Claude Code / CodeX)**: the always-read source of truth is [backend-quick.md](./backend-quick.md).  
+> This file provides deeper examples and procedures. MUST / prohibitions / layer responsibilities remain authoritative in quick; do not duplicate them here.
 
-**適用範囲**: `apps/backend/` のみ。
-
----
-
-## quick との対応
-
-| トピック | 正本 |
-|----------|------|
-| MUST NOT・完了 | [backend-quick.md §1, §10](./backend-quick.md) |
-| レイヤ責務・配置 | [§2, §3](./backend-quick.md) |
-| エラー・DB要約・ログ・命名 | [§4–7, §9](./backend-quick.md) |
-| **Tx 境界・migration 詳細** | **本ファイル §Tx / §マイグレーション** |
-| **PHPDoc** | quick §8 + **本ファイル §コメント** |
-| テスト | quick §10 + **本ファイル §テスト** |
+**Scope**: `apps/backend/` only.
 
 ---
 
-## プロジェクト構成（参照用）
+## Mapping to quick
+
+| Topic | Source |
+|---|---|
+| MUST NOT / completion | [backend-quick.md §1, §10](./backend-quick.md) |
+| Layer responsibilities / placement | [§2, §3](./backend-quick.md) |
+| Errors / DB summary / logs / naming | [§4–7, §9](./backend-quick.md) |
+| **Tx boundary / migration detail** | **this file: Tx / Migration** |
+| **PHPDoc** | quick §8 + this file: Comments |
+| Tests | quick §10 + this file: Tests |
+
+---
+
+## Project structure reference
 
 ```
 apps/backend/
 ├── app/
-│   ├── Http/Controllers/      # handler 相当
+│   ├── Http/Controllers/      # handler equivalent
 │   ├── Http/Requests/         # HTTP validation
 │   ├── Http/Resources/        # API response
 │   ├── Services/              # business / orchestration
 │   ├── Repositories/          # persistence
-│   ├── DTO/                   # Quick / Detail 等
+│   ├── DTO/                   # Quick / Detail etc.
 │   └── Models/
 ├── database/migrations/
 ├── routes/
@@ -42,7 +42,7 @@ apps/backend/
 
 ---
 
-## Controller 実装例
+## Controller example
 
 ```php
 public function show(int $task, TaskService $service): JsonResponse
@@ -53,11 +53,11 @@ public function show(int $task, TaskService $service): JsonResponse
 }
 ```
 
-Controller は bind / status / response mapping のみ。
+Controller only binds, maps status, and returns the response.
 
 ---
 
-## Service：エラー正規化例
+## Service — exception normalization example
 
 ```php
 public function getDetail(int $id): TaskDetail
@@ -74,7 +74,7 @@ public function getDetail(int $id): TaskDetail
 
 ---
 
-## Repository：Query 例
+## Repository — query example
 
 ```php
 public function listQuick(): array
@@ -90,61 +90,61 @@ public function listQuick(): array
 
 ---
 
-## Tx 境界
+## Transaction boundary
 
-- **単一 Repository・単一 write**: Repository 内で完結してよい
-- **複数 Repository / 複数 write の原子性が必要**: Service が `DB::transaction` でオーケストレーション
-- 外部 HTTP / Queue 等の非 DB 副作用を DB rollback 可能と誤認しない。必要なら outbox / after-commit 等を設計する
+- **Single Repository / single write**: may complete inside Repository.
+- **Multiple Repositories / writes requiring atomicity**: Service orchestrates with `DB::transaction`.
+- Do not treat external HTTP/Queue side effects as DB-rollbackable. Use outbox/after-commit or another explicit design when required.
 
-## Query（ユースケース単位の哲学）
+## Query philosophy — use-case specific
 
-- 一覧用と詳細用で読む列・relation が違うなら **query を分ける**
-- 巨大な万能 query / flag 地獄を避ける
-- binding・N+1 回避を維持
-- Quick / Detail を無理に 1 DTO にまとめない
-
----
-
-## コメント（PHPDoc）詳細
-
-quick §8 が正本。補足のみ。
-
-| 種別 | ルール |
-|------|--------|
-| public class/method | 非自明な入出力・副作用・権限 |
-| 複雑な public | 2〜4 行程度 |
-| 触った public | 同一 PR で不足を補う |
-| 禁止 | 仕様全文コピー、docs メタだけのコメント |
+- If list and detail read different columns/relations, separate the queries.
+- Avoid a giant universal query or flag maze.
+- Preserve bindings and N+1 avoidance.
+- Do not force Quick / Detail into one DTO.
 
 ---
 
-## マイグレーション
+## Comments / PHPDoc
 
-| コマンド | 用途 |
-|----------|------|
-| `php artisan migrate` | 最新まで適用 |
-| `php artisan migrate:rollback` | ロールバック |
-| `php artisan make:migration ...` | 新規作成 |
+Quick §8 is authoritative; this is supplemental.
 
-- Laravel migration を正本とする
-- destructive change は既存データ・rollout を確認
-- seed / fixture は migration と混ぜない
+| Kind | Rule |
+|---|---|
+| public class/method | document non-obvious input/output/side effects/authorization |
+| complex public surface | roughly 2–4 lines when useful |
+| touched public surface | fill missing docs in the same PR |
+| prohibited | full specification copies or docs-metadata-only comments |
 
 ---
 
-## テスト（詳細）
+## Migrations
 
-| コマンド | 対象 |
-|----------|------|
+| Command | Use |
+|---|---|
+| `php artisan migrate` | apply to latest |
+| `php artisan migrate:rollback` | rollback |
+| `php artisan make:migration ...` | create migration |
+
+- Laravel migration is authoritative.
+- For destructive changes, inspect existing data and rollout.
+- Do not mix seed/fixture data into migration responsibility.
+
+---
+
+## Tests
+
+| Command | Scope |
+|---|---|
 | `make test` | PHPUnit Feature / Unit |
-| `php artisan test` | Laravel test |
+| `php artisan test` | Laravel tests |
 
-SIT は [system-test-strategy.md](./system-test-strategy.md)。
+For SIT, see [system-test-strategy.md](./system-test-strategy.md).
 
 ---
 
-## 自動反復レビュー（AI 作業手順）
+## Automated iterative AI review
 
-1. 現状レビュー → 2. 修正 → 3. 再レビュー → 4. MUST 違反ゼロまで繰り返し
+1. Review current state → 2. Fix → 3. Review again → 4. repeat until no MUST violation remains.
 
-**完了条件**: MUST 違反なし／未対応項目を明示／影響範囲を説明できる／テスト追加または既存で担保
+**Done**: no MUST violation, unresolved items stated, impact explainable, and test coverage added or demonstrably existing.
