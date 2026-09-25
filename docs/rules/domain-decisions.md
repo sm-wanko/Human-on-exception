@@ -1,64 +1,76 @@
-# プロダクトの意味と判断の継承
+# Product Meaning and Decision Inheritance
 
-人間が決めた目的・境界を、AI が具体的な仕様・実装・検証へ変換するための規約。[実行契約](./ai-workflow.md) と併用する。工程名や一般的な開発手法から、この repo の目的を推定しない。
+This rule defines how AI turns human-decided purpose and boundaries into concrete specification, implementation, and verification. Use it with [ai-workflow.md](./ai-workflow.md).
 
-## 調査の入口
+Do not infer this repository's product purpose from workflow names, framework conventions, implementation size, or generic software categories.
 
-対象の Pack / Flow から、関係する concept・有効な ADR・Policy だけをたどる。プロダクトの目的、用語の意味、判断理由を理解してから Questions を作る。全資料の一括読込は必要ない。
+## Investigation entrypoint
 
-| 資料 | 答えること | 更新する場面 |
+From the relevant Pack / Flow, follow only the related concept, active ADR, and Policy. Understand purpose, terminology, units, actor boundaries, and decision reasons before generating Questions. Do not load every document by default.
+
+| Material | What it answers | When to update |
 |---|---|---|
-| [concept](../concept/README.md) | 誰の何を解決するか、主要概念・成功条件・非対象 | 合意した目的や概念が変わる |
-| [ADR](../testing/adr/README.md) | 何を選び、何を退け、なぜそうしたか | 意味・権限・互換性に残る設計判断 |
-| [Policy](../testing/policy/README.md) | 確定した判断を、個々の作業へどう適用するか | 同じ判断を繰り返す運用が生まれる |
-| Questions / Issue | 何が未決か、今回どの回答・範囲・ACを採用したか | 意思決定と変更範囲の確定 |
-| code / 4点セット / test | 現在どう動き、何を検証するか | 実装を変更する |
+| [concept](../concept/README.md) | Whose problem is solved, purpose, core concepts, success conditions, non-goals | Agreed purpose/core concept changes |
+| [ADR](../testing/adr/README.md) | What was selected/rejected and why | Durable design decisions about meaning, authority, compatibility |
+| [Policy](../testing/policy/README.md) | How an already accepted decision is repeatedly applied | A repeatable decision process appears |
+| Questions / Issue | What is unresolved; which answers/scope/AC are accepted for this change | Decision-making and scope definition |
+| code / 4-point docs / test | How the product currently behaves and what is verified | Implementation changes |
 
-新規プロダクトでは AI が concept 案を作り、目的・境界の未決だけを質問する。人間に資料作成を要求しない。ADR / Policy は必要な判断・反復作業があるときに作り、空の文書を数合わせで増やさない。
+For a new product, AI drafts concept material and asks only about unresolved purpose/boundary decisions. Do not require humans to author documentation. Create ADR / Policy only when there is an actual decision or repeatable rule; do not create empty files to satisfy a count.
 
-## 意味を壊さないための確認
+Follow [language-policy.md](./language-policy.md) for bilingual human-facing decision material.
 
-対象の機能について下表を調査する。既に決まる内容は再質問しない。複数解釈が利用者への約束を変える場合だけ、人間の判断へ戻す。
+## Checks that protect meaning
 
-| 観点 | 確認する内容 |
+For the affected feature, investigate the dimensions below. Do not re-ask what existing evidence already determines. Return to human decision only when multiple interpretations would change the promise made to users.
+
+| Dimension | What to check |
 |---|---|
-| 概念と表現 | 表示名・入力表現・内部ID・分類用途を区別する。同じ言葉を同じ概念だと決めつけない |
-| 信頼境界 | 入力の前提、契約外入力の扱い、前提を強制する場所と未保証の範囲 |
-| 具体例と反例 | 採用する例、似ているが採用しない例、未指定・不明・不成立の結果 |
-| 表示と評価 | 内部の評価値と利用者に伝える意味。参考情報を確定事実として表示しない |
-| 主体と代理 | 認証主体・操作主体・所有/管理主体・体験/記録主体・検索/判断主体を分ける。FK・ログイン・投稿者だけで「主役」を決めない |
-| 単位 | 何を1件と数えるか、保存・集約・一意性・編集・削除・表示の単位。一括UIとドメイン上の1件を混同しない |
-| 根拠の強さ | 事実・候補・推定・確定・参考・反例を分け、内部評価から利用者向け主張を勝手に強めない |
-| 対機能 | 共通に守る体験・契約と、ドメイン固有の差分。内部構造の一律化は要求しない |
+| Concept vs expression | Distinguish display labels, input wording, internal IDs, and classification roles. Similar wording is not proof of identical concepts |
+| Trust boundary | Input assumptions, contract-external input, where assumptions are enforced, and what remains unguaranteed |
+| Examples / counterexamples | Accepted examples, similar-looking but rejected examples, omitted/unknown/unsatisfied outcomes |
+| Display vs evaluation | Meaning of internal evaluation versus user-visible claims. Do not present reference/candidate information as confirmed fact |
+| Actors / proxying | Distinguish authentication actor, operating actor, owner/manager, experience/record subject, and search/decision actor. Do not determine the "protagonist" from FK/login/poster alone |
+| Units | What counts as one item for persistence, aggregation, uniqueness, editing, deletion, and display. Do not equate bulk UI with one domain record |
+| Evidence strength | Distinguish fact, candidate, inference, confirmation, reference, and counterevidence. Do not silently promote internal evaluation into a stronger user claim |
+| Counterpart features | Shared experience/contracts and intentional domain differences. Do not force identical internal structure |
 
-概念・根拠・表示の対応を AC とテストへ落とす。既存実装と契約の不一致は事実として記録し、実装優先を理由に合意仕様や逆系テストを消さない。
+Map concepts, evidence, and display expectations into AC and tests. If existing implementation conflicts with the agreed contract, record the current fact; do not delete agreed behavior or reverse tests merely because implementation currently differs.
 
-## AI が適用し、人間が決める境界
+## What AI applies vs what humans decide
 
-- 明示された Policy で決まる不足・誤りの修正は、許可範囲内で AI が実行する。個別に精査する作業も AI の責務に含む。
-- 新しい概念、既存概念への曖昧な対応付け、許容していないリスクは Questions にする。近い既存概念へ無理に寄せない。
-- 「個別精査」「手編集」「一括置換禁止」は、変更方法の制約として扱う。人間が全件作業・承認する要求へ読み替えない。判断権限は実行契約と明示された Scope に従う。
-- 対象ID・修正理由・反例・検証結果を残す。実データへの破壊的適用は既存の許可範囲を確認する。
-- 未決が0件なら、必要な観点を検討した結果の0件とする。未検討を0件として報告しない。
+- If an active Policy already determines a correction, AI applies it within authorized scope. Item-by-item inspection is still AI execution work.
+- New concepts, ambiguous mapping to existing concepts, or unaccepted risk return to Questions. Do not force a new concept into the nearest existing category.
+- "manual review", "individual inspection", or "no bulk replacement" describes the method constraint unless explicitly stated otherwise. Do not reinterpret it as a requirement for human approval of every item.
+- Preserve changed IDs, reasons, counterexamples, and verification evidence. Before destructive application to real data, check existing authorization.
+- Zero unresolved questions is valid only after required dimensions were actually considered. Do not report "0" as a substitute for investigation.
 
-## フレームを誤読しない
+## Avoid framing errors
 
-AI は implementation / DB / framework / file count から既知のカテゴリへ先に圧縮しない。まず concept・人間回答・Accepted ADR から「このプロダクトが最後まで守る問い / 約束」を短く言語化し、その後で各構造がその約束にどう従うかを説明する。
+Do not compress implementation / DB / framework / file count into a familiar product category first and then infer the product purpose from that category.
 
-局所 Pack は実装コンテキストを減らすための入口であり、全体思想の代替ではない。Issue の局所作業では必要な資料だけ読む一方、目的・主体・集約単位・表示意味を変える変更では、関係する concept / ADR / Policy へ戻って意味を確認する。
+First, from concept, human answers, and active ADR, state the short question or promise the product must preserve. Then explain how each relevant structure serves that promise.
 
-既存カテゴリ名（例: CRUD、レビュー、推薦、検索、SNS 等）は説明の便宜に使ってよいが、そのカテゴリが持つ典型的な意味を未確認で持ち込まない。AI が「普通はこうする」を理由に意味を補完する必要がある場合、それは技術判断ではなく Questions 候補である。
+A local Pack is an implementation-context minimizer, not a replacement for product meaning. For local Issue work, keep context narrow; when purpose, actors, aggregation units, or display meaning may change, return to the relevant concept / ADR / Policy.
 
-## 複雑さを評価するとき
+Generic labels such as CRUD, review, recommendation, search, or SNS may be used descriptively, but do not import the category's typical semantics unless they are explicitly accepted here. If AI needs "normally we would..." to invent product meaning, that is a Questions candidate, not an implementation decision.
 
-各構造を「どの要求・意味の区別・不変条件を守るか」に対応づける。簡略化は、同じ約束を保てる代替案と、失う性質・運用費用を具体化して提案する。抽象度やファイル数だけで過剰設計と断定せず、既存構造も無条件には正当化しない。
+## Evaluating complexity
 
-MVP / 小規模開発というラベルだけで区別を削らない。価値仮説を検証するために必要な保存単位・根拠分離・逆系・表示境界は MVP の一部になり得る。一方、意味に対応しない複雑性は「既にあるから」で正当化せず、削減候補として扱う。
+Map each structure to the requirement, semantic distinction, or invariant it protects.
 
-将来要件は、今必要な拡張点・後続で作る機能・見直しトリガーを分ける。人間が承認した拡張点を勝手に削らず、将来機能を前倒しして Scope を広げない。
+A simplification proposal must show a meaning-preserving alternative and explicitly state what properties or operational costs change. Do not call something overengineering merely because of abstraction depth/file count, and do not defend existing complexity merely because it already exists.
 
-## 決定の保持
+Do not use "MVP" or "small project" as a reason to remove necessary semantic distinctions. Persistence units, evidence separation, reverse cases, and display boundaries may be part of the MVP when they are required to test the value hypothesis.
 
-回答は Questions に出所と改訂履歴を残し、今回の AC は Issue、有効な設計判断は ADR、反復作業の具体的基準は Policy へ反映する。現在仕様は4点セットへ揃え、本文を複製せず相互リンクする。アーカイブを改名・削除するときも Issue から辿れる置換先または固定 revision を残す。
+Conversely, complexity with no corresponding meaning/invariant is not justified by history; treat it as a simplification candidate.
 
-運用ログ・offset・作業再開位置は Issue または専用の運用資料へ置き、要件定義の Questions と混ぜない。
+Separate future requirements into: extension points needed now, later work, and review triggers. Do not delete an approved extension point without decision, and do not pull future functionality into current Scope.
+
+## Preserving decisions
+
+Store human answers and their revisions in Questions; current AC in the Issue; durable accepted design decisions in ADR; repeatable criteria in Policy. Keep the current 4-point docs aligned and cross-link rather than duplicating full text.
+
+When archives are renamed/removed, preserve a replacement link or immutable revision reachable from the Issue.
+
+Operational progress, offsets, and resume positions belong in Issues or dedicated operations material, not in decision-history Questions.
