@@ -1,86 +1,90 @@
-# AI 実行契約
+# AI Execution Contract
 
-## 1. 人間と AI の責務
+## 1. Human and AI responsibilities
 
 **Humans decide intent and boundaries. AI owns execution.**
 
-人間は Intent（目的）、Scope（対象・非対象）、Answer（仕様の曖昧さへの回答）、Risk acceptance（リスク許容）を決める。これには「何を同じ意味として扱うか / 何を別の意味として残すか」という semantic boundary を含む。AI は調査、設計、Issue 起票、実装、テスト、静的解析、自己レビュー、docs、PR / Evidence、指摘判定・修正・再検証を所有する。AI は合意済みの意味を展開する実行主体であり、未合意の意味を確定する semantic authority ではない。
+Humans decide Intent, Scope (in/out), Answers to specification ambiguity, and Risk acceptance. This includes the semantic boundary: what may be treated as the same meaning and what must remain distinct.
 
-人間のコード読解・実装・逐次コードレビューは通常フローの前提でも required gate でもない。任意レビューは妨げない。5 本のプロンプトは開始・再開の入口であり、各段階の再承認を強制しない。既に許可された工程は続行する。マージ・公開・破壊的操作は事前に合意した権限の範囲で実行する。
+AI owns investigation, design, Issue creation, implementation, tests, static analysis, self-review, docs, PR/evidence, finding classification, fixes, and re-verification. AI is the execution owner that propagates agreed meaning. It is not the semantic authority that may invent or finalize unagreed meaning.
 
-人間へ戻すのは、調査後も目的・範囲が複数解釈できる、未承認の不可逆・破壊的変更、security / privacy / cost の許容判断、rules の解消不能な衝突だけ。質問時は根拠、なぜ AI に決定権がないか、影響、選択肢と推奨、停止対象、再開条件を示す。
+Human code reading, implementation, and line-by-line code review are neither prerequisites nor required gates in the normal workflow. Optional human review is allowed. The five prompts are entry/resume points, not five mandatory approval gates. Once a stage is already authorized, continue it. Merge, release, or destructive operations must remain within previously agreed permissions.
 
-通常のバグ・テスト失敗・レビュー指摘・既存ルールで決まる実装詳細は AI が解決する。権限・環境不足は実行不能の事実として記録し、必要最小限の接続・環境判断だけを求める。人間へ実装・レビューを丸投げしない。
+Return to the human only when, after investigation, purpose/scope still has multiple meaningful interpretations; when an irreversible/destructive action is not yet authorized; when security/privacy/cost risk acceptance is required; or when rules conflict in a way AI cannot resolve.
 
-## 2. 調査と Questions
+When asking, show: evidence, why AI lacks authority to decide, impact, options + recommendation, what is blocked, and what will resume after the answer.
 
-1. AGENTS の読む順で core-features → Pack / Flow → test → 実装 → 適用 rules を確認する。目的・意味に関わる変更は [domain-decisions](./domain-decisions.md) に従い、関係する concept・ADR・Policy も読む。関係する API / DB / UI の呼び出し先・対になる機能へ必要な範囲だけ追跡する。新規機能なら AI が concept / Pack / Flow / パス案を作る。
-2. Goal、成功条件、現状の事実と根拠パス・シンボル・参照 revision、変更案、Scope / Non-goals、制約・維持する契約を記録する。コードから判明することを人間に聞かない。
-3. Risks / Unknowns / Assumptions を分離する。推奨は回答ではない。未回答を採用済みにしない。
-4. 質問は意思決定が必要な項目だけ。安定した Q-ID、背景・具体例、選択肢と UX / データ / 互換性への影響、推奨と理由、未回答時に止まる範囲を付ける。人間がコードを読まずに答えられる言葉を使う。
-5. [テンプレート](../templates/questions.md) を使う。質問数をノルマにしない。質問 0 件も根拠があれば正当。権限範囲内の実装選択は「AI の技術判断」に記録する。
+Ordinary bugs, test failures, review findings, and implementation details already determined by existing rules are AI responsibilities. Missing permissions or environment access are execution blockers: record them and ask only for the minimum connection/environment decision required. Do not hand implementation or review back to the human.
 
-調査で必ず検討し、該当しない項目には理由を残す:
+## 2. Investigation and Questions
 
-| 観点 | 確認内容 |
+1. Follow AGENTS reading order: core-features → relevant Pack / Flow → tests → implementation → applicable rules. For changes that affect purpose or meaning, follow [domain-decisions](./domain-decisions.md) and read the relevant concept, active ADR, and Policy. Trace related API / DB / UI call sites and counterpart functionality only as needed. For a new feature, AI proposes concept / Pack / Flow / path structure.
+2. Record Goal, success conditions, current-state facts with evidence paths/symbols/revision, proposed change, Scope / Non-goals, constraints, and contracts that must remain true. Do not ask humans for facts obtainable from the repository.
+3. Separate Risks / Unknowns / Assumptions. A recommendation is not an answer. Never mark an unanswered item as accepted.
+4. Ask only about decisions that require human authority. Use stable Q-IDs and include background, concrete examples, effects of each option on UX/data/compatibility, recommendation + reason, and what remains blocked without an answer. Phrase questions so humans can answer without reading code.
+5. Use [the template](../templates/questions.md). Question count is not a target. Zero questions is valid when the required dimensions were investigated and the repository/accepted decisions already determine them. Record implementation choices within delegated authority as AI technical decisions.
+
+Every investigation must consider the following. If a dimension is not applicable, record why:
+
+| Dimension | What to verify |
 |---|---|
-| 意図・境界 | 今回の対象、後続必須、明示的に見送るもの、既存契約との関係 |
-| 概念・意味 | 用語、保存・集約・表示の単位、事実/候補/確定/参考、信頼境界、許容例と反例、適用ADR/Policy |
-| 主体 | 認証主体・操作主体・所有/管理主体・体験/記録主体・検索/判断主体。ログイン/FK/UI操作から主役を推定しない |
-| 単位の分離 | UIの1操作、一括入力、保存1件、一意性1件、編集1件、集約1件が同じか。違うならその境界と理由 |
-| 入力・一意性 | 未指定・空・不正・正規化・重複・再送・同時実行 |
-| 作成・更新 | POST と PUT、競合時の全体 rollback、既存データ・flag 切戻し |
-| UX continuity | 入口→選択→新規/編集→完了→戻り先、query/context 引継ぎ、候補 0/1/複数 |
-| 障害 | 成功した空結果・未認証・取得失敗の区別、fallback、rate limit、timeout |
-| 証拠・安全 | 認証・権限・監査、候補と確定の分離、履歴、外部費用・不可逆性 |
-| 横断 | 対になる機能、公開 API / 生成型 / docs、呼び出し元・fake の追従 |
-| 検証 | 正系・逆系・境界・回帰、SYS / FE-ID、実行コマンド、外部境界 N/A |
+| Intent / boundary | Current scope, required follow-up, explicit non-goals, relation to existing contracts |
+| Concepts / meaning | Terms; save/aggregate/display units; fact/candidate/confirmed/reference distinctions; trust boundary; allowed examples and counterexamples; applicable ADR/Policy |
+| Actors | Authentication actor, operating actor, owner/manager, experience/record subject, search/decision actor. Do not infer the domain protagonist from login/FK/UI operation alone |
+| Unit separation | Whether one UI action, bulk input, one persisted record, uniqueness record, edit unit, and aggregation unit are actually the same. If not, preserve and explain the boundaries |
+| Input / uniqueness | Omitted/empty/invalid input, normalization, duplicates, retries, concurrency |
+| Create / update | POST vs PUT, rollback on conflict, existing data, flag rollback |
+| UX continuity | Entry → selection → create/edit → completion → return; query/context continuity; 0/1/many candidates |
+| Failure | Successful empty result vs unauthenticated vs unavailable; fallback; rate limit; timeout |
+| Evidence / safety | Authentication, authorization, audit, candidate vs confirmed, history, external cost, irreversibility |
+| Cross-cutting | Paired features, public API/generated types/docs, callers and fakes |
+| Verification | Positive, reverse, boundary, regression; SYS / FE-ID; commands; reasoned N/A for external boundaries |
 
 ## 3. Answers → Issue
 
-回答を Q-ID ごとに原意を保って反映し、理由・回答元・日時または参照を記録する。不明な回答は確認し、再質問を消すために仕様を補完しない。
+Reflect answers by Q-ID without changing the original intent. Record reason and answer source/date/reference. If an answer itself is ambiguous, clarify it; do not invent detail merely to eliminate a follow-up question.
 
-変更回答は旧回答を superseded として新しい決定へリンクする。古いアーカイブを現行契約として復活させない。影響する Issue・受け入れ条件・テスト案を更新する。
+When an answer changes, retain the previous one as superseded and link to the new decision. Do not resurrect archived decisions as current contracts. Update affected Issues, AC, and test plans.
 
-回答のうち継続する設計判断は ADR、反復作業の具体的基準は Policy、目的や主要概念は concept へ必要に応じて反映する。AIが合意済み基準を適用し、新しい意味や未許容リスクだけを人間へ戻す。
+Promote durable design decisions to ADR, repeatable operational criteria to Policy, and agreed purpose/core concepts to concept when needed. AI applies already agreed criteria and returns only new meaning or unaccepted risk to humans.
 
-実装の blocker が 0 なら Ready。未決が残る場合は対象部分を止め、独立した確定済み範囲のみ進める。設計 Issue / Draft は作成可能だが実装 Ready と混同しない。Defer は理由・再開条件・必要なら後続 Issue を持つ。
+If implementation blockers are zero, mark Ready. If unresolved items remain, stop only the affected portion and continue independent decided work where safe. A design Issue / Draft may exist, but do not present it as implementation-ready. Deferred work must record reason, resume condition, and a follow-up Issue when needed.
 
-Issue はテンプレートに加え、次を含める:
+Every Issue must include, in addition to the template:
 
-- Goal、背景と事実、Questions の revision / Q-ID・回答へのリンク
-- Pack、Flow ID、触ってよいパス、禁止、Scope / Non-goals
-- 変更後の契約、維持する不変条件、Risks / Assumptions
-- 観測可能な AC-ID（前提・操作・結果）。必要な正常系・異常系・競合・移行を含める
-- `Q-ID / 決定 → AC-ID → SYS / FE-ID または検証方法 → docs` 対応表
-- 完了 make、docs 更新先、依存・順序、Epic / 子 Issue・PR のリンク
+- Goal, background/facts, Questions revision/Q-IDs and links to answers
+- Pack, Flow ID, allowed paths, prohibitions, Scope / Non-goals
+- target contract, invariants that must remain true, Risks / Assumptions
+- observable AC-IDs (precondition, action, result), including required positive/negative/concurrency/migration paths
+- mapping: `Q-ID / decision → AC-ID → SYS / FE-ID or verification method → docs`
+- completion `make`, docs update locations, dependencies/order, Epic/child Issue/PR links
 
-実装分割・ブランチ名は AI が決める。分割は契約・依存関係が分かる単位とし、対象範囲を変えない。Epic を使う場合は親作業ブランチから子ブランチを作り、統合先と順序を明記する。起票後は実在 URL を相互リンクし、重複起票を避ける。
+AI decides implementation splitting and branch names. Split by contracts/dependencies without changing Scope. When using an Epic, create child branches from the Epic work branch and record integration base/order. After creation, cross-link real URLs and avoid duplicate Issues.
 
-## 4. 実装 → PR
+## 4. Implementation → PR
 
-AI は Issue の AC と適用 rules をもとに計画・実装し、テスト・4 点セット・Pack を同一変更系列で揃える。新たな仕様判断だけ Questions へ戻す。変更許可範囲の拡張を「ついで」に実施しない。
+AI plans and implements from the Issue AC and applicable rules, and keeps tests, the 4-point docs, and Pack aligned in the same change series. Return only new specification decisions to Questions. Do not expand allowed scope "while here".
 
-自己レビューは実装者の責任で行う。別人格による独立レビューの代替にはしない。[ai-review.md](./ai-review.md) に従う。
+Self-review is part of the implementer's responsibility and does not replace a separate-context independent review. Follow [ai-review.md](./ai-review.md).
 
-PR に Issue、Pack、Flow ID、許可パス・実差分、変更理由、AC ごとの証拠、実行 command / 結果 / 対象 revision、未実行・失敗・N/A の理由を記録する。試行と成功、テスト ID 存在と実行成功を混同しない。環境不足はテスト削除・CI 緩和で隠さない。
+The PR must record Issue, Pack, Flow ID, allowed paths vs actual diff, why the change exists, evidence per AC, commands/results/revision, and reasons for anything not run/failed/N/A. Do not confuse attempted execution with success, or test-ID existence with executed success. Do not hide environment problems by deleting tests or weakening CI.
 
-集約コマンドが成功しても、各必須工程の終了結果・対象revision・skip/除外を確認する。過去の成功レポートやFail=0だけの集計を完了証拠にしない。契約と実動の不一致は、許可範囲内で修正するか未完了として記録する。
+Even when an aggregate command succeeds, verify each required stage's exit result, target revision, and skip/exclusion state. A historical success report or an aggregate Fail=0 is not completion evidence by itself. If actual behavior and contract differ, fix within authorized scope or record the work as incomplete.
 
-## 5. 完了・マージ
+## 5. Completion and merge
 
-- AC 全件に検証証拠。4 点セット・Pack・必要な対機能を揃える。Gap A = 0 だけで Done にしない。
-- 独立 AI レビューが実施済みで、妥当な指摘と未判定の指摘が残っていない。最新差分をカバーする根拠を記録する。
-- 必須チェックが対象 head で成功。pending / skipped / missing / 未実行を成功と見なさない。
-- 既に許可されたマージなら AI が実行する。プロンプト 5 はその対象 PR のマージ指示として扱う。main / develop を決め打ちせず PR base と repo の運用を確認する。
-- 実際の merge 結果を確認し、対応する Issue / Epic を更新する。Epic は子 Issue と統合検証が揃うまで閉じない。
+- Every AC has verification evidence. 4-point docs, Pack, and required counterpart features are aligned. Gap A = 0 alone is not Done.
+- Independent AI review has run, and no valid or unclassified finding remains.
+- Required checks are successful on the target head. Pending/skipped/missing/not-run is not success.
+- If merge is already authorized, AI performs it. Prompt 5 is merge authorization for its target PR. Do not hard-code main/develop; inspect the PR base and repository workflow.
+- Confirm the actual merge result and update linked Issues / Epic. Do not close an Epic until child Issues and integration verification are complete.
 
-通常フローへ人間コードレビューを追加しない。既存のブランチ保護・必須チェックが人間承認を要求する場合、AI が勝手に無効化・迂回せず、設定と本契約の不一致を具体的に報告する。
+Do not add mandatory human code review to the normal workflow. If existing branch protection requires human approval, do not disable or bypass it; report the concrete mismatch between repository settings and this contract.
 
-## 6. 現状の事実と変更仕様
+## 6. Current-state facts vs target change contract
 
-現状調査の SoT は `implementation → system test → flow → generated coverage`。古い docs のみで実装・テストを削除しない。
+For current-state investigation, SoT order is `implementation → system test → flow → generated coverage`. Do not delete implementation or tests because an old doc disagrees.
 
-合意した変更後の契約は Answers / Issue の AC と有効な決定を参照する。現在のバグを「実装が最上位だから正しい」として温存しない。新旧契約を区別できない場合のみ意思決定へ戻す。
+For an agreed change, the target contract comes from Answers / Issue AC plus active decisions. Do not preserve an acknowledged bug merely because implementation is top SoT for current-state facts. Return to decision-making only when old and new contracts cannot be distinguished.
 
-Questions は要件定義の経緯。実装後の現在仕様は code + flow / ui / validation / db、有効な設計判断は ADR / policy、進捗は Issue / PR。Questions を Issue close に連動した作業ログにしない。
+Questions are decision history. After implementation, current behavior lives in code + flow/ui/validation/db; active durable decisions live in ADR / Policy; progress lives in Issue / PR. Do not turn Questions into an Issue-close work log.
