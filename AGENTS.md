@@ -1,84 +1,87 @@
-# AI Agent Rules（Human-on-Exception）
+# AI Agent Rules (Human-on-Exception)
 
-**対象**: Cursor / Claude Code / CodeX のみ。日本語でレビュー・応答すること。
+**Target agents**: Cursor / Claude Code / CodeX.
 
-**機能索引**: [`docs/testing/core-features.md`](./docs/testing/core-features.md) → [`docs/ai/packs/`](./docs/ai/packs/)（パス列挙 + Flow ID + 完了 `make` のみ。flow 本文コピー禁止）。
+**Feature index**: [`docs/testing/core-features.md`](./docs/testing/core-features.md) → [`docs/ai/packs/`](./docs/ai/packs/) (paths + Flow IDs + completion `make` commands only; do not copy flow bodies into packs).
 
 ---
 
-## 実行と意思決定
+## Execution and decisions
 
-[AI 実行契約](./docs/rules/ai-workflow.md) を全工程に適用する。人間は Intent / Scope / Answer / Risk acceptance、AI は execution を所有する。人間コードレビューを required gate にしない。
+Apply the [AI execution contract](./docs/rules/ai-workflow.md) to every stage. Humans own Intent / Scope / Answer / Risk acceptance. AI owns execution. Human code review is not a required gate.
+
+Follow the [language policy](./docs/rules/language-policy.md). Agent-facing rules are English. Human-facing decision material may be bilingual, and translation must not change meaning.
 
 ## Review guidelines
 
-PR レビューとして起動された Codex は [独立 AI レビュー契約](./docs/rules/ai-review.md) を適用する。以下の実装遂行手順を実行する役ではなく、別コンテキストのレビュー者として Issue の AC・diff・rules・test を照合する。
+When Codex is invoked as a PR reviewer, apply the [independent AI review contract](./docs/rules/ai-review.md). The reviewer is not the implementation agent described below. It independently checks the Issue AC, diff, rules, and tests from a separate context.
 
-## 読む順（最小）
+## Minimal reading order
 
-0. **コア機能の束**: [`docs/testing/core-features.md`](./docs/testing/core-features.md)（該当 pack・Flow ID の索引）
-1. **Issue / PR** の Flow ID・触ってよいパス・禁止（Issue 起票前は依頼内容から該当束を自力で特定する）
-   - 目的・用語・集約単位・根拠の意味を扱うときは、該当する [concept](./docs/concept/README.md)・有効な ADR・Policy を [判断継承規約](./docs/rules/domain-decisions.md) に従って先に確認する。
-2. **該当 1 本だけ**: `docs/flow/<機能>.md`（Scope とマトリクス行。4 点セットはその機能に限り必要なら）
-3. **対応テスト**: 同 Flow の `*-SYS-*` → `apps/backend/tests/System/`、`*-FE-*` → `apps/frontend/src/**/*.contract.test.ts` / `*.integration.test.tsx`
-4. **実装ファイル**: Issue / PR または `docs/ai/packs/<bundle>.md` のマニフェスト
-5. **規約**: BE/FE は `docs/rules/backend-quick.md` / `frontend-quick.md`（常時）。詳細例のみ `*-coding-conventions.md`
+0. **Core feature bundle**: [`docs/testing/core-features.md`](./docs/testing/core-features.md) — index of the relevant pack and Flow IDs.
+1. **Issue / PR** — Flow ID, allowed paths, prohibitions. Before an Issue exists, identify the relevant bundle from the request.
+   - If the task changes purpose, terminology, aggregation units, actor boundaries, or evidence meaning, read the relevant [concept](./docs/concept/README.md), active ADR, and Policy first according to [domain decision inheritance](./docs/rules/domain-decisions.md).
+2. **Exactly one relevant flow**: `docs/flow/<feature>.md` — Scope and matrix rows. Read only the relevant 4-point docs when needed.
+3. **Corresponding tests**: `*-SYS-*` → `apps/backend/tests/System/`; `*-FE-*` → `apps/frontend/src/**/*.contract.test.ts` / `*.integration.test.tsx`.
+4. **Implementation files**: manifest in the Issue / PR or `docs/ai/packs/<bundle>.md`.
+5. **Rules**: always read `docs/rules/backend-quick.md` / `frontend-quick.md` for touched BE/FE areas. Read detailed conventions only when needed.
 
-## 読まない（初期探索で避ける）
+## Avoid during initial exploration
 
-- `coverage/docs/*`（`make docs` 生成物。gitignore）
-- `docs/flow/` の全ファイル横断 grep
-- `TECH_STACK.md` / `README.md` 全文（コマンド・環境は不明時だけ該当節）
-- `docs/rules/*` の全読み（触った領域の規約だけ、必要な節を参照）
-
----
-
-## 必須（毎タスク）
-
-1. 上記 **読む順 0→5** でコンテキストを取る（flow は **該当 1 本**、pack は該当束のみ）。
-2. Issue / PR を起票・作成するときは **Pack**・**Flow ID**・**触ってよいパス**・完了時 **`make`** を必ず含める。
-3. 完了前に下表どおり `make lint-*` / `make test-*`（構造変更時は `make survey` 等）。触った exported には PHPDoc / JSDoc MUST。
-4. 検証は `make` または各 app の既存コマンドを使う。ad-hoc な別環境を正本にしない。
-
-## 完了条件
-
-| 変更範囲 | 最低限 | 構造・docs 触ったとき |
-|----------|--------|------------------------|
-| Backend | ルート `make lint` → `cd apps/backend && make test` | 同上 + `make survey`（該当 flow） |
-| Frontend | ルート `make lint` → `cd apps/frontend && make test` | flow / route 変更時 `make survey` / `make docs` |
-| 横断 | `make test` | `make survey` / `make docs` |
+- `coverage/docs/*` generated output
+- cross-repository grep of every file under `docs/flow/`
+- full `TECH_STACK.md` / `README.md` unless the relevant section is needed
+- reading every file in `docs/rules/*`; open only rules relevant to the touched area
 
 ---
 
-## Source of Truth（矛盾時）
+## Required for every task
 
-1. implementation → 2. system test → 3. `docs/flow` → 4. `coverage/*`（生成物）
+1. Follow reading order **0→5**. Read one relevant flow and one relevant pack, not the whole repository by default.
+2. Every created Issue / PR must include **Pack**, **Flow ID**, **allowed paths**, and completion **`make`** commands.
+3. Before completion, run the required `make lint-*` / `make test-*` commands below. For structural changes, also run `make survey` as applicable. Add PHPDoc / JSDoc to touched exported/public surfaces.
+4. Use `make` or the app's existing commands for verification. Do not make an ad-hoc environment the source of truth.
 
-**docs のみ**を根拠に既存実装・テストを削除しない。この順序は現状の事実確認用。合意した変更後の仕様は Answers / Issue の AC に従う（[実行契約 §6](./docs/rules/ai-workflow.md)）。
+## Completion requirements
 
-**事実**は code · 4 点セット（flow / ui / validation / db）。**経緯**は [`docs/testing/questions/`](./docs/testing/questions/) · [`docs/testing/adr/`](./docs/testing/adr/)。4 点セットに経緯は書かない。
-
-concept は目的と概念、ADR は有効な設計判断、[Policy](./docs/testing/policy/README.md) は合意済みの反復判断を持つ。人間向けの機能概要である4点セットを AI が更新・検証し、人間のコードレビューや文書承認を通常ゲートにしない。
-
----
-
-## 禁止（依頼なく変更しない）
-
-- API 仕様（パラメータ・レスポンス）
-- ビジネスロジックの追加・削除・変更
-- 認証・CORS・セキュリティ設定の削除
-- レイヤー構造の書き換え、Laravel bootstrap / route 配線へのビジネスロジック追加
-- flow で N/A とした外部境界を「完成」扱い
+| Change area | Minimum | When structure/docs change |
+|---|---|---|
+| Backend | root `make lint` → `cd apps/backend && make test` | same + `make survey` for the relevant flow |
+| Frontend | root `make lint` → `cd apps/frontend && make test` | `make survey` / `make docs` when flow or route changes |
+| Cross-cutting | `make test` | `make survey` / `make docs` |
 
 ---
 
-## 規約（必要時のみ該当ファイルを開く）
+## Source of Truth when current-state sources conflict
 
-| 触った領域 | 参照 |
-|------------|------|
-| Laravel Backend | [`docs/rules/backend-quick.md`](./docs/rules/backend-quick.md)（常時）。詳細のみ [`backend-coding-conventions.md`](./docs/rules/backend-coding-conventions.md) |
-| Frontend | [`docs/rules/frontend-quick.md`](./docs/rules/frontend-quick.md)（常時）。詳細のみ [`frontend-coding-conventions.md`](./docs/rules/frontend-coding-conventions.md) |
-| flow / docs 追従 | [`docs/rules/docs-follow.md`](./docs/rules/docs-follow.md) |
-| N/A 表記 | [`docs/rules/docs-na-conventions.md`](./docs/rules/docs-na-conventions.md) |
-| SIT / FE Contract | [`docs/rules/system-test-strategy.md`](./docs/rules/system-test-strategy.md), [`docs/testing/frontend-flow-contract.md`](./docs/testing/frontend-flow-contract.md) |
-| 会員向け mutation の監査 | [`docs/rules/audit-ui-persistence.md`](./docs/rules/audit-ui-persistence.md)（正本） |
+1. implementation → 2. system test → 3. `docs/flow` → 4. generated `coverage/*`
+
+Do **not** delete existing implementation or tests based only on docs. This order is for determining current-state facts. Once a change is agreed, the target contract comes from Answers / Issue AC according to [AI execution contract §6](./docs/rules/ai-workflow.md).
+
+**Current facts** live in code + the 4-point set (flow / ui / validation / db). **Decision history** lives in [`docs/testing/questions/`](./docs/testing/questions/) and [`docs/testing/adr/`](./docs/testing/adr/). Do not put decision history into the 4-point set.
+
+Concept holds purpose and core concepts. ADR holds active design decisions. [Policy](./docs/testing/policy/README.md) holds agreed repeatable criteria. AI maintains and verifies the human-facing 4-point feature overview; human code review and document approval are not normal gates.
+
+---
+
+## Prohibited without explicit request / decision
+
+- changing API parameters or response contracts
+- adding, removing, or changing business logic
+- removing authentication, CORS, or security configuration
+- rewriting the layer structure or adding business logic to Laravel bootstrap / route wiring
+- treating an external boundary marked N/A in a flow as completed
+
+---
+
+## Rules to open when needed
+
+| Touched area | Rule |
+|---|---|
+| Laravel Backend | [`backend-quick.md`](./docs/rules/backend-quick.md) always; [`backend-coding-conventions.md`](./docs/rules/backend-coding-conventions.md) only for details |
+| Frontend | [`frontend-quick.md`](./docs/rules/frontend-quick.md) always; [`frontend-coding-conventions.md`](./docs/rules/frontend-coding-conventions.md) only for details |
+| flow / docs synchronization | [`docs-follow.md`](./docs/rules/docs-follow.md) |
+| N/A declarations | [`docs-na-conventions.md`](./docs/rules/docs-na-conventions.md) |
+| SIT / FE Contract | [`system-test-strategy.md`](./docs/rules/system-test-strategy.md), [`frontend-flow-contract.md`](./docs/testing/frontend-flow-contract.md) |
+| member-facing mutation audit | [`audit-ui-persistence.md`](./docs/rules/audit-ui-persistence.md) |
+| translation / bilingual docs | [`language-policy.md`](./docs/rules/language-policy.md) |
