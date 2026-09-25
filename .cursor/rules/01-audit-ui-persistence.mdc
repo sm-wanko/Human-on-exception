@@ -1,13 +1,13 @@
 ---
-description: 画面・会員向け API の DB 書き込み時の監査と SIT
+description: Audit and SIT requirements for DB writes from UI / member-facing APIs
 globs: apps/backend/app/**/*.php
 alwaysApply: false
 ---
 
-# 監査（会員経由の永続化）
+# Audit for Member-Facing Persistence
 
-`globs` に一致する変更で、**画面または認証済み API からの登録・更新**に関わる場合は次を適用する。
+For changes matching `globs`, apply this rule when the change adds or modifies create/update/delete-equivalent behavior reachable from UI or authenticated API.
 
-**正本**: [`docs/rules/audit-ui-persistence.md`](../../docs/rules/audit-ui-persistence.md)
+**Source of truth**: [`docs/rules/audit-ui-persistence.md`](../../docs/rules/audit-ui-persistence.md)
 
-要約: Controller は認証済み user/member ID を Service へ渡す。Service は既存の監査 context/value を構築する。Repository write はその監査値を bind する。SIT は正常系で DB 監査 assert。
+Summary: Controller passes authenticated user/member ID into Service. Service constructs the project's existing audit context/value. Repository writes bind those audit values. Positive-path SIT asserts persisted DB audit values.
