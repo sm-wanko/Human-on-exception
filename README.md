@@ -84,6 +84,13 @@ The 4-point set is a human-readable current feature overview maintained by AI an
 
 The five prompts are entry/resume points, not five human approval gates. Once answers and permissions are sufficient, AI continues authorized stages.
 
+
+## Adoption / 導入
+
+Human-on-Exception is not limited to greenfield repositories. Existing codebases can adopt the workflow by first letting AI reconstruct the current contracts from implementation and tests, then create or align the 4-point docs, concept, Questions, ADR, and Policy only where they are needed. No greenfield rewrite is required.
+
+Human-on-Exception は新規リポジトリ専用ではない。既存リポジトリでも、まず AI が実装とテストから現状契約を調査・再構成し、必要な 4 点セット docs、concept、Questions、ADR、Policy を整備・整合させたうえで、同じ Human-on-Exception の開発ループへ移行できる。新規開発として作り直す必要はない。
+
 ## Local startup
 
 Docker Compose V2:
