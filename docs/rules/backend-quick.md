@@ -1,48 +1,48 @@
-# Backend Quick Rules（AI 常時）
+# Backend Quick Rules (Always Read)
 
-**適用**: `apps/backend/` のみ。  
-**AI**: 本ファイルを正本とする。詳細・例・背景は [backend-coding-conventions.md](./backend-coding-conventions.md)（索引）のみ必要時。
+**Scope**: `apps/backend/` only.  
+**AI**: this file is authoritative for everyday backend work. Open [backend-coding-conventions.md](./backend-coding-conventions.md) only for detailed examples/background.
 
-| 状況 | 読むもの |
-|------|----------|
-| BE 実装・修正（毎回） | **本ファイル** |
-| Tx / migration / PHPDoc / middleware | [backend-coding-conventions.md](./backend-coding-conventions.md) |
-| なぜ・背景 | 同上（人間向け） |
-
----
-
-## 1. MUST NOT（壊すとアーキ崩壊）
-
-- Controller にビジネスロジック（分岐・正規化の判断は Service）
-- Service が Eloquent / DB facade を直接触る（必ず Repository）
-- Repository にビジネス判断
-- Controller 内で Service / Repository を new（コンストラクタ注入）
-- `bootstrap/` / route 定義にロジック（配線のみ）
-- SQL 文字列連結（Query Builder / binding を使う）
-- 外部 API で timeout 省略
-- timeout 値のハードコード（config から）
-- 「関連だから」別ドメインの Service / Repository に配置（**所属**で置く）
-- エラーを無視する
-- docs のみを根拠に既存実装・テストを削除（SoT: 実装 → test → flow）
+| Situation | Read |
+|---|---|
+| Backend implementation/fix | **this file** |
+| Tx / migration / PHPDoc / middleware detail | [backend-coding-conventions.md](./backend-coding-conventions.md) |
+| Why/background | same detailed conventions |
 
 ---
 
-## 2. レイヤ責務（正本はこの表のみ）
+## 1. MUST NOT
 
-| 層 | MUST | MUST NOT |
-|----|------|----------|
-| **Controller** | bind・認証引継ぎ・HTTP status / Resource 返却 | ビジネスロジック・DB |
-| **Service** | ルール・オーケストレーション・例外正規化 | Eloquent / 生 SQL・HTTP Response |
-| **Repository** | Query Builder / Eloquent・永続化 | ビジネス判断・HTTP |
-| **DTO / Resource** | API DTO / read model | DB 更新・ドメイン判断 |
-| **Model** | DB / ドメインモデル | API 専用レスポンス組立 |
-| **FormRequest** | HTTP 入力バリデーション | ビジネス判断 |
-
-**流れ**: `Request → Controller → Service → Repository → Model`（API DTO / read model は DTO / Resource）
+- put business logic in Controllers; branching/normalization decisions belong in Service
+- let Service directly use Eloquent / DB facade; use Repository
+- put business decisions in Repository
+- instantiate Service / Repository inside Controller; use constructor injection
+- put business logic in `bootstrap/` or route definitions; wiring only
+- concatenate SQL strings; use Query Builder / bindings
+- omit timeout for external APIs
+- hard-code timeout values; use config
+- place code in an unrelated domain Service/Repository merely because it is adjacent; place by **ownership**
+- ignore errors
+- delete existing implementation/tests based only on docs; current-state SoT is implementation → test → flow
 
 ---
 
-## 3. 配置（所属ベース）
+## 2. Layer responsibilities
+
+| Layer | MUST | MUST NOT |
+|---|---|---|
+| **Controller** | bind input, forward auth context, map HTTP status / Resource | business logic, DB |
+| **Service** | rules, orchestration, exception normalization | Eloquent/raw SQL, HTTP Response |
+| **Repository** | Query Builder/Eloquent persistence | business decisions, HTTP |
+| **DTO / Resource** | API DTO / read model | DB mutation, domain decisions |
+| **Model** | DB/domain model | API-specific response assembly |
+| **FormRequest** | HTTP input validation | business decisions |
+
+**Flow**: `Request → Controller → Service → Repository → Model` with DTO/Resource for API/read models.
+
+---
+
+## 3. Placement by ownership
 
 - `app/Http/Controllers/{Domain}`
 - `app/Services/{Domain}`
@@ -50,67 +50,67 @@
 - `app/Models`
 - `app/DTO/{Domain}` / `app/Http/Resources/{Domain}`
 - `app/Http/Requests/{Domain}`
-- Repository 分割は **1 テーブル = 1 class に固定しない**。変更理由が同じ単位でまとめる
-- 肥大化したら責務別 class / file に分割
+- Do not force Repository split to one table = one class. Group by common reason to change.
+- Split oversized code by responsibility.
 
 ---
 
-## 4. エラー
+## 4. Errors
 
-- Repository: DB / framework 例外をそのまま UI に漏らさない
-- **Service: アプリケーション例外へ正規化**して Controller へ
-- Controller: status / response mapping のみ
-- not found / conflict 等の意味付けは Service が担当
-
----
-
-## 5. DB・SQL・監査
-
-- **Query**: ユースケース単位。一覧用と詳細用で列・JOIN が違うなら分ける
-- **Tx**: 単一 Repository の単純 write は Repository 内で完結可。複数 Repository / 複数 write を同一境界に束ねる場合は Service が `DB::transaction` を所有
-- **migration**: Laravel migration が schema 変更の正本。既存 migration の意味を後から書き換えず、新規 migration で進める
-- **監査**: 会員向け write path は [audit-ui-persistence.md](./audit-ui-persistence.md) を正本
+- Repository: do not leak raw DB/framework exceptions to UI.
+- **Service**: normalize into application exceptions for Controller.
+- Controller: status/response mapping only.
+- Service owns semantic mapping such as not-found/conflict.
 
 ---
 
-## 6. Context・Timeout
+## 5. DB / SQL / audit
 
-- HTTP request の認証・request-id 等は Controller → Service へ必要値だけ渡す
-- 外部 API は Laravel HTTP Client 等で timeout を config 注入
-- Queue / Job へ渡す値も同じ ownership を維持する
-
----
-
-## 7. ログ
-
-- Laravel logger / Log facade
-- structured context を使う（`action`, `member_id`, `task_id` 等）
-- エラーを握り潰さない
+- **Query**: use-case specific. If list/detail need different columns/JOINs, separate them.
+- **Tx**: a simple single-Repository write may stay inside Repository. Service owns `DB::transaction` when multiple Repository/write operations need one atomic boundary.
+- **Migration**: Laravel migration is authoritative for schema change. Do not rewrite the meaning of an existing migration after the fact; add a new migration.
+- **Audit**: member-facing write paths follow [audit-ui-persistence.md](./audit-ui-persistence.md).
 
 ---
 
-## 8. コメント（PHPDoc）— 漏れやすいので MUST
+## 6. Context / timeout
 
-- **触った public / exported 相当**の class / method: 非自明な責務・入出力・副作用を PHPDoc で補う
-- **禁止**: docs/flow へのメタ参照だけを書く、legacy/Wave 等の doc メタだけを書く
-- API 契約の正本は Flow / Validation。コメントへ仕様全文をコピーしない
+- Pass only needed auth/request-id values from Controller to Service.
+- External APIs use Laravel HTTP Client or equivalent with config-injected timeout.
+- Queue/Job payloads preserve the same ownership boundaries.
 
 ---
 
-## 9. 命名（最小）
+## 7. Logging
 
-- class: PascalCase · method/property: camelCase · DB / JSON: snake_case
+- Use Laravel logger / Log facade.
+- Use structured context such as `action`, `member_id`, `task_id`.
+- Do not swallow errors.
+
+---
+
+## 8. PHPDoc — MUST
+
+- Touched public/exported-equivalent classes/methods: document non-obvious responsibility, inputs/outputs, and side effects.
+- **Do not** write comments that only point to docs/flow or repeat legacy/Wave/document metadata.
+- Flow / Validation remains authoritative for API contracts. Do not copy the whole specification into comments.
+
+---
+
+## 9. Naming
+
+- class: PascalCase; method/property: camelCase; DB/JSON: snake_case
 - `XxxService`, `XxxRepository`, `XxxRequest`, `XxxResource`
-- Model と API DTO / read model を混同しない
+- Do not confuse Model with API DTO/read model.
 
 ---
 
-## 10. テスト・完了
+## 10. Tests / completion
 
-| 置き場 | 用途 |
-|--------|------|
-| `tests/Unit/` | ロジック単体 |
+| Location | Purpose |
+|---|---|
+| `tests/Unit/` | isolated logic |
 | `tests/Feature/` | HTTP + Laravel + DB |
-| `tests/System/` | 縦串 SIT（[system-test-strategy.md](./system-test-strategy.md)） |
+| `tests/System/` | vertical SIT; see [system-test-strategy.md](./system-test-strategy.md) |
 
-**完了前（BE）**: ルート `make lint` → `cd apps/backend && make test`。構造 / flow 変更時は `make survey`。
+**Before backend completion**: root `make lint` → `cd apps/backend && make test`. For structure/flow changes also run `make survey`.
