@@ -10,6 +10,7 @@ Procedures/API/SQL belong in the 4-point docs. Durable design reasons belong in 
 |---|---|---|
 | Development repository | [README](../../README.md) / [AI execution contract](../rules/ai-workflow.md) | humans decide intent/boundaries; AI owns execution |
 | Task CRUD | [task-crud.md](./task-crud.md) | minimal teaching example describing current implementation |
+| Owned Task | [owned-task.md](./owned-task.md) | agreed target meaning from 2026-09-25 answers. Not the current API |
 
 For a new product, AI drafts the following. Unresolved meaning goes to Questions and must not be treated as accepted before the human answer:
 
@@ -31,6 +32,7 @@ Do not automatically adopt constraints from the sample as requirements for a new
 |---|---|---|
 | 開発リポジトリ | [README](../../README.md) / [AI実行契約](../rules/ai-workflow.md) | 人間が目的と境界を決め、AIが実行を担う |
 | Task CRUD | [task-crud.md](./task-crud.md) | 既存実装を説明する最小教材 |
+| 本人の Task | [owned-task.md](./owned-task.md) | 2026-09-25 の回答による目標の意味。現行 API ではない |
 
 新しいプロダクトでは AI が次を具体化する。未決は Questions に分離し、人間の回答前に確定扱いしない。
 

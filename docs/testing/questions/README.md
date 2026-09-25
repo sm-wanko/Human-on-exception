@@ -16,6 +16,8 @@ Use the [Questions template](../../templates/questions.md) and [AI execution con
 
 [Task CRUD](./task-crud.md) is a teaching example based on the existing sample. It is not evidence of an actual human answer and must not be reused as an accepted answer for a new request.
 
+[Owned Task login](./owned-task-login.md) accepted the recommendations on 2026-09-25. Recommendations were not answers until that human reply.
+
 ## 日本語
 
 **用途**: 依頼者（人間）と AI の **要件定義・Q&A・決定の経緯**だけを置く。
@@ -31,5 +33,7 @@ Use the [Questions template](../../templates/questions.md) and [AI execution con
 作成時は [Questions テンプレート](../../templates/questions.md) と [実行契約](../../rules/ai-workflow.md) §2–3 を適用する。
 
 [Task CRUD](./task-crud.md) は既存実装に基づく教材用決定例で、実在する人間回答の証拠ではない。新規依頼でこれを回答として流用しない。
+
+[本人 Task のログイン](./owned-task-login.md) は 2026-09-25 に推奨を回答として採用した。それ以前の推奨は回答ではない。
 
 Language parity / 言語一致: [language-policy](../../rules/language-policy.md).
