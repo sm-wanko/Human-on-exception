@@ -1,6 +1,6 @@
 # Pack: task-crud
 
-Task CRUD の 1 束。Flow ID: `EXAMPLE_TASK_CRUD`。
+Task CRUD の 1 束。Flow ID: `EXAMPLE_EXAMPLE_TASK_CRUD`。
 
 意味の入口: [Task CRUD の概念](../../concept/task-crud.md)。既存制約と人間判断の教材: [Questions](../../testing/questions/task-crud.md)。
 
@@ -11,7 +11,7 @@ Task CRUD の 1 束。Flow ID: `EXAMPLE_TASK_CRUD`。
 | Task list / detail | 認証 |
 | Task create / update / delete API | 会員監査 |
 | Quick / Detail read model | soft delete / audit history |
-| EXAMPLE_TASK_CRUD SYS / FE | 他ドメイン |
+| EXAMPLE_EXAMPLE_TASK_CRUD SYS / FE | 他ドメイン |
 
 ## 4 点セット
 
@@ -38,14 +38,14 @@ Task CRUD の 1 束。Flow ID: `EXAMPLE_TASK_CRUD`。
 
 ### Frontend
 
-- [x] `EXAMPLE_TASK_CRUD-FE-001`〜`004`
+- [x] `EXAMPLE_EXAMPLE_TASK_CRUD-FE-001`〜`004`
 - [x] list / detail Presentation
 - [x] lib resolver / viewmodel
 
 ### Backend（SIT）
 
-- [x] `EXAMPLE_TASK_CRUD-SYS-001`〜`004`
-- [x] `EXAMPLE_TASK_CRUD-SYS-101`〜`102`
+- [x] `EXAMPLE_EXAMPLE_TASK_CRUD-SYS-001`〜`004`
+- [x] `EXAMPLE_EXAMPLE_TASK_CRUD-SYS-101`〜`102`
 
 ## Frontend（実装パス）
 
