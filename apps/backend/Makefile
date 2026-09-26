@@ -7,7 +7,7 @@ help:
 	@echo "  make format"
 
 test:
-	@vendor/bin/phpunit -c phpunit.xml
+	@if find tests -name '*Test.php' -print -quit | grep -q .; then vendor/bin/phpunit -c phpunit.xml; else echo "Backend tests: 0 product tests (greenfield)"; fi
 
 lint:
 	@find app routes database tests -name '*.php' -print0 | xargs -0 -n1 php -l
