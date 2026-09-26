@@ -1,6 +1,6 @@
 # タスクCRUD画面（UI仕様）
 
-Screen ID: EXAMPLE_EXAMPLE_TASK_CRUD
+Screen ID: EXAMPLE_TASK_CRUD
 
 **関連ドキュメント**: [Flow](../flow/タスクCRUD.md) | [Validation](../validation/タスクCRUD.md) | [DB](../db/タスクCRUD.md)
 
