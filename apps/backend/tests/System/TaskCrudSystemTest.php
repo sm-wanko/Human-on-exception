@@ -11,7 +11,7 @@ final class TaskCrudSystemTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_EXAMPLE_TASK_CRUD_SYS_001_create_then_list(): void
+    public function test_EXAMPLE_EXAMPLE_TASK_CRUD_SYS_001_create_then_list(): void
     {
         $this->postJson('/api/tasks', [
             'title' => '  Buy milk  ',
@@ -26,7 +26,7 @@ final class TaskCrudSystemTest extends TestCase
         $this->assertDatabaseHas('tasks', ['title' => 'Buy milk']);
     }
 
-    public function test_EXAMPLE_TASK_CRUD_SYS_002_detail(): void
+    public function test_EXAMPLE_EXAMPLE_TASK_CRUD_SYS_002_detail(): void
     {
         $id = $this->postJson('/api/tasks', [
             'title' => 'Buy milk',
@@ -38,7 +38,7 @@ final class TaskCrudSystemTest extends TestCase
             ->assertJsonPath('description', '2L');
     }
 
-    public function test_EXAMPLE_TASK_CRUD_SYS_003_update(): void
+    public function test_EXAMPLE_EXAMPLE_TASK_CRUD_SYS_003_update(): void
     {
         $id = $this->postJson('/api/tasks', ['title' => 'Old'])->json('id');
 
@@ -49,7 +49,7 @@ final class TaskCrudSystemTest extends TestCase
         $this->assertDatabaseHas('tasks', ['id' => $id, 'title' => 'New']);
     }
 
-    public function test_EXAMPLE_TASK_CRUD_SYS_004_delete(): void
+    public function test_EXAMPLE_EXAMPLE_TASK_CRUD_SYS_004_delete(): void
     {
         $id = $this->postJson('/api/tasks', ['title' => 'Delete me'])->json('id');
 
@@ -57,13 +57,13 @@ final class TaskCrudSystemTest extends TestCase
         $this->assertDatabaseMissing('tasks', ['id' => $id]);
     }
 
-    public function test_EXAMPLE_TASK_CRUD_SYS_101_blank_title(): void
+    public function test_EXAMPLE_EXAMPLE_TASK_CRUD_SYS_101_blank_title(): void
     {
         $this->postJson('/api/tasks', ['title' => '   '])->assertUnprocessable();
         $this->assertDatabaseCount('tasks', 0);
     }
 
-    public function test_EXAMPLE_TASK_CRUD_SYS_102_unknown_id(): void
+    public function test_EXAMPLE_EXAMPLE_TASK_CRUD_SYS_102_unknown_id(): void
     {
         $this->getJson('/api/tasks/999')->assertNotFound();
         $this->assertDatabaseCount('tasks', 0);
