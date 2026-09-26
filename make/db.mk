@@ -7,7 +7,7 @@ clean-init:
 	@$(DOCKER_COMPOSE) exec backend php artisan migrate:fresh --force
 
 init-user:
-	@echo "認証は TASK_CRUD の Scope 外（N/A）"
+	@echo "No default user seed is configured."
 
 clean-db:
 	@$(DOCKER_COMPOSE) exec backend php artisan migrate:fresh --force
