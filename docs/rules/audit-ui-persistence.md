@@ -23,6 +23,3 @@ For Laravel, the project's existing Audit DTO / ValueObject / observer mechanism
 
 Do not add a migration to junction tables or similar solely because of this rule when the schema intentionally has no audit columns. Track through the parent record or existing audit mechanism.
 
-## Sample TASK_CRUD
-
-Authentication itself is outside Flow Scope, so audit is N/A. State this explicitly in `docs/validation/タスクCRUD.md` / `docs/db/タスクCRUD.md`.
