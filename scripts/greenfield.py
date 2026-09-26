@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import argparse
 import shutil
 import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+EXAMPLE_ID = "EXAMPLE_TASK_CRUD"
+TRASH_ROOT = ROOT / ".trash" / "examples" / EXAMPLE_ID
 
-DELETE_PATHS = [
+ARCHIVE_PATHS = [
     "apps/backend/app/DTO/Task",
     "apps/backend/app/Http/Controllers/TaskController.php",
     "apps/backend/app/Http/Requests/TaskWriteRequest.php",
@@ -31,12 +34,12 @@ DELETE_PATHS = [
     "docs/validation/タスクCRUD.md",
 ]
 
-REPLACEMENTS = {
+SHARED_RESET = {
     "apps/backend/routes/api.php": """<?php
 
 use Illuminate\\Support\\Facades\\Route;
 
-// Greenfield: add API routes from accepted Issues / Flow contracts.
+// Greenfield: add API routes only after an accepted Issue / Flow contract exists.
 """,
     "apps/frontend/src/app/page.tsx": """export default function HomePage() {
   return (
@@ -62,6 +65,28 @@ Greenfield 初期状態では bundle は 0 件。最初の Accepted Issue が Pa
 |------|------|------|
 
 Done 定義: [bundle-completion.md](./bundle-completion.md)
+""",
+    "docs/concept/README.md": """# Concept
+
+プロダクトの目的・主要概念・意味の境界を置く。
+
+Greenfield 初期状態では product concept は 0 件。人間の Intent と Answers をもとに、AI が必要な concept を作成する。
+
+Development model: [README](../../README.md) / [AI execution contract](../rules/ai-workflow.md)
+""",
+    "docs/flow/README.md": """# Flow docs
+
+機能ごとの current behavior / target contract を 4 点セットで管理する。
+
+Greenfield 初期状態では Flow は 0 件。Accepted Issue から最初の Flow を作成する。
+
+**Frontend Flow Contract**: [docs/testing/frontend-flow-contract.md](../testing/frontend-flow-contract.md)
+""",
+    "docs/testing/questions/README.md": """# Questions
+
+人間の semantic authority が必要な意思決定だけを記録する。
+
+Greenfield 初期状態では Questions は 0 件でもよい。[Questions template](../../templates/questions.md) と [AI execution contract](../../rules/ai-workflow.md) §2–3 に従い、AI が技術判断と意味判断を分離する。
 """,
     "docs/transition/遷移定義.md": """# 画面遷移定義（正本）
 
@@ -95,10 +120,16 @@ Laravel route から生成。手編集しない。
 """,
 }
 
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--confirm", action="store_true")
+    return parser.parse_args()
+
 def ensure_clean_worktree() -> None:
     try:
         result = subprocess.run(
-            ["git", "status", "--porcelain"],
+            ["git", "status", "--porcelain", "--untracked-files=normal"],
             cwd=ROOT,
             check=True,
             capture_output=True,
@@ -110,59 +141,117 @@ def ensure_clean_worktree() -> None:
     if result.stdout.strip():
         raise SystemExit(
             "greenfield aborted: working tree is not clean. "
-            "Commit/stash current work, then run make greenfield again."
+            "Commit/stash current work, then retry."
         )
 
-def remove_path(relative: str) -> None:
-    path = ROOT / relative
-    if path.is_dir():
-        shutil.rmtree(path)
-        print(f"removed {relative}/")
-    elif path.exists():
-        path.unlink()
-        print(f"removed {relative}")
+def existing_sources() -> list[str]:
+    return [p for p in ARCHIVE_PATHS if (ROOT / p).exists()]
 
-def write_text(relative: str, content: str) -> None:
-    path = ROOT / relative
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(content, encoding="utf-8")
+def print_plan() -> None:
+    print(f"Greenfield conversion plan: {EXAMPLE_ID}")
+    print("")
+    print("Archive to ignored trash:")
+    for relative in ARCHIVE_PATHS:
+        status = "move" if (ROOT / relative).exists() else "already absent"
+        print(f"  [{status}] {relative}")
+    print("")
+    print("Archive snapshot + reset shared active files:")
+    for relative in SHARED_RESET:
+        status = "snapshot/reset" if (ROOT / relative).exists() else "create neutral"
+        print(f"  [{status}] {relative}")
+    print("")
+    print(f"Trash destination: {TRASH_ROOT.relative_to(ROOT)}/")
+    print("Active target after conversion: Pack 0 / Flow 0 / product SYS 0 / product FE 0")
+    print("Next prompt: prompts/01-define-greenfield.md")
+
+def archive(relative: str) -> None:
+    src = ROOT / relative
+    if not src.exists():
+        return
+    dst = TRASH_ROOT / relative
+    if dst.exists():
+        raise SystemExit(f"greenfield aborted: trash destination already exists: {dst}")
+    dst.parent.mkdir(parents=True, exist_ok=True)
+    shutil.move(str(src), str(dst))
+    print(f"archived {relative}")
+
+def reset_shared(relative: str, content: str) -> None:
+    src = ROOT / relative
+    if src.exists():
+        snapshot = TRASH_ROOT / "_shared" / relative
+        if snapshot.exists():
+            raise SystemExit(f"greenfield aborted: trash snapshot already exists: {snapshot}")
+        snapshot.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(src, snapshot)
+    src.parent.mkdir(parents=True, exist_ok=True)
+    src.write_text(content, encoding="utf-8")
     print(f"reset {relative}")
 
 def rewrite_readme() -> None:
     path = ROOT / "README.md"
     text = path.read_text(encoding="utf-8")
-    marker = "## Sample\n"
-    if marker not in text:
-        return
-    before = text.split(marker, 1)[0].rstrip()
-    replacement = """## Sample / Greenfield
+    text = text.replace("- Task list: http://localhost:3000/tasks/\n", "")
+    text = text.replace("- Backend API: http://localhost:8080/api/tasks\n", "")
+    start = text.find("Create a Task:\n")
+    if start >= 0:
+        end = text.find("\n## Development commands", start)
+        if end >= 0:
+            text = text[:start] + text[end + 1:]
+    sample = text.find("## Sample\n")
+    if sample >= 0:
+        text = text[:sample].rstrip() + """
 
-The repository ships with a minimal `TASK_CRUD` executable example. Running `make greenfield` removes that product-specific sample while preserving the Human-on-Exception workflow, prompts, rules, templates, CI, and application skeleton.
+## Greenfield state
 
-After `make greenfield`, start product definition from [1B. Greenfield](./prompts/01-define-greenfield.md).
+The executable teaching bundle has been archived locally under ignored `.trash/` and removed from the active product tree.
 
-この repo には実行可能な最小 `TASK_CRUD` サンプルが含まれる。`make greenfield` を実行すると、Human-on-Exception の workflow / prompts / rules / templates / CI / application skeleton を残したまま、プロダクト固有のサンプルだけを削除する。
+Start with [0. Greenfield bootstrap](./prompts/00-greenfield.md) for the conversion contract or continue product definition with [1B. Greenfield](./prompts/01-define-greenfield.md).
 
-Greenfield 化後は [1B. Greenfield](./prompts/01-define-greenfield.md) からプロダクト定義を開始する。
+実行教材は ignore 対象の `.trash/` へローカル退避され、active product tree から切り離されている。
+
+変換契約は [0. Greenfield bootstrap](./prompts/00-greenfield.md)、プロダクト定義は [1B. Greenfield](./prompts/01-define-greenfield.md) から開始する。
 """
-    path.write_text(before + "\n\n" + replacement, encoding="utf-8")
+    path.write_text(text, encoding="utf-8")
     print("updated README.md")
 
 def main() -> None:
+    args = parse_args()
     ensure_clean_worktree()
+    print_plan()
 
-    for relative in DELETE_PATHS:
-        remove_path(relative)
+    if args.dry_run:
+        print("")
+        print("Dry-run only. No files changed.")
+        return
 
-    for relative, content in REPLACEMENTS.items():
-        write_text(relative, content)
+    if not args.confirm:
+        raise SystemExit(
+            "greenfield aborted: confirmation required. "
+            "Run 'make greenfield DRY_RUN=1' first, then 'make greenfield CONFIRM=1'."
+        )
+
+    if not existing_sources() and all(
+        (ROOT / path).read_text(encoding="utf-8") == content
+        for path, content in SHARED_RESET.items()
+        if (ROOT / path).exists()
+    ):
+        print("")
+        print("Already in greenfield state.")
+        return
+
+    for relative in ARCHIVE_PATHS:
+        archive(relative)
+
+    for relative, content in SHARED_RESET.items():
+        reset_shared(relative, content)
 
     rewrite_readme()
 
     print("")
     print("Greenfield conversion complete.")
-    print("Next: review git diff, then start with prompts/01-define-greenfield.md.")
-    print("Recommended verification: make lint && make test && make survey")
+    print(f"Local archive: {TRASH_ROOT.relative_to(ROOT)}/ (gitignored)")
+    print("Next: make lint && make test && make survey")
+    print("Then: prompts/01-define-greenfield.md")
 
 if __name__ == "__main__":
     main()
