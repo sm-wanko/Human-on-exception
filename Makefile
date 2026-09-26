@@ -6,6 +6,7 @@ include make/lint.mk
 include make/docs.mk
 include make/survey.mk
 include make/sit.mk
+include make/greenfield.mk
 
 .PHONY: help
 .DEFAULT_GOAL := help
@@ -20,6 +21,7 @@ help:
 	@echo "  make docs           endpoint docs 整合"
 	@echo "  make lint"
 	@echo "  make format"
+	@echo "  make greenfield      remove executable sample bundle and keep the AI-native skeleton"
 	@echo ""
 	@echo "DB: make init-db / clean-db / reset-db"
 	@echo "SIT: make sit"
