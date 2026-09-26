@@ -1,6 +1,6 @@
 # タスクCRUD（バリデーション・エラーハンドリング）
 
-Validation ID: EXAMPLE_EXAMPLE_TASK_CRUD
+Validation ID: EXAMPLE_TASK_CRUD
 
 **関連ドキュメント**: [Flow](../flow/タスクCRUD.md) | [UI](../ui/タスクCRUD.md) | [DB](../db/タスクCRUD.md)
 
