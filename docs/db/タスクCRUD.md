@@ -1,6 +1,6 @@
 # タスクCRUD（DB・テーブル・SQL）
 
-DB ID: EXAMPLE_EXAMPLE_TASK_CRUD
+DB ID: EXAMPLE_TASK_CRUD
 
 **関連ドキュメント**: [Flow](../flow/タスクCRUD.md) | [UI](../ui/タスクCRUD.md) | [Validation](../validation/タスクCRUD.md)
 
