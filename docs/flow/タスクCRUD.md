@@ -2,7 +2,7 @@
 
 ---
 
-Flow ID: TASK_CRUD
+Flow ID: EXAMPLE_TASK_CRUD
 
 **関連ドキュメント**: [UI（画面仕様）](../ui/タスクCRUD.md) | [Validation（バリデーション）](../validation/タスクCRUD.md) | [DB（テーブル・SQL）](../db/タスクCRUD.md)
 
@@ -71,32 +71,32 @@ Flow ID: TASK_CRUD
 
 ## テストマトリクス（System Integration Test）
 
-Flow ID: TASK_CRUD
+Flow ID: EXAMPLE_TASK_CRUD
 
 ### 正系
 
 | ID | 操作 | 入力 | 期待 response | 期待 DB 状態 | 備考 |
 |---|---|---|---|---|---|
-| TASK_CRUD-SYS-001 | create → list | title / description | 201 → 200 | row 1 件 | list は Quick |
-| TASK_CRUD-SYS-002 | detail | id | 200 | 変更なし | description を含む |
-| TASK_CRUD-SYS-003 | update | title | 200 | title 更新 | |
-| TASK_CRUD-SYS-004 | delete | id | 204 | row 削除 | hard delete |
+| EXAMPLE_TASK_CRUD-SYS-001 | create → list | title / description | 201 → 200 | row 1 件 | list は Quick |
+| EXAMPLE_TASK_CRUD-SYS-002 | detail | id | 200 | 変更なし | description を含む |
+| EXAMPLE_TASK_CRUD-SYS-003 | update | title | 200 | title 更新 | |
+| EXAMPLE_TASK_CRUD-SYS-004 | delete | id | 204 | row 削除 | hard delete |
 
 ### 逆系
 
 | ID | 操作 | 期待 response | 期待 DB | 備考 |
 |---|---|---|---|---|
-| TASK_CRUD-SYS-101 | blank title create | 422 | write なし | |
-| TASK_CRUD-SYS-102 | unknown id detail | 404 | write なし | |
+| EXAMPLE_TASK_CRUD-SYS-101 | blank title create | 422 | write なし | |
+| EXAMPLE_TASK_CRUD-SYS-102 | unknown id detail | 404 | write なし | |
 
 ## Frontend 契約
 
 | ID | 操作 | 入力・前提 | 期待 | 備考 |
 |---|---|---|---|---|
-| TASK_CRUD-FE-001 | list 初期 | loading | loading 表示 | contract |
-| TASK_CRUD-FE-002 | list 0件 | [] | empty 表示 | contract |
-| TASK_CRUD-FE-003 | list error | API error | error 表示 | contract |
-| TASK_CRUD-FE-004 | task 選択 | id=42 | detail id=42 | contract |
+| EXAMPLE_TASK_CRUD-FE-001 | list 初期 | loading | loading 表示 | contract |
+| EXAMPLE_TASK_CRUD-FE-002 | list 0件 | [] | empty 表示 | contract |
+| EXAMPLE_TASK_CRUD-FE-003 | list error | API error | error 表示 | contract |
+| EXAMPLE_TASK_CRUD-FE-004 | task 選択 | id=42 | detail id=42 | contract |
 
 ### SIT スコープ外（N/A）
 
