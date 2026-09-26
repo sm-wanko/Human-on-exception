@@ -26,7 +26,7 @@ Human-on-Exception の Exception は、**AI に判断権限がない意思決定
 
 ## Five human prompts / 人間が使う5本のプロンプト
 
-1. [Define Questions / Questions 作成](./prompts/01-define.md)
+1. [Define Questions / Questions 作成](./prompts/01-define.md) — [existing repo](./prompts/01-define-existing.md) / [greenfield](./prompts/01-define-greenfield.md)
 2. [Apply Answers / Create Issue / Answers 反映・Issue 起票](./prompts/02-decide.md)
 3. [Implement Issue / PR / Issue 実装・PR](./prompts/03-implement.md)
 4. [Resolve PR review / PR 指摘対応](./prompts/04-review.md)
@@ -38,8 +38,8 @@ Normal flow / 通常の流れ:
 Human: I want this feature.
 人間: この機能を作りたい
   ↓
-AI: investigate the repo and create Questions
-AI: repo を調べて Questions を作る
+AI: investigate the current contract, or design from repo rules in greenfield mode, then create Questions
+AI: 既存契約を調査する。ゼロプロなら repo ルールから設計仮説を作り、Questions を作成する
   ↓
 Human: answer only the decisions
 人間: 意思決定だけ Answers を更新する
