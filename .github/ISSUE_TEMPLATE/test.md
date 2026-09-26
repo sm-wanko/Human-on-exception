@@ -11,7 +11,7 @@ labels: ['test']
 |------|------|
 | **Pack** | |
 | **触ってよいパス** | AIが対象実装・テスト・docsを具体化 |
-| **Flow ID** | 例: `TASK_CRUD`（SYS / FE-IDは受け入れ条件へ） |
+| **Flow ID** | 例: `EXAMPLE_FLOW`（SYS / FE-IDは受け入れ条件へ） |
 | **完了時 make** | 例: `make test` |
 
 ## 🧪 テスト概要
