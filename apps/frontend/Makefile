@@ -7,7 +7,7 @@ help:
 	@echo "  make typecheck"
 
 test:
-	@pnpm test
+	@if find src -type f \( -name '*.test.ts' -o -name '*.test.tsx' \) -print -quit | grep -q .; then pnpm test; else echo "Frontend tests: 0 product tests (greenfield)"; fi
 
 lint:
 	@pnpm lint:check
