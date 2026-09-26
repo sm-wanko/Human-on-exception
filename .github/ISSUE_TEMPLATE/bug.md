@@ -9,9 +9,9 @@ labels: ['bug']
 
 | 項目 | 記入 |
 |------|------|
-| **Pack** | 例: `task-crud` |
+| **Pack** | 例: `example-flow` |
 | **触ってよいパス** | AIが対象実装・テスト・docsを具体化 |
-| **Flow ID** | 例: `TASK_CRUD`（検証IDは受け入れ条件へ） |
+| **Flow ID** | 例: `EXAMPLE_FLOW`（検証IDは受け入れ条件へ） |
 | **完了時 make** | 例: `make test` |
 
 ## 🐛 問題の概要
