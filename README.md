@@ -24,7 +24,11 @@ Human-on-Exception の Exception は、**AI に判断権限がない意思決定
 
 > Language rule / 言語規約: [docs/rules/language-policy.md](./docs/rules/language-policy.md). Bilingual sections must preserve the same meaning; translation is never permission to change product semantics.
 
-## Five human prompts / 人間が使う5本のプロンプト
+## Human prompts / 人間が使うプロンプト
+
+Optional bootstrap for a new product: [0. Greenfield bootstrap](./prompts/00-greenfield.md). The normal development loop remains the five entry/resume prompts below.
+
+新規プロダクトでは必要に応じて [0. Greenfield bootstrap](./prompts/00-greenfield.md) を先に使う。通常の開発ループは以下の5本。
 
 1. [Define Questions / Questions 作成](./prompts/01-define.md) — [existing repo](./prompts/01-define-existing.md) / [greenfield](./prompts/01-define-greenfield.md)
 2. [Apply Answers / Create Issue / Answers 反映・Issue 起票](./prompts/02-decide.md)
@@ -91,9 +95,9 @@ Human-on-Exception is not limited to greenfield repositories. Existing codebases
 
 Human-on-Exception は新規リポジトリ専用ではない。既存リポジトリでも、まず AI が実装とテストから現状契約を調査・再構成し、必要な 4 点セット docs、concept、Questions、ADR、Policy を整備・整合させたうえで、同じ Human-on-Exception の開発ループへ移行できる。新規開発として作り直す必要はない。
 
-For a new product, run `make greenfield` to remove the executable Task sample while keeping the workflow/rules/templates and application skeleton. Then begin with [1B. Greenfield](./prompts/01-define-greenfield.md).
+For a new product, run `make greenfield DRY_RUN=1` first. After confirming the plan, run `make greenfield CONFIRM=1`. The executable example is archived locally under gitignored `.trash/`, active references are reset to zero-product state, and the workflow/rules/templates/application skeleton remain. Then begin with [1B. Greenfield](./prompts/01-define-greenfield.md).
 
-新規プロダクトとして使う場合は `make greenfield` で実行サンプルの Task だけを外し、workflow / rules / templates / application skeleton を残せる。その後 [1B. Greenfield](./prompts/01-define-greenfield.md) から開始する。
+新規プロダクトとして使う場合は、まず `make greenfield DRY_RUN=1` で対象を確認し、問題なければ `make greenfield CONFIRM=1` を実行する。実行教材は gitignore 対象の `.trash/` へローカル退避され、active reference は product 0 件へ初期化される。workflow / rules / templates / application skeleton は残り、その後 [1B. Greenfield](./prompts/01-define-greenfield.md) から開始する。
 
 ## Local startup
 
