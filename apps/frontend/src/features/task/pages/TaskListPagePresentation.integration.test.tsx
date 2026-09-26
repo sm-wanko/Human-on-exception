@@ -12,7 +12,7 @@ const mockedUseTaskList = vi.mocked(useTaskList)
 describe('TaskListPagePresentation', () => {
   beforeEach(() => mockedUseTaskList.mockReset())
 
-  it('TASK_CRUD-FE-004 representative: selected id is delegated', () => {
+  it('EXAMPLE_TASK_CRUD-FE-004 representative: selected id is delegated', () => {
     const onOpenTask = vi.fn()
     mockedUseTaskList.mockReturnValue({
       state: {
