@@ -1,7 +1,7 @@
 # Task CRUD — Decision and Execution Example
 
 **Status**: Example reconstructed from existing implementation. It is teaching material and does not fabricate a real human answer or Ready approval.  
-**Pack / Flow**: `task-crud` / `EXAMPLE_EXAMPLE_TASK_CRUD`  
+**Pack / Flow**: `task-crud` / `EXAMPLE_TASK_CRUD`  
 **Investigation revision**: `4d6c691c4702285323b5c494a3193ff19416882a`  
 **Related**: [Pack](../../ai/packs/task-crud.md) · [Flow](../../flow/タスクCRUD.md) · [Issue example](../examples/task-crud-issue.md)
 
@@ -85,10 +85,10 @@ New requests require their own investigation of Unknowns / Assumptions. This exa
 
 | Decision | AC-ID | Result | Verification |
 |---|---|---|---|
-| CRUD scope | AC-01 | create/read/update/delete follow existing contract | `EXAMPLE_EXAMPLE_TASK_CRUD-SYS-001`–`004` |
-| input contract | AC-02 | invalid/not-found response and side effects follow contract | `EXAMPLE_EXAMPLE_TASK_CRUD-SYS-101`–`102` |
-| U1 | AC-03 | distinguish loading / empty / error | `EXAMPLE_EXAMPLE_TASK_CRUD-FE-001`–`003` |
-| U1 | AC-04 | navigate from list to selected ID detail | `EXAMPLE_EXAMPLE_TASK_CRUD-FE-004` + representative integration |
+| CRUD scope | AC-01 | create/read/update/delete follow existing contract | `EXAMPLE_TASK_CRUD-SYS-001`–`004` |
+| input contract | AC-02 | invalid/not-found response and side effects follow contract | `EXAMPLE_TASK_CRUD-SYS-101`–`102` |
+| U1 | AC-03 | distinguish loading / empty / error | `EXAMPLE_TASK_CRUD-FE-001`–`003` |
+| U1 | AC-04 | navigate from list to selected ID detail | `EXAMPLE_TASK_CRUD-FE-004` + representative integration |
 | D1 / A1 | AC-05 | do not claim restore/auth/member-audit completion | Scope / N/A in 4-point docs |
 
 4-point docs: [flow](../../flow/タスクCRUD.md) / [ui](../../ui/タスクCRUD.md) / [validation](../../validation/タスクCRUD.md) / [db](../../db/タスクCRUD.md).
@@ -106,7 +106,7 @@ Continue into the [teaching Issue body](../examples/task-crud-issue.md). Record 
 # Task CRUD — 意思決定と実行の例
 
 **Status**: Example（既存実装から再構成した教材。実際の人間回答・Ready 承認を捏造しない）
-**Pack / Flow**: `task-crud` / `EXAMPLE_EXAMPLE_TASK_CRUD`
+**Pack / Flow**: `task-crud` / `EXAMPLE_TASK_CRUD`
 **調査 revision**: `4d6c691c4702285323b5c494a3193ff19416882a`
 **関連**: [Pack](../../ai/packs/task-crud.md) · [Flow](../../flow/タスクCRUD.md) · [Issue 例](../examples/task-crud-issue.md)
 
@@ -189,10 +189,10 @@ Continue into the [teaching Issue body](../examples/task-crud-issue.md). Record 
 
 | 決定 | AC-ID | 結果 | 検証 |
 |---|---|---|---|
-| CRUD 範囲 | AC-01 | 作成・取得・更新・削除が既存契約どおり | `EXAMPLE_EXAMPLE_TASK_CRUD-SYS-001`〜`004` |
-| 既存入力契約 | AC-02 | 不正入力 / 不存在の応答と副作用が契約どおり | `EXAMPLE_EXAMPLE_TASK_CRUD-SYS-101`〜`102` |
-| U1 | AC-03 | loading / empty / error を区別する | `EXAMPLE_EXAMPLE_TASK_CRUD-FE-001`〜`003` |
-| U1 | AC-04 | 一覧から選択 ID の詳細へ進む | `EXAMPLE_EXAMPLE_TASK_CRUD-FE-004` + 代表 integration |
+| CRUD 範囲 | AC-01 | 作成・取得・更新・削除が既存契約どおり | `EXAMPLE_TASK_CRUD-SYS-001`〜`004` |
+| 既存入力契約 | AC-02 | 不正入力 / 不存在の応答と副作用が契約どおり | `EXAMPLE_TASK_CRUD-SYS-101`〜`102` |
+| U1 | AC-03 | loading / empty / error を区別する | `EXAMPLE_TASK_CRUD-FE-001`〜`003` |
+| U1 | AC-04 | 一覧から選択 ID の詳細へ進む | `EXAMPLE_TASK_CRUD-FE-004` + 代表 integration |
 | D1 / A1 | AC-05 | 復元・認証・会員監査を完成扱いしない | 4 点セットの Scope / N/A 照合 |
 
 docs は [flow](../../flow/タスクCRUD.md) / [ui](../../ui/タスクCRUD.md) / [validation](../../validation/タスクCRUD.md) / [db](../../db/タスクCRUD.md)。
