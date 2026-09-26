@@ -153,7 +153,7 @@ Current behavior is code + flow / ui / validation / db. Purpose/core concepts li
 
 ## Sample
 
-The repository includes one minimal sample bundle: `TASK_CRUD`.
+The repository includes one minimal sample bundle: `EXAMPLE_TASK_CRUD`.
 
 - Pack: [docs/ai/packs/task-crud.md](./docs/ai/packs/task-crud.md)
 - Flow: [docs/flow/タスクCRUD.md](./docs/flow/タスクCRUD.md)
