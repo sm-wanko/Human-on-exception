@@ -147,6 +147,31 @@ def ensure_clean_worktree() -> None:
 def existing_sources() -> list[str]:
     return [p for p in ARCHIVE_PATHS if (ROOT / p).exists()]
 
+def already_greenfield() -> bool:
+    return (
+        not existing_sources()
+        and all((ROOT / path).exists() for path in SHARED_RESET)
+        and all(
+            (ROOT / path).read_text(encoding="utf-8") == content
+            for path, content in SHARED_RESET.items()
+        )
+    )
+
+def ensure_archive_destinations_available() -> None:
+    conflicts = []
+    for relative in ARCHIVE_PATHS:
+        if (ROOT / relative).exists() and (TRASH_ROOT / relative).exists():
+            conflicts.append(str(TRASH_ROOT / relative))
+    for relative in SHARED_RESET:
+        snapshot = TRASH_ROOT / "_shared" / relative
+        if (ROOT / relative).exists() and snapshot.exists():
+            conflicts.append(str(snapshot))
+    if conflicts:
+        joined = "\n".join(f"- {path}" for path in conflicts)
+        raise SystemExit(
+            "greenfield aborted before mutation: trash destination conflict(s):\n" + joined
+        )
+
 def print_plan() -> None:
     print(f"Greenfield conversion plan: {EXAMPLE_ID}")
     print("")
@@ -162,6 +187,7 @@ def print_plan() -> None:
     print("")
     print(f"Trash destination: {TRASH_ROOT.relative_to(ROOT)}/")
     print("Active target after conversion: Pack 0 / Flow 0 / product SYS 0 / product FE 0")
+    print("README sample/runtime references: reset to greenfield guidance")
     print("Next prompt: prompts/01-define-greenfield.md")
 
 def archive(relative: str) -> None:
@@ -230,14 +256,12 @@ def main() -> None:
             "Run 'make greenfield DRY_RUN=1' first, then 'make greenfield CONFIRM=1'."
         )
 
-    if not existing_sources() and all(
-        (ROOT / path).read_text(encoding="utf-8") == content
-        for path, content in SHARED_RESET.items()
-        if (ROOT / path).exists()
-    ):
+    if already_greenfield():
         print("")
         print("Already in greenfield state.")
         return
+
+    ensure_archive_destinations_available()
 
     for relative in ARCHIVE_PATHS:
         archive(relative)
