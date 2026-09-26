@@ -9,9 +9,9 @@ labels: ['enhancement', 'feature']
 
 | 項目 | 記入 |
 |------|------|
-| **Pack**（束） | 例: `task-crud` |
-| **Flow ID** | 例: `TASK_CRUD` / `TASK_CRUD-FE-003` |
-| **触ってよいパス** | 例: `apps/frontend/src/lib/task/` のみ |
+| **Pack**（束） | 例: `example-flow` |
+| **Flow ID** | 例: `EXAMPLE_FLOW` / `EXAMPLE_FLOW-FE-003` |
+| **触ってよいパス** | 例: `apps/frontend/src/lib/example/` のみ |
 | **完了時 make** | 例: `make lint` → `make test` |
 
 手順: [`AGENTS.md`](../../AGENTS.md)
