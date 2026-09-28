@@ -14,7 +14,7 @@ Follow the [language policy](./docs/rules/language-policy.md). Agent-facing rule
 
 ## Review guidelines
 
-When Codex is invoked as a PR reviewer, apply the [independent AI review contract](./docs/rules/ai-review.md). The reviewer is not the implementation agent described below. It independently checks the Issue AC, diff, rules, and tests from a separate context.
+When Codex is invoked as a PR reviewer, apply the [independent AI review contract](./docs/rules/ai-review.md) **in full**. The reviewer is not the implementation agent described below; use a separate context and independently inspect accepted Answers / Issue AC, current-state SoT, applicable concept / active ADR / Policy, diff, and tests. **Required:** identify affected SoT/docs and test artifacts for every behavior/contract change and detect missing updates **including files absent from the PR diff**. Do not mistake the current-state SoT priority for permission to override the agreed target contract. Do not accept the implementer's completion claim as evidence.
 
 ## Minimal reading order
 
