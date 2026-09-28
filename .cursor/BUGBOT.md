@@ -2,7 +2,9 @@
 
 For PR diff review. This is separate from IDE Agent rules under `.cursor/rules/*.mdc`.
 
-Apply the [independent AI review contract](../docs/rules/ai-review.md) and evaluate AC / diff / tests from a context separate from the implementer.
+Apply the [independent AI review contract](../docs/rules/ai-review.md) in full and evaluate accepted Answers / AC / SoT / diff / tests from a context separate from the implementer. Do not treat the implementer's self-review or completion statement as independent evidence.
+
+**MUST:** Check SoT and docs completeness for changed behavior, including affected flow / ui / validation / db, concept / active ADR / Policy, tests, transitions, and packs **not present in the PR diff**. Report concrete omissions or contradictions against the agreed target contract; respect current-state SoT order and legitimate N/A boundaries.
 
 **Write review comments in Japanese**, preserving the repository's existing review-language behavior.
 
@@ -21,6 +23,7 @@ Shared sources of truth — open only when needed:
 - out-of-scope API contract or business-logic changes, or layer violations
 - missing audit behavior on member-facing mutations
 - missing tests when the absence creates concrete behavior risk
+- stale or missing affected SoT/docs when implementation or the accepted target contract changes, including omitted files outside the diff
 
 ## Findings to suppress as false positives
 
