@@ -15,7 +15,7 @@ help:
 	@echo ""
 	@echo "  make build          NO_CACHE=true でキャッシュ無効"
 	@echo "  make up / down / logs"
-	@echo "  make test           Backend + Frontend + SIT"
+	@echo "  make test           Docker-backed Unit + SIT + Vitest + integration; reports in coverage/tests/"
 	@echo "  make survey         構造調査 + docs 整合"
 	@echo "  make docs           endpoint docs 整合"
 	@echo "  make lint"

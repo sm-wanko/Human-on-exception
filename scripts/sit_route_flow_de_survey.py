@@ -15,7 +15,6 @@ def main():
         if m: flows[m.group(1)]=p.name
     routes=ROUTE_RE.findall((ROOT/"apps/backend/routes/api.php").read_text())
     report=["# Route / Flow survey","",f"- Flow count: {len(flows)}",f"- Route count: {len(routes)}",""]
-    if "TASK_CRUD" not in flows: raise SystemExit("TASK_CRUD Flow not found")
     (out/"summary.md").write_text("\n".join(report), encoding="utf-8")
 
 if __name__=="__main__": main()

@@ -27,15 +27,6 @@ Purpose/terminology belongs in [concept](../../concept/README.md). Repeatable op
 
 Record who had decision authority and the answer source. Do not mark an AI-generated proposal Accepted when no human answer/authority exists.
 
-### Active
-
-| ADR | Theme |
-|---|---|
-| [001](./001-self-registered-account.md) | self-registered account and display name |
-| [002](./002-task-status-and-logical-delete.md) | STATUS versus checkbox logical delete |
-| [003](./003-task-dates.md) | registration date and inert due date |
-| [004](./004-task-owner-isolation.md) | owner-only tasks, 404, retain ownerless rows |
-
 ## 日本語
 
 **置くもの**: 実装に残す **設計決定**（Accepted / Superseded）。  
@@ -60,14 +51,5 @@ Record who had decision authority and the answer source. Do not mark an AI-gener
 6. 関連（flow / questions）
 
 目的・用語は [concept](../../concept/README.md)、反復作業の具体的基準は [Policy](../policy/README.md) を参照する。ADRには選択理由と見直し条件を残し、運用基準を重複管理しない。判断主体と回答の出所を明記し、人間が回答していない案を Accepted にしない。
-
-### 有効な決定
-
-| ADR | テーマ |
-|---|---|
-| [001](./001-self-registered-account.md) | 本人登録と表示名 |
-| [002](./002-task-status-and-logical-delete.md) | STATUS とチェックによる論理削除 |
-| [003](./003-task-dates.md) | 登録日と、状態を変えない終了予定日 |
-| [004](./004-task-owner-isolation.md) | 本人の Task、404、持ち主の無い行は残す |
 
 Language parity / 言語一致: [language-policy](../../rules/language-policy.md).
