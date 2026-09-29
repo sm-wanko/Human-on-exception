@@ -23,7 +23,7 @@ export function AccountBar() {
           <p className="account-bar__actions">
             <span>Hello, {label.displayName}</span>
             <button type="button" onClick={() => void logout()}>
-              ログアウト
+              Logout
             </button>
           </p>
         ) : null}
