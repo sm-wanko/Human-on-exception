@@ -14,7 +14,9 @@ For PRs that add or change mutations reachable from authenticated UI/API, review
 
 # Independent review
 
-Apply [ai-review.md](../docs/rules/ai-review.md). Do not treat implementer self-review as an already-completed independent review.
+Apply [ai-review.md](../docs/rules/ai-review.md) **in full** as a separate-context reviewer, not the implementer. Independently inspect accepted Answers / Issue AC, current-state SoT, applicable concept / active ADR / Policy, diff, and tests. Do not treat implementer self-review or the implementer's completion claim as independent evidence.
+
+**Required SoT/docs audit:** derive all artifacts affected by a behavior or contract change and check for missing or stale tests, API/types/generated outputs, flow / ui / validation / db, transitions, and packs **even when those files are absent from the PR diff**. Cite the agreed target contract and concrete omission; respect the current-state SoT order and justified N/A boundaries.
 
 # Review priority
 

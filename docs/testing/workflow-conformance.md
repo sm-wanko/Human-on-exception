@@ -1,99 +1,44 @@
-# 開発フローの継承要件と検証
+# Workflow Conformance
 
-## 調査範囲
+Human-on-Exception のルールが、単なる文章ではなく一貫した開発契約として成立しているかを確認するための受け入れ観点。
 
-2026-09-24 に参照実装の既定 branch snapshot `f3955eacac42430e2723997d3c02b273c96ce6d0` を確認した。参照 GitHub repository ID は `1014892172`。固有の製品名・ドメイン実装は持ち込まず、意思決定と実行の契約を継承する。
+この文書は特定の外部プロダクトやリポジトリの履歴を根拠にしない。現在の Human-on-Exception リポジトリ内の rules / prompts / templates / example を対象に確認する。
 
-「直近 Questions」は README・削除済み文書を除き、現存する questions 配下の文書を最終変更 commit 順に選定。同一 commit 内は順不同。運用メモも配下に存在するため、全件を純粋な質問票とは扱わない。
+## Contract map
 
-| ID | 最終変更 | 調査した内容 | 抽出した要件 |
-|---|---|---|---|
-| Q-S1 | `f3955eac` 2026-09-21 | 精査バッチ plan | 明確な修正は AI が実行、概念判断だけ相談。未検討をゼロと報告しない |
-| Q-S2 | `f3955eac` 2026-09-21 | 文法スロット Questions | 決定済み・未決・見送りを分離、親 ADR と許可境界を維持 |
-| Q-S3 | `f3955eac` 2026-09-21 | 短文・長文包含の整理 | 数値根拠、変更対象・残す対象、既知トレードオフを明示 |
-| Q-S4 | `1194567f` 2026-09-21 | カテゴリゲート Questions | 初版 Scope と後続必須を分離、具体例・非対象・AC を対応 |
-| Q-S5 | `a0ee4f84` 2026-09-08 | 極性分類の決定表 | 分類基準と before/after を保持、個別決定を追跡 |
-
-## 直近 closed / merged PR 5 件
-
-5 件とも closed と merged を API で確認。本文に加え changed files・review・inline comments を確認した。作者アカウントだけで人間が手書きしたかどうかは推定しない。
-
-| PR | merged（UTC） | 指摘と対応からの要件 |
+| Property | Source | What to verify |
 |---|---|---|
-| 1103 | 2026-09-07 04:13:17 | SQL とアプリ正規化の差、空結果の誤昇格。境界差と不足時の安全な結果を検証 |
-| 1102 | 2026-09-07 04:13:09 | API 生成物・不存在リンク・FE 派生処理の追従。分類保存の指摘は既存制約の根拠で不採用と説明 |
-| 1101 | 2026-09-04 02:55:17 | 新規導線、更新入力、競合ロック、409 時の本文 rollback。AC から UI/API/DB を横断 |
-| 1099 | 2026-09-01 05:58:21 | SSR 成功空・未認証・取得不能の区別、失敗後の再取得、独立取得の並列化 |
-| 1098 | 2026-09-01 05:58:16 | エラー型変更時に別パッケージ fake が旧文字列のまま。呼び出し元・回帰テストまで追従 |
+| 人間は Intent / Scope / Answers / Risk acceptance を持つ | `docs/rules/ai-workflow.md` | 通常の実装・修正・レビューを人間 gate にしない |
+| AI は既存事実を調査してから Questions を作る | ai-workflow §2 / Questions template | repoから取得できる事実を人間に聞かない |
+| 人間判断は Q-ID → AC-ID → test/docs へ落ちる | ai-workflow §3 / Issue templates | 決定と検証証拠が追跡できる |
+| 現状SoTと変更後契約を区別する | AGENTS / ai-workflow §6 | 古い実装を理由に合意済み変更を拒否しない |
+| docs / tests / implementation を同一変更系列でそろえる | docs-follow / ai-review | diffにない関連docsの更新漏れも検出する |
+| 独立AIレビューを実装者の自己レビューと区別する | ai-review / tool entrypoints | 別コンテキストでAC・SoT・diff・testsを再確認する |
+| valid / false positive / decision required を分類する | ai-review | 普通の修正を人間へ転送しない |
+| pending / skipped / not-run を成功扱いしない | ai-workflow §4–5 | 実行証拠と対象revisionを確認する |
+| 人間コードレビューを必須gateにしない | ai-workflow §5 | 必須チェックと独立AIレビューで完了判断する |
 
-実装者の自己レビューに加え、Codex / Bugbot の独立指摘と修正が存在する。全指摘を盲目的に採用する仕組みではなく、妥当性判定と根拠付き不採用も必要。
+## Acceptance scenarios
 
-## 直近 Issue 3 件と Questions の成立
-
-| Issue | 経緯 | 継承する扱い |
+| Situation | Expected behavior | Failure |
 |---|---|---|
-| 1104 | 親1094の比較実験案から、request・候補確認・判断履歴・障害時継続・rate limit を別設計に分離。本文に未決チェックが残り、独立 Questions の直接リンクは確認できない | 設計中 Issue を実装 Ready と扱わない。存在しない回答履歴を補完しない |
-| 1100 | 旧 Q1–Q22 を archive 化し、未指定許可・入力の由来・既定 OFF 等へ契約を再定義。新契約の実装前3決定と AC が Issue に転記され PR1101 へ | superseded の明記、変更前契約の復活防止、回答→AC→実装の追跡 |
-| 1096 | 監査結果から親1084の再生成運用へ C2 を切出し。辞書維持の判断は別 Questions。参照文書は改名/削除済みのため履歴を確認。9/8のコメントで DB 作直し前提により掃除不要として close | 仕様判断と運用作業を分離。close を実装完了と同一視しない |
+| 「この機能を追加したい」 | AIが現状契約を調査し、意味・範囲・リスクの未決事項だけQuestions化 | いきなり実装する / repoで分かることを人間に質問 |
+| 回答が既存仕様を変更する | Answers / Issue AC を target contract とし、実装・tests・docsを更新 | 現状実装がSoT上位だからという理由で変更を拒否 |
+| 変更されたAPIに関連docsがdiffにない | reviewerが影響範囲から未更新ファイルを発見して指摘 | PR diffにないため確認対象外にする |
+| review finding が出る | AIが valid / false positive / decision required に分類し、validは修正 | 全件を人間へ転送 / 全件を無条件採用 |
+| tests が失敗する | AIが原因を調査・修正し、再検証 | 「例外」として人間へ実装修正を戻す |
+| 新しい意味・権限境界が必要 | 証拠、選択肢、推奨をQuestionsで人間へ返す | AIが慣例だけで意味を確定する |
+| aggregate command が成功したが子工程がskip | 未完了として扱い、対象revisionと各工程を確認 | Fail=0だけでDoneにする |
+| docsとimplementationが矛盾 | current-state調査では implementation → system test → flow の順で事実確認 | docsだけを根拠に既存実装を削除 |
+| agreed change後のdocsが古い | target contractに合わせてコード・tests・4-point docsを同期 | current-state SoTを理由に古いdocsを放置 |
 
-補足履歴: 運用 QA は `db9f4880` 時点 §12 C2、旧判断保留文書は `98139021` 時点、削除は `1795769e`。設計中の1104を完全な Questions→実装成功事例には数えない。
+## Example scope
 
-## 継承対応表
+`EXAMPLE_TASK_CRUD` は workflow と検証面を説明するための教材。
 
-| 必須の性質 | この repo の適用先 | 確認方法 |
-|---|---|---|
-| 人間は目的・範囲・回答・リスク許容 | README / ai-workflow §1 / 5 prompts | 通常実装・コードレビューを人間 gate にしていない |
-| 根拠付き深掘り・具体例・推奨・不明の分離 | ai-workflow §2 / Questions template | 下記の受け入れシナリオ |
-| 回答の履歴と新旧契約 | ai-workflow §3・6 | 旧回答が現在の AC を上書きしない |
-| Q→Issue→PR の品質 | 全 Issue templates / PR template / Task教材 | Q-ID→AC-ID→証拠の欠落を確認 |
-| Pack / Flow / 許可パス / 完了 make | AGENTS / templates / core-features | 実在パスと対象を確認 |
-| 実装・4点セット・テスト同時追従 | docs-follow / FE contract / SIT strategy | make survey、同一変更系列を確認 |
-| SYS / FE、pure / representative integration | FE contract / SIT strategy | ID とテストの一致、実行結果は別に確認 |
-| 対になる機能の完了 | bundle-completion | 片方だけ Done にしない、対象なしは N/A |
-| BE/FE 責務・監査・エラー境界 | BE/FE quick / audit rules | 言語依存実装は現 stack に適用 |
-| 独立人格レビュー・false positive 判定 | AGENTS Review guidelines / BUGBOT / ai-review | 実際の reviewer・commit・結果を確認 |
-| 未実行・N/A・pending の区別 | ai-workflow §4–5 / PR template | 証拠なし成功・自動 close を拒否 |
-| 人間レビュー不要の完了 | prompt05 / ai-workflow §5 | 必須チェック・AIレビュー・merge権限を確認 |
+- list/detail UI + CRUD API
+- auth / per-user ownership / member audit / mutation UI は main の教材スコープ外
+- Questions 内の teaching Answers は実在ユーザーの承認履歴ではない
+- 教材の目的は「完成したSaaS」ではなく、契約→実装→検証の追跡可能性を示すこと
 
-Go / Python 固有実装、個別プロダクトの辞書・DB・画面・運用コマンドは移植しない。原則は Laravel / Next.js と一般的な候補・確定・状態遷移・証拠の契約へ置き換える。
-
-## 概念・設計判断まで追跡した追加継承（2026-09-24）
-
-同snapshotの concept、6件のADR、辞書Policy、自動分類の4点セット、段階評価の仕様・実装・逆系テスト、実際の個別精査Planまで確認した。個別製品の評価アルゴリズムを移すのでなく、それを成立させる判断と検証の仕組みを継承する。
-
-| 参照実装で確認した性質 | 追加・補強先 | 確認方法 |
-|---|---|---|
-| 目的と概念を先に理解してから変更する | concept / domain-decisions / AGENTS / prompt01 | Task教材の概念からPack・実装・Questionsへ辿れる |
-| 概念・表現・用途、保存・集約・表示単位の区別 | domain-decisions / Questions template / 全Issue templates | 具体例と反例をACへ落とす |
-| 事実・候補・確定・参考、根拠の出所と版を分離 | domain-decisions / ai-review | 不十分な根拠を確定に昇格させない |
-| ADRは採用理由、Policyは個別作業の現行基準 | ADR / Policy索引 / ai-workflow / prompt02 | 新判断と既存基準の適用を区別する |
-| 明確な個別修正はAI、新概念だけ意思決定 | domain-decisions / Policy / prompt03 | 個別精査を人間全件承認に読み替えない |
-| 複雑さを要求・不変条件と対応づけて評価 | domain-decisions / ai-review / prompt04 | 簡略化の影響と維持できる約束を示す |
-| 4点セットは人間向けの機能概要と検証の接点 | docs-follow / AGENTS / README | AIが維持し、人間コードレビューを必須にしない |
-| 判定工程の実行事実を確かめる | ai-workflow §4 / ai-review / prompt05 | 工程失敗・skip・古いレポートを成功集約で隠さない |
-| 決定を将来も辿れる | domain-decisions | 改名・削除時に置換先または固定revisionを残す |
-
-参照実装では Questions 配下への運用Plan混在、コミット粒度規約の不一致、集約テストの終了判定に改善余地があった。これらは模倣せず、置き場と実行結果を明示する。元の思想の継承と、全ファイルの無条件コピーを同一視しない。
-
-独立レビューで判明した bug / hotfix / test の許可パス欄欠落も補完する。全6種のIssueテンプレートを対象に Pack / Flow ID / 触ってよいパス / 完了make / 決定・ACの欄を確認する。
-
-## プロンプトの受け入れシナリオ
-
-これは意味の評価用シナリオ。文言の存在チェックだけで品質同等を保証しない。
-
-| 入力・状況 | 必須の出力・動作 | 失敗条件 |
-|---|---|---|
-| 「同じ対象へサイズ別に記録したい」 | 現行一意性を調査、未指定・色・重複・更新・既存データ・切戻し・UI導線を検討 | 質問せず新キーを決定、人間へコード調査を要求 |
-| 「Q1はA、今回はUIなし」 | 回答履歴、UI非対象、AC・検証対応、具体Issue | 推奨のBで実装、UIをついで追加 |
-| 前の回答と新回答が異なる | superseded と置換先、影響AC更新 | 旧Archiveを再採用 |
-| 作成成功・更新競合 | 競合時に本文も不変というDB証拠 | statusだけテストし部分更新を見逃す |
-| 取得結果が空 / 取得失敗 | 別状態、既存fallback契約を検証 | 失敗を正常空と同一視 |
-| reviewに制約違反の疑い | SoTとACで妥当性判定、根拠付き修正/不採用 | 全採用、または人間レビューへ転送 |
-| 必須CI未実行 / AI未接続 | 未完了・理由・再開条件 | テストIDだけでDone、自己レビューを独立扱い |
-| merge済みだが子Issue未完 | 状態を照合しEpicを維持 | 親まで一括close |
-| 似た入力表現を同じ分類へまとめたい | 有効なADR/Policy、概念・入力前提・許容例と反例を調査 | 文字列の近さだけで意味を統合 |
-| 確定済み基準で個別データを精査 | 明確な修正はAIが実行し、新概念だけ保留・質問 | 全件を人間のAccept待ちにする、曖昧な項目を無理寄せ |
-| 内部構造を単純化したい | 保存/集約/表示単位と不変条件、代替案の影響を示す | 複雑という理由だけで必要な意味の区別を消す |
-| 集約コマンド成功だが子工程が失敗 | 工程結果・対象revisionを確認し未完了とする | Fail=0の過去レポートだけでDone |
-
-実運用で生成品質を判定するときは、この表に実際の Questions / Issue / PR / 検証結果を対応付ける。本変更の文書整合確認だけで、未実施の実運用を合格とは宣言しない。
+実行確認は `make lint` → `make test` → `make survey` を基準とし、結果は対象revisionごとに記録する。

@@ -6,8 +6,8 @@
 
 | プレースホルダ | 例 | 説明 |
 |----------------|-----|------|
-| `{{ID}}` | `TASK_CRUD` | Flow ID / Screen ID / DB ID / Validation ID に同じ値。AI が紐付けるキー。 |
-| `{{機能名}}` | `タスクCRUD` | flow/ui/db/validation で同一ファイル名にする。 |
+| `{{ID}}` | `EXAMPLE_FLOW` | Flow ID / Screen ID / DB ID / Validation ID に同じ値。AI が紐付けるキー。 |
+| `{{機能名}}` | `サンプル機能` | flow/ui/db/validation で同一ファイル名にする。 |
 
 ## 作成手順
 

@@ -14,7 +14,7 @@ Follow the [language policy](./docs/rules/language-policy.md). Agent-facing rule
 
 ## Review guidelines
 
-When Codex is invoked as a PR reviewer, apply the [independent AI review contract](./docs/rules/ai-review.md). The reviewer is not the implementation agent described below. It independently checks the Issue AC, diff, rules, and tests from a separate context.
+When Codex is invoked as a PR reviewer, apply the [independent AI review contract](./docs/rules/ai-review.md) **in full**. The reviewer is not the implementation agent described below; use a separate context and independently inspect accepted Answers / Issue AC, current-state SoT, applicable concept / active ADR / Policy, diff, and tests. **Required:** identify affected SoT/docs and test artifacts for every behavior/contract change and detect missing updates **including files absent from the PR diff**. Do not mistake the current-state SoT priority for permission to override the agreed target contract. Do not accept the implementer's completion claim as evidence.
 
 ## Minimal reading order
 
@@ -28,6 +28,7 @@ When Codex is invoked as a PR reviewer, apply the [independent AI review contrac
 
 ## Avoid during initial exploration
 
+- `.trash/**` — local retired example artifacts only; never use as active Source of Truth or normal discovery input
 - `coverage/docs/*` generated output
 - cross-repository grep of every file under `docs/flow/`
 - full `TECH_STACK.md` / `README.md` unless the relevant section is needed
@@ -37,7 +38,7 @@ When Codex is invoked as a PR reviewer, apply the [independent AI review contrac
 
 ## Required for every task
 
-1. Follow reading order **0→5**. Read one relevant flow and one relevant pack, not the whole repository by default.
+1. Follow reading order **0→5**. Read one relevant flow and one relevant pack, not the whole repository by default. In greenfield state, zero bundles/flows/tests is valid; do not search `.trash/` to manufacture current facts.
 2. Every created Issue / PR must include **Pack**, **Flow ID**, **allowed paths**, and completion **`make`** commands.
 3. Before completion, run the required `make lint-*` / `make test-*` commands below. For structural changes, also run `make survey` as applicable. Add PHPDoc / JSDoc to touched exported/public surfaces.
 4. Use `make` or the app's existing commands for verification. Do not make an ad-hoc environment the source of truth.

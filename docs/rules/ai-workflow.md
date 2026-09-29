@@ -18,6 +18,14 @@ Ordinary bugs, test failures, review findings, and implementation details alread
 
 ## 2. Investigation and Questions
 
+Choose the investigation mode from the target state. Do not ask the human to choose when the repository can determine it.
+
+- **Existing-contract mode**: the target already has implementation, tests, feature docs, concept, or accepted decisions. Investigate current facts first, reconstruct missing docs/contracts from implementation and tests, and then create only human-authority Questions.
+- **Greenfield mode**: the target has no implementation or accepted feature contract yet. Record that absence as a current fact, use human intent + repository-wide rules + technical constraints to propose the minimum provisional design needed to expose semantic decisions, and create Questions only for meaning/scope/risk decisions AI lacks authority to make.
+- If a repository is mixed, apply the modes per affected feature/boundary rather than labeling the whole repository greenfield or brownfield.
+
+Greenfield mode must not fabricate current behavior. Existing-contract mode must not turn missing documentation into a human question when implementation/tests already determine the behavior.
+
 1. Follow AGENTS reading order: core-features → relevant Pack / Flow → tests → implementation → applicable rules. For changes that affect purpose or meaning, follow [domain-decisions](./domain-decisions.md) and read the relevant concept, active ADR, and Policy. Trace related API / DB / UI call sites and counterpart functionality only as needed. For a new feature, AI proposes concept / Pack / Flow / path structure.
 2. Record Goal, success conditions, current-state facts with evidence paths/symbols/revision, proposed change, Scope / Non-goals, constraints, and contracts that must remain true. Do not ask humans for facts obtainable from the repository.
 3. Separate Risks / Unknowns / Assumptions. A recommendation is not an answer. Never mark an unanswered item as accepted.

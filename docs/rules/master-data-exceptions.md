@@ -18,7 +18,7 @@
 
 ## 2. Exceptions
 
-The current sample `TASK_CRUD` has **no master-data exceptions**.
+No master-data exceptions are registered by default.
 
 When adding an exception, add its source of truth, allowed reason, and verification method to this table in the same PR.
 

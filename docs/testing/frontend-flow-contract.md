@@ -137,7 +137,7 @@ apps/frontend/src/
 
 | 列 | 内容 |
 |---|---|
-| ID | `TASK_CRUD-FE-001` |
+| ID | `EXAMPLE_FLOW-FE-001` |
 | 操作 | ユーザー操作 |
 | 入力・前提 | matrix cell |
 | 期待 | route / state / API |
@@ -148,7 +148,7 @@ SYS と FE は同じ Flow 内で隣接させる。
 ### 5.3 テストでの必須表記
 
 ```typescript
-it('TASK_CRUD-FE-001: 一覧から詳細IDを渡す', () => {
+it('EXAMPLE_FLOW-FE-001: 一覧から詳細IDを渡す', () => {
   // ...
 })
 ```
@@ -189,14 +189,14 @@ Gap:
 
 ---
 
-## 9. サンプル TASK_CRUD
+## 9. サンプル EXAMPLE_FLOW
 
 | FE-ID | 内容 |
 |---|---|
-| `TASK_CRUD-FE-001` | 一覧 loading |
-| `TASK_CRUD-FE-002` | empty |
-| `TASK_CRUD-FE-003` | API error |
-| `TASK_CRUD-FE-004` | 一覧から detail id を渡す |
+| `EXAMPLE_FLOW-FE-001` | 一覧 loading |
+| `EXAMPLE_FLOW-FE-002` | empty |
+| `EXAMPLE_FLOW-FE-003` | API error |
+| `EXAMPLE_FLOW-FE-004` | 一覧から detail id を渡す |
 
 ---
 
