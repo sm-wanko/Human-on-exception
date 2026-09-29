@@ -1,4 +1,5 @@
 .PHONY: sit
 
-sit:
-	@if find $(BACKEND_DIR)/tests/System -name '*Test.php' -print -quit | grep -q .; then cd $(BACKEND_DIR) && vendor/bin/phpunit -c phpunit.xml --testsuite System; else echo "SIT: 0 product system tests (greenfield)"; fi
+# SIT is the backend System test suite and uses the same Docker-backed reporter as make test.
+sit: test-env test-sit
+	@echo "SIT report: $(COVERAGE_TESTS_DIR)/sit.md"
