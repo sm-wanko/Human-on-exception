@@ -6,7 +6,6 @@ include make/lint.mk
 include make/docs.mk
 include make/survey.mk
 include make/sit.mk
-include make/greenfield.mk
 
 .PHONY: help
 .DEFAULT_GOAL := help
@@ -16,13 +15,11 @@ help:
 	@echo ""
 	@echo "  make build          NO_CACHE=true でキャッシュ無効"
 	@echo "  make up / down / logs"
-	@echo "  make test           Backend + Frontend + SIT"
+	@echo "  make test           Docker-backed Unit + SIT + Vitest + integration; reports in coverage/tests/"
 	@echo "  make survey         構造調査 + docs 整合"
 	@echo "  make docs           endpoint docs 整合"
 	@echo "  make lint"
 	@echo "  make format"
-	@echo "  make greenfield DRY_RUN=1   preview example retirement"
-	@echo "  make greenfield CONFIRM=1   archive example to .trash and reset active product state"
 	@echo ""
 	@echo "DB: make init-db / clean-db / reset-db"
 	@echo "SIT: make sit"
