@@ -35,43 +35,46 @@ export function TaskFormPresentation({ initial, createdAt, onSubmit }: Props) {
   }
 
   return (
-    <form onSubmit={(event) => void handleSubmit(event)}>
-      <label>
-        内容
-        <input
-          name="title"
-          required
-          maxLength={200}
-          defaultValue={initial.title}
-        />
-      </label>
-      <label>
-        詳細
-        <textarea
-          name="description"
-          maxLength={2000}
-          defaultValue={initial.description}
-        />
-      </label>
-      <label>
-        STATUS
-        <select name="status" defaultValue={initial.status}>
-          {TASK_STATUS_OPTIONS.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label>
-        終了予定日
-        <input name="due_on" type="date" defaultValue={initial.dueOn} />
-      </label>
-      {createdAt !== null ? (
-        <p>登録日 {formatRegistrationDate(createdAt)}</p>
-      ) : null}
-      {error !== null ? <p role="alert">{error}</p> : null}
-      <button type="submit">保存</button>
-    </form>
+    <section className="panel">
+      <h1>{createdAt === null ? 'Task登録' : 'Task編集'}</h1>
+      <form className="form-stack" onSubmit={(event) => void handleSubmit(event)}>
+        <label>
+          内容
+          <input
+            name="title"
+            required
+            maxLength={200}
+            defaultValue={initial.title}
+          />
+        </label>
+        <label>
+          詳細
+          <textarea
+            name="description"
+            maxLength={2000}
+            defaultValue={initial.description}
+          />
+        </label>
+        <label>
+          STATUS
+          <select name="status" defaultValue={initial.status}>
+            {TASK_STATUS_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label>
+          終了予定日
+          <input name="due_on" type="date" defaultValue={initial.dueOn} />
+        </label>
+        {createdAt !== null ? (
+          <p>登録日 {formatRegistrationDate(createdAt)}</p>
+        ) : null}
+        {error !== null ? <p role="alert">{error}</p> : null}
+        <button type="submit">保存</button>
+      </form>
+    </section>
   )
 }
