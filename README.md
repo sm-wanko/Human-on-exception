@@ -24,6 +24,34 @@ Human-on-Exception の Exception は、**AI に判断権限がない意思決定
 
 > Language rule / 言語規約: [docs/rules/language-policy.md](./docs/rules/language-policy.md). Bilingual sections must preserve the same meaning; translation is never permission to change product semantics.
 
+## Project status / 現在の位置付け
+
+This repository is an **experimental development model** distilled from AI-led development practice, not a claim that autonomous development works without verification in every team or environment. The rules and templates define the intended contract; repository-specific outcomes require review and test evidence for the actual revision.
+
+- **Documented practice**: [workflow conformance](./docs/testing/workflow-conformance.md) records the development observations and source snapshots used to derive this model. It is evidence of the source workflow, not proof of universal reproducibility.
+- **Executable teaching example on `main`**: [`EXAMPLE_TASK_CRUD`](./docs/testing/questions/task-crud.md) contains a minimal Laravel / Next.js Task CRUD with a list/detail UI and CRUD API. Authentication, ownership, member audit, and mutation UI are deliberately outside this teaching example. **Do not deploy it as a public multi-user task service.** Its reconstructed teaching Answers are not actual human approval.
+- **Separate experiment**: [PR #6](https://github.com/sm-wanko/Human-on-exception/pull/6) (authentication) and [PR #7](https://github.com/sm-wanko/Human-on-exception/pull/7) (owned tasks) explore a short human-intent / recommended-Answers workflow. They are separate, unmerged experiment branches, not functionality available on `main` or a claim that all independent review findings have been resolved.
+- **Review-contract update**: [PR #8](https://github.com/sm-wanko/Human-on-exception/pull/8) proposes cross-agent independent review entrypoints and explicit SoT/docs omission checks; these rules are not on `main` until merged.
+
+For an initial reading, start with this README → [AI execution contract](./docs/rules/ai-workflow.md) → [Questions template](./docs/templates/questions.md) → [Task CRUD teaching example](./docs/testing/questions/task-crud.md) → [independent review contract](./docs/rules/ai-review.md). The numbered prompts below are **entry/resume points**, not five mandatory human approvals.
+
+### 日本語：実証範囲と読み方
+
+本リポジトリは、AI 中心の開発実践から抽出した**検証中の開発モデル**であり、あらゆる組織・環境で無検証の自律開発が成立したと主張するものではない。規約・テンプレートは目標とする契約であり、実際の達成状況は対象 revision のテスト・レビュー証拠と区別する。
+
+- [workflow-conformance](./docs/testing/workflow-conformance.md) は、元の開発実践から何を継承したかを記録した資料。すべての環境での再現性を証明するものではない。
+- `main` の [Task CRUD](./docs/testing/questions/task-crud.md) は、一覧・詳細 UI と CRUD API の**教材**。認証・所有権・会員監査・登録編集削除 UI は対象外であり、公開マルチユーザーサービスとして使用しない。教材内の Answers は実際の人間の承認履歴ではない。
+- [PR #6](https://github.com/sm-wanko/Human-on-exception/pull/6) と [PR #7](https://github.com/sm-wanko/Human-on-exception/pull/7) は、短い意図と推奨回答から認証・本人タスク機能を作る**別ブランチの実験**。未マージであり、`main` の機能やレビュー完了を意味しない。
+- [PR #8](https://github.com/sm-wanko/Human-on-exception/pull/8) は、独立レビューの複数AI対応とSoT/docs更新漏れチェックを追加する変更提案。マージ前の内容は `main` の規約として扱わない。
+
+初めて読む場合は README → [実行契約](./docs/rules/ai-workflow.md) → [Questionsテンプレート](./docs/templates/questions.md) → [Task CRUD教材](./docs/testing/questions/task-crud.md) → [独立レビュー契約](./docs/rules/ai-review.md) の順に読むと全体像を追いやすい。
+
+## Publication readiness / 公開前の確認
+
+This repository is currently private. Before changing visibility, review [the publication checklist](./docs/PUBLICATION_CHECKLIST.md). Licensing, permission to disclose source-repository evidence, and history-wide secret scanning are explicit release decisions, not assumed approvals.
+
+現在は非公開。公開設定の変更前に [公開チェックリスト](./docs/PUBLICATION_CHECKLIST.md) を確認する。ライセンス、参照元情報の公開範囲、Git履歴を含むシークレット検査は、完了済みと見なさない。
+
 ## Human prompts / 人間が使うプロンプト
 
 Optional bootstrap for a new product: [0. Greenfield bootstrap](./prompts/00-greenfield.md). The normal development loop remains the five entry/resume prompts below.
