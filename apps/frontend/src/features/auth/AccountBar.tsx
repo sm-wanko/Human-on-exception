@@ -21,7 +21,7 @@ export function AccountBar() {
         ) : null}
         {label.kind === 'authenticated' ? (
           <p className="account-bar__actions">
-            <span>{label.displayName}</span>
+            <span>Hello, {label.displayName}</span>
             <button type="button" onClick={() => void logout()}>
               ログアウト
             </button>
