@@ -17,13 +17,18 @@ test-env:
 
 test-unit:
 	@rm -f $(BACKEND_DIR)/.test-results/unit.xml
-	@status=0; $(DOCKER_COMPOSE) exec -T backend vendor/bin/phpunit -c phpunit.xml --testsuite Unit --log-junit .test-results/unit.xml || status=$$?; \
-	if [ -f $(BACKEND_DIR)/.test-results/unit.xml ]; then \
-		python3 scripts/generate_test_report.py --format phpunit --input $(BACKEND_DIR)/.test-results/unit.xml --output $(COVERAGE_TESTS_DIR)/backend-unit.md --title "Backend Unit Test Report"; \
+	@if ! find $(BACKEND_DIR)/tests/Unit -name '*Test.php' -print -quit 2>/dev/null | grep -q .; then \
+		printf '# Backend Unit Test Report\n\n## Summary\n- Total: 0\n- ✅ Pass: 0\n- ❌ Fail: 0\n- ⏭ Skip: 0\n- ⏱ Duration: 0.00s\n\n## Failed cases\n\n- None\n\n## Cases\n\nNo unit tests in the current repository.\n' > $(COVERAGE_TESTS_DIR)/backend-unit.md; \
+		echo "Backend Unit: 0 tests (skip)"; \
 	else \
-		printf '# Backend Unit Test Report\n\nNo JUnit report was produced.\n' > $(COVERAGE_TESTS_DIR)/backend-unit.md; \
-	fi; \
-	exit $$status
+		status=0; $(DOCKER_COMPOSE) exec -T backend vendor/bin/phpunit -c phpunit.xml --testsuite Unit --log-junit .test-results/unit.xml || status=$?; \
+		if [ -f $(BACKEND_DIR)/.test-results/unit.xml ]; then \
+			python3 scripts/generate_test_report.py --format phpunit --input $(BACKEND_DIR)/.test-results/unit.xml --output $(COVERAGE_TESTS_DIR)/backend-unit.md --title "Backend Unit Test Report"; \
+		else \
+			printf '# Backend Unit Test Report\n\nNo JUnit report was produced.\n' > $(COVERAGE_TESTS_DIR)/backend-unit.md; \
+		fi; \
+		exit $status; \
+	fi
 
 test-sit:
 	@rm -f $(BACKEND_DIR)/.test-results/system.xml
