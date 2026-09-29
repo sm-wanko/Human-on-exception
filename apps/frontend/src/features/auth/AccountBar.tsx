@@ -15,8 +15,8 @@ export function AccountBar() {
         {label.kind === 'error' ? <p className="account-bar__actions" role="alert">{label.message}</p> : null}
         {label.kind === 'anonymous' ? (
           <p className="account-bar__actions">
-            <Link href="/login/">ログイン</Link>
-            <Link href="/register/">登録</Link>
+            <Link href="/register/">Register</Link>
+            <Link href="/login/">Login</Link>
           </p>
         ) : null}
         {label.kind === 'authenticated' ? (
