@@ -31,21 +31,24 @@ export function RegisterPagePresentation({ onSubmit }: Props) {
   }
 
   return (
-    <form onSubmit={(event) => void handleSubmit(event)}>
-      <label>
-        メールアドレス
-        <input name="email" type="email" required />
-      </label>
-      <label>
-        パスワード
-        <input name="password" type="password" required minLength={8} />
-      </label>
-      <label>
-        表示名
-        <input name="display_name" required maxLength={80} />
-      </label>
-      {error !== null ? <p role="alert">{error}</p> : null}
-      <button type="submit">登録</button>
-    </form>
+    <section className="panel">
+      <h1>アカウント登録</h1>
+      <form className="form-stack" onSubmit={(event) => void handleSubmit(event)}>
+        <label>
+          メールアドレス
+          <input name="email" type="email" required />
+        </label>
+        <label>
+          パスワード
+          <input name="password" type="password" required minLength={8} />
+        </label>
+        <label>
+          表示名
+          <input name="display_name" required maxLength={80} />
+        </label>
+        {error !== null ? <p role="alert">{error}</p> : null}
+        <button type="submit">登録</button>
+      </form>
+    </section>
   )
 }
