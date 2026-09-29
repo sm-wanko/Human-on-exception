@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { AccountBar } from '../features/auth/AccountBar'
+import './globals.css'
 
 type Props = {
   children: ReactNode
@@ -11,7 +12,9 @@ export default function RootLayout({ children }: Props) {
     <html lang="ja">
       <body>
         <AccountBar />
-        {children}
+        <div className="app-shell">
+          <main className="app-main">{children}</main>
+        </div>
       </body>
     </html>
   )
