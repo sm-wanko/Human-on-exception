@@ -27,17 +27,20 @@ export function LoginPagePresentation({ onSubmit }: Props) {
   }
 
   return (
-    <form onSubmit={(event) => void handleSubmit(event)}>
-      <label>
-        メールアドレス
-        <input name="email" type="email" required />
-      </label>
-      <label>
-        パスワード
-        <input name="password" type="password" required />
-      </label>
-      {error !== null ? <p role="alert">{error}</p> : null}
-      <button type="submit">ログイン</button>
-    </form>
+    <section className="panel">
+      <h1>ログイン</h1>
+      <form className="form-stack" onSubmit={(event) => void handleSubmit(event)}>
+        <label>
+          メールアドレス
+          <input name="email" type="email" required />
+        </label>
+        <label>
+          パスワード
+          <input name="password" type="password" required />
+        </label>
+        {error !== null ? <p role="alert">{error}</p> : null}
+        <button type="submit">ログイン</button>
+      </form>
+    </section>
   )
 }
