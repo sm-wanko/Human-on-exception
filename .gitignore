@@ -5,6 +5,8 @@ apps/frontend/.next/
 
 # test/cache
 apps/backend/.phpunit.cache/
+apps/backend/.test-results/
+apps/frontend/.test-results/
 coverage/
 
 # env
@@ -15,6 +17,3 @@ coverage/
 # misc
 .DS_Store
 *.log
-
-# local retired example artifacts
-.trash/
