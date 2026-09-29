@@ -1,0 +1,19 @@
+name: test-entrypoint
+
+on:
+  pull_request:
+
+jobs:
+  root-make-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Docker-backed test entrypoint
+        run: make test
+      - name: Upload generated test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: coverage/tests/
+          if-no-files-found: warn
