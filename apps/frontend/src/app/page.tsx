@@ -8,7 +8,6 @@ export default function HomePage() {
       <p>Laravel + TypeScript Task CRUD sample.</p>
       <div className="hero__actions">
         <Link className="button-link" href="/register/">Register</Link>
-        <Link className="button-link" href="/login/">Login</Link>
         <Link className="button-link" href="/tasks/">Tasks</Link>
       </div>
     </section>
