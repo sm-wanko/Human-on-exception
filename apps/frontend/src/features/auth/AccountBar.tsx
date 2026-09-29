@@ -7,23 +7,27 @@ import { useAccountSession } from '../../hooks/auth/useAccountSession'
 export function AccountBar() {
   const { label, logout } = useAccountSession()
 
-  if (label.kind === 'loading') return <p>Loading…</p>
-  if (label.kind === 'error') return <p role="alert">{label.message}</p>
-  if (label.kind === 'anonymous') {
-    return (
-      <p>
-        <Link href="/login/">ログイン</Link>
-        <Link href="/register/">登録</Link>
-      </p>
-    )
-  }
-
   return (
-    <p>
-      <span>{label.displayName}</span>
-      <button type="button" onClick={() => void logout()}>
-        ログアウト
-      </button>
-    </p>
+    <header className="account-bar">
+      <div className="account-bar__inner">
+        <Link className="account-bar__brand" href="/">Human-on-Exception</Link>
+        {label.kind === 'loading' ? <p className="account-bar__actions">Loading…</p> : null}
+        {label.kind === 'error' ? <p className="account-bar__actions" role="alert">{label.message}</p> : null}
+        {label.kind === 'anonymous' ? (
+          <p className="account-bar__actions">
+            <Link href="/login/">ログイン</Link>
+            <Link href="/register/">登録</Link>
+          </p>
+        ) : null}
+        {label.kind === 'authenticated' ? (
+          <p className="account-bar__actions">
+            <span>{label.displayName}</span>
+            <button type="button" onClick={() => void logout()}>
+              ログアウト
+            </button>
+          </p>
+        ) : null}
+      </div>
+    </header>
   )
 }
