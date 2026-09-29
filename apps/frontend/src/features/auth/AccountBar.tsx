@@ -19,7 +19,7 @@ export function AccountBar() {
             <Link href="/login/">Login</Link>
           </p>
         ) : null}
-        {label.kind === 'authenticated' ? (
+        {label.kind === 'named' ? (
           <p className="account-bar__actions">
             <span>Hello, {label.displayName}</span>
             <button type="button" onClick={() => void logout()}>
