@@ -16,9 +16,11 @@ export function TaskListPagePresentation({ onOpenTask }: Props) {
   if (state.kind === 'error') return <p role="alert">{state.message}</p>
 
   return (
-    <section>
-      <Link href="/tasks/new/">登録</Link>
-      {state.kind === 'empty' ? <p>No tasks yet.</p> : null}
+    <section className="panel task-list-wrap">
+      <div className="panel__actions">
+        <Link className="button-link" href="/tasks/new/">登録</Link>
+      </div>
+      {state.kind === 'empty' ? <p className="empty-state">No tasks yet.</p> : null}
       {state.kind === 'ready' ? (
         <TaskList
           tasks={state.tasks}
