@@ -3,30 +3,23 @@
 > **If AI keeps getting better, how much engineering work actually still needs a human?**  
 > This repository takes that question seriously and draws an explicit boundary between human authority and AI execution.
 
-AI がもっと進化したら、人間がやる開発作業ってどこまで残るんやろう。  
-その問いをわりと真面目に突き詰めて、**人間が決めること**と**AIに任せること**の境界をリポジトリ上の契約として切ってみた実験的な開発モデルが Human-on-Exception です。
-
-> **Humans decide intent and boundaries. AI owns execution.**  
-> **人間は意図と境界を決める。AI は実行を所有する。**
+> **Humans decide intent and boundaries. AI owns execution.**
 
 Humans own **Intent / Scope / Answers / Risk acceptance** and the semantic boundaries that define product meaning. AI owns investigation, design, Issue creation, implementation, tests, docs, PR creation, independent review handling, fixes, and re-verification.
 
 Human coding, code reading, and line-by-line code review are not normal required gates. The "Exception" is a decision AI does **not** have authority to make—not an ordinary bug, failing test, or review fix. The authoritative workflow contract is [docs/rules/ai-workflow.md](./docs/rules/ai-workflow.md).
 
-人間が持つのは **Intent / Scope / Answers / Risk acceptance** と、プロダクトの意味を決める semantic boundary。AI は調査・設計・Issue・実装・テスト・docs・PR・独立レビュー対応・修正・再検証を担います。
 
-通常の実装ミス、テスト失敗、レビュー指摘は「人間に戻す例外」ではありません。AI に判断権限がない意思決定だけを人間へ戻します。
+## What is in this repository
 
-## What is in this repository / このrepoにあるもの
+- **Execution contract** — responsibility boundaries, Questions, Issues, implementation, and completion
+- **Questions / Answers** — AI investigates current state and asks only for decisions requiring human authority
+- **Source of Truth rules** — distinguish current-state facts from an agreed target contract
+- **Independent AI review** — a separate context verifies AC, SoT, diff, tests, and docs
+- **4-point docs** — flow / ui / validation / db as a human-readable current feature overview and verification surface
+- **Executable example** — a minimal Laravel / Next.js Task CRUD
 
-- **Execution contract** — 人間とAIの責任分界、Questions、Issue、実装、完了条件
-- **Questions / Answers** — AIが既存実装を調査し、人間にしか決められない事項だけを質問する形式
-- **Source of Truth rules** — 現状事実と合意済み変更契約を区別する規約
-- **Independent AI review** — 実装担当とは別コンテキストでAC・SoT・diff・tests・docsを検証する契約
-- **4-point docs** — flow / ui / validation / db を、人間が読める現行機能概要かつAIの検証面として維持
-- **Executable example** — Laravel / Next.js の最小 Task CRUD
-
-初めて読むなら、README → [AI execution contract](./docs/rules/ai-workflow.md) → [Questions template](./docs/templates/questions.md) → [Task CRUD example](./docs/testing/questions/task-crud.md) → [Independent AI review](./docs/rules/ai-review.md) の順が分かりやすいです。
+Start with README → [AI execution contract](./docs/rules/ai-workflow.md) → [Questions template](./docs/templates/questions.md) → [Task CRUD example](./docs/testing/questions/task-crud.md) → [Independent AI review](./docs/rules/ai-review.md).
 
 ## Human prompts / 人間が使うプロンプト
 
