@@ -1,0 +1,9 @@
+_MAKE_DIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
+ROOT_DIR := $(abspath $(_MAKE_DIR)/..)
+BACKEND_DIR := $(ROOT_DIR)/apps/backend
+FRONTEND_DIR := $(ROOT_DIR)/apps/frontend
+COVERAGE_DIR := $(ROOT_DIR)/coverage
+COVERAGE_TESTS_DIR := $(COVERAGE_DIR)/tests
+COVERAGE_DOCS_DIR := $(COVERAGE_DIR)/docs
+COVERAGE_SURVEY_DIR := $(COVERAGE_DIR)/survey
+DOCKER_COMPOSE := $(shell if docker compose version >/dev/null 2>&1; then echo "docker compose"; elif command -v docker-compose >/dev/null 2>&1; then echo docker-compose; else echo "docker compose"; fi)

@@ -1,0 +1,31 @@
+# dependencies
+apps/backend/vendor/
+apps/frontend/node_modules/
+apps/frontend/.next/
+apps/frontend/.pnpm-store/
+
+# test/cache
+apps/backend/.phpunit.cache/
+apps/backend/.test-results/
+apps/frontend/.test-results/
+coverage/
+
+# Laravel runtime/cache
+apps/backend/bootstrap/cache/*
+!apps/backend/bootstrap/cache/.gitignore
+apps/backend/storage/framework/*
+!apps/backend/storage/framework/.gitkeep
+apps/backend/storage/logs/*
+!apps/backend/storage/logs/.gitkeep
+
+# env
+.env
+.env.*
+!.env.example
+
+# local greenfield archive
+.trash/
+
+# misc
+.DS_Store
+*.log

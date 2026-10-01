@@ -1,0 +1,87 @@
+# local development
+services:
+  frontend:
+    container_name: human-on-exception-frontend
+    build:
+      context: ./apps/frontend
+      dockerfile: ../../.docker/frontend/Dockerfile
+      target: dev
+    ports: ['3000:3000']
+    tty: true
+    volumes:
+      - ./apps/frontend:/app
+      - /app/node_modules
+    environment:
+      - BACKEND_INTERNAL_URL=http://backend:8080
+      - NODE_OPTIONS=--dns-result-order=ipv4first
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks: [app-network]
+
+  backend:
+    container_name: human-on-exception-backend
+    build:
+      context: ./apps/backend
+      dockerfile: ../../.docker/backend/Dockerfile
+      target: dev
+    working_dir: /app
+    volumes:
+      - ./apps/backend:/app
+      - /app/vendor
+    command: >
+      sh -c "php artisan migrate --force &&
+             php artisan serve --host=0.0.0.0 --port=8080"
+    ports: ['8080:8080']
+    environment:
+      - APP_NAME=Human-on-Exception
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - APP_URL=http://localhost:8080
+      - APP_KEY=base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
+      - LOG_CHANNEL=stderr
+      - DB_CONNECTION=pgsql
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_DATABASE=${DB_DATABASE:-human_on_exception}
+      - DB_USERNAME=${DB_USERNAME:-human_on_exception}
+      - DB_PASSWORD=${DB_PASSWORD:-human_on_exception}
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ['CMD-SHELL', 'curl -fsS http://127.0.0.1:8080/up >/dev/null || exit 1']
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 20s
+    networks: [app-network]
+    restart: unless-stopped
+
+  db:
+    container_name: human-on-exception-db
+    image: postgres:15-alpine
+    ports: ['5432:5432']
+    environment:
+      - POSTGRES_DB=${DB_DATABASE:-human_on_exception}
+      - POSTGRES_USER=${DB_USERNAME:-human_on_exception}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-human_on_exception}
+      - LANG=C.UTF-8
+      - LC_ALL=C.UTF-8
+      - TZ=Asia/Tokyo
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks: [app-network]
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${DB_USERNAME:-human_on_exception} -d ${DB_DATABASE:-human_on_exception}']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  postgres_data:
+
+networks:
+  app-network:
+    driver: bridge

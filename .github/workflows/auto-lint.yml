@@ -1,0 +1,29 @@
+name: auto-lint
+
+on:
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: pnpm/action-setup@v4
+        with:
+          version: '10.13.1'
+      - name: Backend lint
+        working-directory: apps/backend
+        run: make lint
+      - name: Frontend install
+        working-directory: apps/frontend
+        run: pnpm install --no-frozen-lockfile
+      - name: Frontend lint/typecheck
+        working-directory: apps/frontend
+        run: make lint && make typecheck
