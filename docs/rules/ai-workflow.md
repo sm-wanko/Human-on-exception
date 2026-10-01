@@ -6,7 +6,7 @@
 
 Humans decide Intent, Scope (in/out), Answers to specification ambiguity, and Risk acceptance. This includes the semantic boundary: what may be treated as the same meaning and what must remain distinct.
 
-AI owns investigation, design, Issue creation, implementation, tests, static analysis, self-review, docs, PR/evidence, finding classification, fixes, and re-verification. AI is the execution owner that propagates agreed meaning. It is not the semantic authority that may invent or finalize unagreed meaning.
+AI owns investigation, design, Issue creation, implementation, tests, static analysis, docs, PR/evidence, independent-review handling, finding classification, fixes, and re-verification. AI is the execution owner that propagates agreed meaning. It is not the semantic authority that may invent or finalize unagreed meaning.
 
 Human code reading, implementation, and line-by-line code review are neither prerequisites nor required gates in the normal workflow. Optional human review is allowed. The five prompts are entry/resume points, not five mandatory approval gates. Once a stage is already authorized, continue it. Merge, release, or destructive operations must remain within previously agreed permissions.
 
@@ -73,16 +73,23 @@ AI decides implementation splitting and branch names. Split by contracts/depende
 
 AI plans and implements from the Issue AC and applicable rules, and keeps tests, the 4-point docs, and Pack aligned in the same change series. Return only new specification decisions to Questions. Do not expand allowed scope "while here".
 
-Self-review is part of the implementer's responsibility and does not replace a separate-context independent review. Follow [ai-review.md](./ai-review.md).
+**Implementer self-review is optional, not a required gate.** Tests, static analysis, repository-required completion / `make` commands, docs/Pack synchronization, and evidence remain required.
 
-The PR must record Issue, Pack, Flow ID, allowed paths vs actual diff, why the change exists, evidence per AC, commands/results/revision, and reasons for anything not run/failed/N/A. Do not confuse attempted execution with success, or test-ID existence with executed success. Do not hide environment problems by deleting tests or weakening CI.
+Choose one of these execution modes according to the environment:
+
+- **Independent-review-before-PR:** after implementation and required verification, a reviewer in a genuinely separate session / context reviews the candidate base/head diff and exact head commit under [ai-review.md](./ai-review.md). Resolve authorized findings and re-verify. If the head changes, re-review the latest head. Create the PR after the exact candidate head has independent-review evidence and no valid or unclassified finding remains.
+- **PR-first:** when the implementation environment cannot create a separate reviewer context (for example, a GitHub-hosted coding agent), create the PR after implementation and required verification without inventing a same-context review. Mark independent review `pending` if it has not run. A separate-context reviewer then reviews the PR under [ai-review.md](./ai-review.md), and the normal finding-resolution loop continues.
+
+A change of persona, role label, prompt section, or tone inside the implementer's own context is not an independent review.
+
+The PR must record Issue, Pack, Flow ID, allowed paths vs actual diff, why the change exists, evidence per AC, commands/results/revision, chosen review mode, independent-review target revision/status, and reasons for anything not run/failed/N/A. Do not confuse attempted execution with success, or test-ID existence with executed success. Do not hide environment problems by deleting tests or weakening CI.
 
 Even when an aggregate command succeeds, verify each required stage's exit result, target revision, and skip/exclusion state. A historical success report or an aggregate Fail=0 is not completion evidence by itself. If actual behavior and contract differ, fix within authorized scope or record the work as incomplete.
 
 ## 5. Completion and merge
 
 - Every AC has verification evidence. 4-point docs, Pack, and required counterpart features are aligned. Gap A = 0 alone is not Done.
-- Independent AI review has run, and no valid or unclassified finding remains.
+- Independent AI review has run against the latest target head, and no valid or unclassified finding remains. A pre-PR independent review counts when it followed [ai-review.md](./ai-review.md), records the exact base/head revisions, and still covers the current PR head.
 - Required checks are successful on the target head. Pending/skipped/missing/not-run is not success.
 - If merge is already authorized, AI performs it. Prompt 5 is merge authorization for its target PR. Do not hard-code main/develop; inspect the PR base and repository workflow.
 - Confirm the actual merge result and update linked Issues / Epic. Do not close an Epic until child Issues and integration verification are complete.
