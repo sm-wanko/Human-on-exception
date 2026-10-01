@@ -16,7 +16,6 @@
 | 禁止 / Non-goals | |
 | 完了時 make | |
 | base / head | |
-| 実行モード | pre-PR independent review / PR-first |
 
 ## 受け入れ条件と Evidence
 
@@ -31,9 +30,8 @@
 
 ## 独立 AI レビュー
 
-- 実装者の自己レビュー: 必須ではない。実施した場合のみ参考情報として記録:
-- 独立レビュー方式: PR前 / PR後:
-- 独立レビュー者・対象 base/head commit・結果リンク（未実施なら pending）:
+- 実装者の自己レビュー（任意。未実施なら N/A）:
+- 独立レビュー者・対象 commit・結果リンク（未実施なら pending）:
 - 指摘一覧・valid / false positive / decision required・修正/判断の証拠:
 - 再レビューと必須チェックの対象 head:
 
