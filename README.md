@@ -26,7 +26,7 @@ Optional bootstrap for a new product: [0. Greenfield bootstrap](./prompts/00-gre
 
 1. [Define Questions](./prompts/01-define.md) — [existing repo](./prompts/01-define-existing.md) / [greenfield](./prompts/01-define-greenfield.md)
 2. [Apply Answers / Create Issue](./prompts/02-decide.md)
-3. [Implement Issue / PR](./prompts/03-implement.md)
+3. [Implement Issue / PR](./prompts/03-implement.md) — [review before PR](./prompts/03-implement-reviewed.md) / [PR first](./prompts/03-implement-pr-first.md)
 4. [Resolve PR review](./prompts/04-review.md)
 5. [Merge / update target branch](./prompts/05-merge.md)
 
@@ -61,7 +61,7 @@ Implementation AI classifies findings against SoT, fixes valid ones, and returns
 - **Policy**: repeatable agreed criteria AI may apply
 - **Questions**: evidence, options, recommendations, unresolved items, answers, revision history
 - **Issue**: agreed answers converted into observable acceptance criteria and mapped to Flow/tests/docs
-- **Execution**: implementation, verification, self-review, and evidence are AI-owned
+- **Execution**: implementation, verification, required checks, docs/evidence, and review handling are AI-owned
 - **Independent review**: Codex / Cursor Bugbot / Claude or another separate-context reviewer
 - **Completion**: required checks pass, valid findings are resolved, and AC are evidenced
 
@@ -108,7 +108,7 @@ human authority
 This repository is developed by running the workflow itself. In recent trials:
 
 - a deliberately vague greenfield reservation-system request was investigated into a bounded set of human semantic decisions instead of framework / file-layout questions
-- an Issue implementation produced a cross-cutting backend / frontend / database / test / CI / docs PR with self-review and verification evidence
+- an Issue implementation produced a cross-cutting backend / frontend / database / test / CI / docs PR with verification evidence
 - an independent Codex review of a CI-green implementation still found substantive issues including a concurrency race, frontend/backend validation mismatch, UI state inconsistency, and missing audit evidence
 
 These are observations from specific runs, not guarantees of defect-free autonomous development. The point of the harness is to make authority, evidence, failures, and unresolved decisions explicit enough for another agent—or a human—to inspect.
