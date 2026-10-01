@@ -26,7 +26,7 @@ Optional bootstrap for a new product: [0. Greenfield bootstrap](./prompts/00-gre
 
 1. [Define Questions](./prompts/01-define.md) — [existing repo](./prompts/01-define-existing.md) / [greenfield](./prompts/01-define-greenfield.md)
 2. [Apply Answers / Create Issue](./prompts/02-decide.md)
-3. [Implement Issue / PR](./prompts/03-implement.md) — [review before PR](./prompts/03-implement-reviewed.md) / [PR first](./prompts/03-implement-pr-first.md)
+3. [Implement Issue / PR](./prompts/03-implement.md) — [review then PR](./prompts/03-implement-reviewed.md) / [PR without implementer review](./prompts/03-implement-pr-first.md)
 4. [Resolve PR review](./prompts/04-review.md)
 5. [Merge / update target branch](./prompts/05-merge.md)
 
@@ -61,7 +61,7 @@ Implementation AI classifies findings against SoT, fixes valid ones, and returns
 - **Policy**: repeatable agreed criteria AI may apply
 - **Questions**: evidence, options, recommendations, unresolved items, answers, revision history
 - **Issue**: agreed answers converted into observable acceptance criteria and mapped to Flow/tests/docs
-- **Execution**: implementation, verification, required checks, docs/evidence, and review handling are AI-owned
+- **Execution**: implementation, verification, and evidence are AI-owned; implementer self-review is optional
 - **Independent review**: Codex / Cursor Bugbot / Claude or another separate-context reviewer
 - **Completion**: required checks pass, valid findings are resolved, and AC are evidenced
 
