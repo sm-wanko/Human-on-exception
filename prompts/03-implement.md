@@ -1,29 +1,21 @@
 # 3. Implement Issue / PR — Issue 実装 / PR
 
-## English
+Choose one execution mode for Issue #<number>. Both modes require implementation, tests, static analysis, required `make` commands, docs/Pack alignment, and PR evidence. Implementer self-review is not required.
 
-Implement Issue #<number> through PR creation.
+- [3A. Implement + independent review before PR](./03-implement-reviewed.md)
+- [3B. Implement + PR first](./03-implement-pr-first.md)
 
-Follow `AGENTS.md` and `docs/rules/ai-workflow.md` §4. Confirm AC, allowed paths, and prohibitions. Own design, implementation, tests, static analysis, self-review, 4-point docs, and Pack updates.
+Use **3A** when the execution environment can run a reviewer in a genuinely separate session / context before PR creation. Use **3B** when the implementation agent cannot create a separate reviewer context—for example, when a GitHub-hosted coding agent will open the PR and an external Codex / Bugbot / Copilot / Claude review runs on the PR afterward.
 
-Apply relevant concept / ADR / Policy. Work already determined by accepted criteria is AI execution. Return only unresolved semantic, actor-boundary, aggregation-unit, or risk decisions to the human.
-
-For child Issues, use the Epic work branch as the base and state dependency order and PR base.
-
-Record Issue / Pack / Flow ID / evidence per AC / completion command results and any not-run reason in the PR.
-
-Independent AI review follows `docs/rules/ai-review.md`. Implementer self-review is not separate-context review. Continue authorized finding resolution and re-verification.
+Do not simulate independence by changing persona or reviewing in the implementer's own context. Independent review follows `docs/rules/ai-review.md`.
 
 ## 日本語
 
-Issue #<number> に沿って実装から PR 作成まで実施すること。
+Issue #<number> は、実行環境に応じて次のどちらかで進めること。どちらも、実装・テスト・静的解析・必要な `make` コマンド・4点セット/Pack整合・PRへの証拠記録は必須とする。**実装者の自己レビューは必須ではない。**
 
-`AGENTS.md` と `docs/rules/ai-workflow.md` §4 に従い、AC・許可パス・禁止を確認し、設計・実装・テスト・静的解析・自己レビュー・4点セット・Pack を更新すること。
+- [3A. 実装 → 別コンテキストレビュー → PR](./03-implement-reviewed.md)
+- [3B. 実装 → PR先行](./03-implement-pr-first.md)
 
-関係する concept・ADR・Policy を適用し、合意済み基準で決まる個別作業は AI が実行すること。意味・主体・集約単位・未許容リスクを変える未決だけを人間へ戻すこと。
+PR作成前に、実装者とは**別セッション / 別コンテキスト**のレビュー担当を実行できる環境では **3A** を使う。GitHub上の coding agent のように実装担当自身が別コンテキストを生成できず、PR作成後に Codex / Bugbot / Copilot / Claude 等へレビューさせる環境では **3B** を使う。
 
-子 Issue は Epic 作業ブランチを基準にし、依存順と PR base を明示すること。
-
-PR には Issue / Pack / Flow ID / AC ごとの証拠 / 完了コマンド結果・未実行理由を記録すること。
-
-独立 AI レビューは `docs/rules/ai-review.md` に従うこと。実装者の自己レビューを別人格レビューとして申告しないこと。許可済みの指摘対応・再検証まで進めること。
+口調や役割名を変えただけの自己レビューを独立レビューとして扱わないこと。独立レビューは `docs/rules/ai-review.md` に従うこと。
