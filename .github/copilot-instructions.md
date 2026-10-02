@@ -1,6 +1,6 @@
 # Response language
 
-- Follow [`docs/rules/language-policy.md`](../docs/rules/language-policy.md): use an explicitly requested language when present; otherwise match the human's controlling request/requirement language.
+- Follow [`docs/rules/language-policy.md`](../docs/rules/language-policy.md). Choose the human-facing language in this order: (1) an explicit language instruction for the current material or output; (2) when editing an existing human-facing artifact, preserve that artifact's current language unless translation or language normalization is explicitly in scope; (3) for new human-facing material, reviews, or responses, use the language of the controlling request, requirement, or Answers; (4) if that signal is absent or genuinely ambiguous, use the existing project/document language.
 
 # Rules
 
