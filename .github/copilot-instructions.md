@@ -1,12 +1,12 @@
 # Response language
 
-- Use Japanese for review/output, preserving the repository's existing behavior.
+- Follow [`docs/rules/language-policy.md`](../docs/rules/language-policy.md): use an explicitly requested language when present; otherwise match the human's controlling request/requirement language.
 
 # Rules
 
 - Procedure / completion / SoT: [`AGENTS.md`](../AGENTS.md)
 - Member-facing mutation audit source of truth: [`docs/rules/audit-ui-persistence.md`](../docs/rules/audit-ui-persistence.md)
-- Language parity for bilingual human-facing docs: [`docs/rules/language-policy.md`](../docs/rules/language-policy.md)
+- Human-facing language selection and translation: [`docs/rules/language-policy.md`](../docs/rules/language-policy.md)
 
 # Backend: UI-path persistence and audit
 
