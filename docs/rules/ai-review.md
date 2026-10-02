@@ -21,7 +21,7 @@ Verify service connection and automatic-review configuration in the target envir
 - Application of concept / ADR / Policy according to [domain-decisions](./domain-decisions.md). Check that aggregation units, actor boundaries, evidence promotion rules, and counterexamples remain intact. A complexity critique must identify the protected requirement and a meaning-preserving alternative.
 - Whether completion claims match evidence from the latest revision. Do not let aggregate Fail=0 or excluded IDs hide unverified work.
 - Differences between seed/migration paths and member UI mutations, reasoned N/A declarations, and agreed constraints.
-- Language parity for bilingual decision material according to [language-policy](./language-policy.md). Translation must not create, delete, weaken, or strengthen product meaning.
+- Human-facing review/output language follows [language-policy](./language-policy.md). Do not require duplicate translations by default. When translated copies exist, translation must not create, delete, weaken, or strengthen product meaning.
 
 Each finding must include severity, path/line (or the expected missing file), supporting AC or rule, reproduction condition or comparison evidence, impact, and a correction direction. For SoT/docs findings, identify the changed behavior, expected artifact, and actual omission or contradiction. If an artifact cannot be inspected, mark that check unverified rather than claiming it passed. Do not inflate the review with speculation, style-only comments, or praise. State any unproven assumptions.
 
