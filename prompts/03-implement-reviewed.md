@@ -1,4 +1,4 @@
-# 3A. Implement Issue / Separate Review / PR — Issue 実装 / 別人格レビュー / PR
+# 3A. Implement Issue / Separate Review / PR — Issue 実装 / 別コンテキストレビュー / PR
 
 ## English
 
@@ -12,9 +12,11 @@ For child Issues, use the Epic work branch as the base and state dependency orde
 
 After implementation and verification, hand the change to a **different AI session / context** for review under `docs/rules/ai-review.md`. Do not substitute implementer self-review or a persona change for that review.
 
+Record the reviewed base ref and head commit. That review is evidence only for the recorded head. If the head changes, repeat the separate-context review of the new head before creating the PR.
+
 Resolve authorized valid findings, rerun verification, and repeat separate-context review as needed. Then create the PR.
 
-Record Issue / Pack / Flow ID / evidence per AC / completion command results / independent-review result and any not-run reason in the PR.
+Record Issue / Pack / Flow ID / evidence per AC / completion command results / reviewed base and head / independent-review result and any not-run reason in the PR.
 
 ## 日本語
 
@@ -28,6 +30,8 @@ Issue #<number> に沿って実装し、**別セッション / 別コンテキ�
 
 実装と検証が終わったら、実装者とは **別セッション / 別コンテキストの AI** に `docs/rules/ai-review.md` に従ってレビューさせること。実装者の自己レビューや人格変更で代替しないこと。
 
+レビューした base と head commit を記録すること。そのレビューは記録した head に対する証拠である。head が変わった場合は、PR 作成前に新しい head を別コンテキストで再レビューすること。
+
 許可済みの valid 指摘は修正し、再検証・必要な再レビューまで進めたうえで PR を作成すること。
 
-PR には Issue / Pack / Flow ID / AC ごとの証拠 / 完了コマンド結果 / 独立レビュー結果 / 未実行理由を記録すること。
+PR には Issue / Pack / Flow ID / AC ごとの証拠 / 完了コマンド結果 / レビューした base と head / 独立レビュー結果 / 未実行理由を記録すること。

@@ -82,7 +82,7 @@ Even when an aggregate command succeeds, verify each required stage's exit resul
 ## 5. Completion and merge
 
 - Every AC has verification evidence. 4-point docs, Pack, and required counterpart features are aligned. Gap A = 0 alone is not Done.
-- Independent AI review has run, and no valid or unclassified finding remains.
+- Independent AI review of the target head has run, and no valid or unclassified finding remains. A pre-PR separate-context review counts only when its recorded head is that target head. An external PR-service review counts only when it ran against that same head. Follow [ai-review.md](./ai-review.md).
 - Required checks are successful on the target head. Pending/skipped/missing/not-run is not success.
 - If merge is already authorized, AI performs it. Prompt 5 is merge authorization for its target PR. Do not hard-code main/develop; inspect the PR base and repository workflow.
 - Confirm the actual merge result and update linked Issues / Epic. Do not close an Epic until child Issues and integration verification are complete.

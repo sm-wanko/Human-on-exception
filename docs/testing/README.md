@@ -29,7 +29,7 @@ SIT の正本: [`docs/rules/system-test-strategy.md`](../rules/system-test-strat
   → 実装 + テスト + docs（同一変更系列）
   → PR 前: 実装 === docs の確認
   → PR（関連 Issue 紐づけ必須）
-  → 別人格 AI レビュー
+  → 別コンテキスト AI レビュー
   → 実装 AI が指摘を判定・修正
   → マージ · Issue Close
 ```

@@ -8,7 +8,21 @@ Do not treat the implementer's "done" statement as evidence. Independently inspe
 
 Codex enters through the root `AGENTS.md` Review guidelines. Cursor Bugbot enters through `.cursor/BUGBOT.md`. GitHub Copilot enters through `.github/copilot-instructions.md`; Claude Code enters through `.claude/skills/independent-review/SKILL.md` and its separate-context reviewer. These are tool-specific entrypoints to this single review contract, not independent sources of review policy. Do not confuse Copilot configuration with Codex configuration.
 
-Verify service connection and automatic-review configuration in the target environment. If the service is not connected or did not run, record the review as not performed. File placement alone is not evidence that a review happened.
+Independent review is valid in either form below. Both require a separate session / context from the implementer. Implementer self-review and a persona change inside the implementer session do not qualify. File placement or a prompt alone is not evidence that a review happened.
+
+### Pre-PR separate-context review
+
+A review before a PR exists counts when a different session / context inspects a recorded base and head.
+
+- **Base:** the intended PR base, or the Epic work branch when the change is a child Issue.
+- **Head:** the commit reviewed.
+- Record both refs with the review result. The review is evidence only for that head.
+- If later commits change the head, review the new head again before treating independent review as complete. Evidence for an older head does not cover the later commits.
+- This form does not depend on an external PR-review service. Do not mark it not performed only because no PR service is connected.
+
+### External PR review service
+
+When the review depends on a connected PR service such as Codex, Cursor Bugbot, GitHub Copilot, or Claude, verify that the service is connected and that automatic review is configured in the target environment. If the service is not connected or did not run against the target head, record that service review as not performed. If the recorded review covers an older head, record that revision and review the later changes again.
 
 ## Review dimensions
 
@@ -31,6 +45,6 @@ Each finding must include severity, path/line (or the expected missing file), su
 2. Fix valid findings and align regression tests, docs, and verification. For false positives, cite implementation/test/agreed-contract evidence; do not close with only "by design".
 3. For `decision required`, return the evidence and options to Questions. Do not ask humans about ordinary fixes.
 4. Record the fix commit, verification evidence, and reasoning in the PR, then resolve the corresponding thread when permissions allow.
-5. A separate-context AI rechecks the latest diff. Zero findings or green checks are not substitutes for an unperformed review. If review evidence covers an older head, record that revision and review later changes again.
+5. A separate-context AI rechecks the latest head, whether the previous review was pre-PR or on the PR. Zero findings or green checks are not substitutes for an unperformed review. If review evidence covers an older head, record that revision and review later changes again.
 
-Completion follows [ai-workflow.md](./ai-workflow.md) §5. While an external review is pending, status is review pending; do not silently replace it with a mandatory human-review gate.
+Completion follows [ai-workflow.md](./ai-workflow.md) §5. While independent review of the target head is pending, status is review pending; do not silently replace it with a mandatory human-review gate.
