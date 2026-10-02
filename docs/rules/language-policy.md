@@ -7,8 +7,9 @@ Human-on-Exception uses English for agent-facing execution material. Human-facin
 Choose the language for human-facing intent, concept, Questions, ADR, Policy, reusable prompts, reviews, and responses in this order:
 
 1. An explicit language instruction for the current material or output.
-2. Otherwise, the language used by the human in the controlling request, requirement, or Answers.
-3. If that signal is absent or genuinely ambiguous, preserve the existing project/document language.
+2. When editing an existing human-facing artifact, preserve that artifact's current language unless translation or language normalization is explicitly in scope.
+3. For new human-facing material, reviews, or responses, use the language of the human's controlling request, requirement, or Answers.
+4. If that signal is absent or genuinely ambiguous, use the existing project/document language.
 
 Do not ask the human to choose a language when the rule above determines it.
 
@@ -28,7 +29,7 @@ Do not store the same decision-relevant content in multiple languages merely for
 
 If another language is needed, translate it on demand from the authoritative material. A translated copy may be persisted when a human explicitly requests it or when the project has a documented multilingual requirement.
 
-Existing bilingual material does not need to be rewritten solely to satisfy this policy. When it is touched for another reason, it may be normalized to one selected language if doing so preserves references and decision history.
+Existing bilingual material stays as-is unless language normalization is explicitly in scope or is required to resolve a translation inconsistency. Do not create unrelated translation churn merely because a bilingual artifact is touched for another change.
 
 ## Semantic parity when translations exist
 
