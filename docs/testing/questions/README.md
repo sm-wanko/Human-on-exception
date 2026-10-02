@@ -32,4 +32,4 @@ Use the [Questions template](../../templates/questions.md) and [AI execution con
 
 [Task CRUD](./task-crud.md) は既存実装に基づく教材用決定例で、実在する人間回答の証拠ではない。新規依頼でこれを回答として流用しない。
 
-Language parity / 言語一致: [language-policy](../../rules/language-policy.md).
+Language selection / translation / 言語選択・翻訳: [language-policy](../../rules/language-policy.md).

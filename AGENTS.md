@@ -1,6 +1,6 @@
 # AI Agent Rules (Human-on-Exception)
 
-**Target agents**: Cursor / Claude Code / CodeX. **Review and response language remains Japanese**, preserving the repository's existing behavior.
+**Target agents**: Cursor / Claude Code / CodeX. Human-facing review and response language follows the [language policy](./docs/rules/language-policy.md).
 
 **Feature index**: [`docs/testing/core-features.md`](./docs/testing/core-features.md) → [`docs/ai/packs/`](./docs/ai/packs/) (paths + Flow IDs + completion `make` commands only; do not copy flow bodies into packs).
 
@@ -10,7 +10,7 @@
 
 Apply the [AI execution contract](./docs/rules/ai-workflow.md) to every stage. Humans own Intent / Scope / Answer / Risk acceptance. AI owns execution. Human code review is not a required gate.
 
-Follow the [language policy](./docs/rules/language-policy.md). Agent-facing rules are English. Human-facing decision material may be bilingual, and translation must not change meaning.
+Follow the [language policy](./docs/rules/language-policy.md). Agent-facing rules are English. Human-facing decision material uses the selected human language by default; do not duplicate translations unless explicitly requested or required by the project.
 
 ## Review guidelines
 
@@ -85,4 +85,4 @@ Concept holds purpose and core concepts. ADR holds active design decisions. [Pol
 | N/A declarations | [`docs-na-conventions.md`](./docs/rules/docs-na-conventions.md) |
 | SIT / FE Contract | [`system-test-strategy.md`](./docs/rules/system-test-strategy.md), [`frontend-flow-contract.md`](./docs/testing/frontend-flow-contract.md) |
 | member-facing mutation audit | [`audit-ui-persistence.md`](./docs/rules/audit-ui-persistence.md) |
-| translation / bilingual docs | [`language-policy.md`](./docs/rules/language-policy.md) |
+| human-facing language / translation | [`language-policy.md`](./docs/rules/language-policy.md) |

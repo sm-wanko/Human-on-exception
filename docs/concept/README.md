@@ -42,4 +42,4 @@ Do not automatically adopt constraints from the sample as requirements for a new
 
 サンプルの業務上の制約を、新しいプロダクトの要求として自動採用しない。
 
-Language parity / 言語一致: [language-policy](../rules/language-policy.md).
+Language selection / translation / 言語選択・翻訳: [language-policy](../rules/language-policy.md).

@@ -6,7 +6,7 @@ Apply the [independent AI review contract](../docs/rules/ai-review.md) in full a
 
 **MUST:** Check SoT and docs completeness for changed behavior, including affected flow / ui / validation / db, concept / active ADR / Policy, tests, transitions, and packs **not present in the PR diff**. Report concrete omissions or contradictions against the agreed target contract; respect current-state SoT order and legitimate N/A boundaries.
 
-**Write review comments in Japanese**, preserving the repository's existing review-language behavior.
+**Write review comments in the human-facing language selected by [language-policy](../docs/rules/language-policy.md).**
 
 Prioritize **bugs, security, specification deviation, and regression risk** over implementation suggestions. Do not add style-only comments, speculative praise, or speculation about change intent. If there is no issue, keep the review concise.
 
