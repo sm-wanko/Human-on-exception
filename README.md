@@ -39,9 +39,11 @@ AI: investigate the current contract, or design from repo rules in greenfield mo
   ↓
 Human: answer only the decisions
   ↓
-AI: if no blocker remains, create the Issue and own implementation, tests, 4-point docs, and PR
+AI: if no blocker remains, create the Issue and own implementation, tests, and 4-point docs
   ↓
-Independent-context AI reviews the PR
+Independent review of the target head, in either order:
+  3A: a separate-context AI reviews the recorded head, then the implementation AI creates the PR
+  3B: the implementation AI creates the PR, then a separate-context AI reviews that PR head
   ↓
 Implementation AI classifies findings against SoT, fixes valid ones, and returns only decision exceptions to the human
 ```
@@ -62,7 +64,7 @@ Implementation AI classifies findings against SoT, fixes valid ones, and returns
 - **Questions**: evidence, options, recommendations, unresolved items, answers, revision history
 - **Issue**: agreed answers converted into observable acceptance criteria and mapped to Flow/tests/docs
 - **Execution**: implementation, verification, and evidence are AI-owned; implementer self-review is optional
-- **Independent review**: Codex / Cursor Bugbot / Claude or another separate-context reviewer
+- **Independent review**: a separate-context reviewer of the target head, either before PR creation (3A) or on the PR (3B: Codex / Cursor Bugbot / Claude / another reviewer)
 - **Completion**: required checks pass, valid findings are resolved, and AC are evidenced
 
 [Questions template](./docs/templates/questions.md) · [workflow conformance](./docs/testing/workflow-conformance.md) · [AI review](./docs/rules/ai-review.md)

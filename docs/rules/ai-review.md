@@ -45,6 +45,6 @@ Each finding must include severity, path/line (or the expected missing file), su
 2. Fix valid findings and align regression tests, docs, and verification. For false positives, cite implementation/test/agreed-contract evidence; do not close with only "by design".
 3. For `decision required`, return the evidence and options to Questions. Do not ask humans about ordinary fixes.
 4. Record the fix commit, verification evidence, and reasoning in the PR, then resolve the corresponding thread when permissions allow.
-5. A separate-context AI rechecks the latest head, whether the previous review was pre-PR or on the PR. Zero findings or green checks are not substitutes for an unperformed review. If review evidence covers an older head, record that revision and review later changes again.
+5. A separate-context AI rechecks the latest target head, whether the previous review was pre-PR or on the PR. Zero findings or green checks are not substitutes for an unperformed review. If review evidence covers an older head, record that revision and review the new target head again, including interaction with unchanged parts of that head.
 
 Completion follows [ai-workflow.md](./ai-workflow.md) §5. While independent review of the target head is pending, status is review pending; do not silently replace it with a mandatory human-review gate.
