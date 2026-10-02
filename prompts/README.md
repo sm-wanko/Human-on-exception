@@ -19,7 +19,7 @@ Prompt 1 と 2 は反復可能である。回答を反映したことで、そ�
 
 Execution contract / 実行契約: [ai-workflow.md](../docs/rules/ai-workflow.md)  
 Independent review / 独立レビュー: [ai-review.md](../docs/rules/ai-review.md)  
-Language parity / 言語一致: [language-policy.md](../docs/rules/language-policy.md)
+Language selection / translation / 言語選択・翻訳: [language-policy.md](../docs/rules/language-policy.md)
 
 Implementation procedure, SoT, and engineering rules are not duplicated into these prompts. Their authoritative sources are [AGENTS.md](../AGENTS.md) and `docs/rules/`.
 
