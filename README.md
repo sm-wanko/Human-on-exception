@@ -24,6 +24,8 @@ Start with README → [AI execution contract](./docs/rules/ai-workflow.md) → [
 
 Optional bootstrap for a new product: [0. Greenfield bootstrap](./prompts/00-greenfield.md). The normal development loop remains the five entry/resume prompts below.
 
+When using an agent tool such as Cursor or Claude Code, prefer explicitly referencing the prompt file you want to run (for example, `@prompts/03-implement.md`) instead of relying on the agent to infer the current stage from this README.
+
 1. [Define Questions](./prompts/01-define.md) — [existing repo](./prompts/01-define-existing.md) / [greenfield](./prompts/01-define-greenfield.md)
 2. [Apply Answers / Create Issue](./prompts/02-decide.md)
 3. [Implement Issue / PR](./prompts/03-implement.md)
