@@ -2,15 +2,25 @@
 
 ## English
 
-<target entry point / endpoint / route / controller action / screen, or "next uncovered unit">
+<seed file(s) / path(s) / explicit entry point>
+
+Examples:
+- `apps/backend/app/Http/Controllers/PetController.php`
+- `routes/api.php: POST /api/pets`
+- `src/features/pet/PetEditPagePresentation.tsx`
+- multiple directly related seed files
 
 Use this prompt to introduce Human-on-Exception into an existing repository **without rewriting the product or changing behavior**. The goal is to reconstruct the current feature contract one bounded unit at a time so later AI work can rely on explicit 4-point docs and Packs.
 
 Follow `AGENTS.md`, `docs/rules/docs-follow.md`, `docs/rules/ai-workflow.md`, `docs/rules/domain-decisions.md`, and the current-state Source of Truth order.
 
-### 1. Choose the adoption unit from behavior, not file count
+### 1. Start from the supplied seed, then choose the adoption unit from behavior
 
-Investigate routes, controllers/handlers, screens, tests, services, repositories, and persistence before creating docs.
+The human supplies the exploration seed. Do not begin by scanning the whole repository to decide what to document first.
+
+Start from the supplied file(s), path(s), endpoint, route, controller action, screen, job, webhook, or equivalent entry point. From that seed, trace only the directly related behavior needed to reconstruct its bounded contract: routes, controllers/handlers, screens, tests, services, repositories, persistence, and existing docs.
+
+The seed defines where investigation starts; it does **not** automatically define the documentation boundary.
 
 Use **one user-observable or externally callable behavior** as the default unit.
 
@@ -96,6 +106,7 @@ Unless the human explicitly requests a wider batch, complete one selected unit a
 
 At completion, report:
 
+- supplied seed and the related paths actually followed
 - selected Flow ID and why this is the correct behavioral boundary
 - Pack and 4-point files created/updated
 - entry points and implementation paths inspected
@@ -103,7 +114,7 @@ At completion, report:
 - commands actually run and their results
 - contradictions / missing evidence
 - any true human-authority Questions
-- recommended next uncovered unit
+- recommended next seed / uncovered unit (suggestion only; do not continue unless explicitly requested)
 
 The repository can adopt Human-on-Exception incrementally. A partially documented repository is not permission to invent contracts for uncovered areas.
 
@@ -111,15 +122,25 @@ The repository can adopt Human-on-Exception incrementally. A partially documente
 
 ## 日本語
 
-<対象 entry point / endpoint / route / controller action / screen、または「次の未整備単位」>
+<seed file(s) / path(s) / 明示的な entry point>
+
+例:
+- `apps/backend/app/Http/Controllers/PetController.php`
+- `routes/api.php: POST /api/pets`
+- `src/features/pet/PetEditPagePresentation.tsx`
+- 直接関連する複数 seed file
 
 既存 repo に Human-on-Exception を導入するとき、**プロダクトを書き直したり挙動を変更したりせず**、現状契約を小さな単位で再構成するために使う。後続の AI 実行が明示的な 4 点セットと Pack を参照できる状態を作ることが目的。
 
 `AGENTS.md`、`docs/rules/docs-follow.md`、`docs/rules/ai-workflow.md`、`docs/rules/domain-decisions.md` と current-state Source of Truth 順に従うこと。
 
-### 1. ファイル数ではなく「挙動」で導入単位を決める
+### 1. 指定された seed から開始し、「挙動」で導入単位を決める
 
-docs を作る前に route、controller/handler、screen、test、service、repository、persistence を調査すること。
+探索開始点は人間が指定する。最初に repo 全体を走査して「何を docs 化するか」を AI が決めるところから始めないこと。
+
+指定された file / path / endpoint / route / controller action / screen / job / webhook 等を seed とし、そこから bounded contract を再構成するために直接必要な関連だけを辿ること。route、controller/handler、screen、test、service、repository、persistence、既存 docs を必要な範囲で追う。
+
+seed は探索開始点であり、docs の境界そのものを自動的に意味しない。
 
 原則として **利用者から観測できる、または外部から呼び出せる 1 つの挙動**を 1 単位とする。
 
@@ -183,6 +204,7 @@ repo facts、tests、accepted concept / ADR / Policy、existing behavior から�
 
 完了時に以下を報告すること。
 
+- 指定された seed と、実際に辿った関連 path
 - 選択した Flow ID と、その behavioral boundary が妥当な理由
 - 作成・更新した Pack / 4 点セット
 - 調査した entry point / implementation path
@@ -190,6 +212,6 @@ repo facts、tests、accepted concept / ADR / Policy、existing behavior から�
 - 実行した command と実結果
 - contradiction / missing evidence
 - 本当に必要な human-authority Questions
-- 次に整備すべき uncovered unit
+- 次候補となる seed / uncovered unit（提案だけ。明示依頼がない限り続行しない）
 
 repo は段階導入できる。未整備領域について契約を推測してよいという意味ではない。
