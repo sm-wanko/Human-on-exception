@@ -22,7 +22,7 @@ Start with README → [AI execution contract](./docs/rules/ai-workflow.md) → [
 
 ## Human prompts
 
-Optional bootstrap for a new product: [0. Greenfield bootstrap](./prompts/00-greenfield.md). The normal development loop remains the five entry/resume prompts below.
+Optional bootstrap for an existing product: [Existing repository adoption](./prompts/00-existing-adoption.md). It reconstructs one bounded current feature at a time into a 4-point set and Pack without changing product behavior.\n\nOptional bootstrap for a new product: [0. Greenfield bootstrap](./prompts/00-greenfield.md). The normal development loop remains the five entry/resume prompts below.
 
 When using an agent tool such as Cursor or Claude Code, prefer explicitly referencing the prompt file you want to run (for example, `@prompts/03-implement.md`) instead of relying on the agent to infer the current stage from this README.
 
