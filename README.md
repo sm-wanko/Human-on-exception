@@ -18,11 +18,19 @@ Human coding, code reading, and line-by-line code review are not normal required
 - **4-point docs** — flow / ui / validation / db as a human-readable current feature overview and verification surface
 - **Executable example** — a minimal Laravel / Next.js Task CRUD
 
+## Where this came from
+
+Human-on-Exception is not a purely conceptual framework. It was extracted from roughly six months of practical use in a separate private product, where the workflow was repeatedly applied to real feature development and maintenance.
+
+This public repository intentionally contains only the reusable parts: the prompt workflow, documentation conventions, verification mechanisms, and a minimal executable example. Product-specific code, domain rules, operational data, and the concrete Questions / Answers produced in that private product are not published here.
+
+The absence of those production Questions / Answers in this repository should therefore not be read as an absence of real-world use; they remain with the private product from which this template was generalized.
+
 Start with README → [AI execution contract](./docs/rules/ai-workflow.md) → [Questions template](./docs/templates/questions.md) → [Task CRUD example](./docs/testing/questions/task-crud.md) → [Independent AI review](./docs/rules/ai-review.md).
 
 ## Human prompts
 
-Optional bootstrap for a new product: [0. Greenfield bootstrap](./prompts/00-greenfield.md). The normal development loop remains the five entry/resume prompts below.
+Optional bootstrap for an existing product: [Existing repository adoption](./prompts/00-existing-adoption.md). It reconstructs one bounded current feature at a time into a 4-point set and Pack without changing product behavior.\n\nOptional bootstrap for a new product: [0. Greenfield bootstrap](./prompts/00-greenfield.md). The normal development loop remains the five entry/resume prompts below.
 
 When using an agent tool such as Cursor or Claude Code, prefer explicitly referencing the prompt file you want to run (for example, `@prompts/03-implement.md`) instead of relying on the agent to infer the current stage from this README.
 
