@@ -20,14 +20,6 @@ Human coding, code reading, and line-by-line code review are not normal required
 
 Start with README → [AI execution contract](./docs/rules/ai-workflow.md) → [Questions template](./docs/templates/questions.md) → [Task CRUD example](./docs/testing/questions/task-crud.md) → [Independent AI review](./docs/rules/ai-review.md).
 
-## Origin and scope
-
-Human-on-Exception is not a purely conceptual framework. It was extracted from approximately six months of practical use in a separate private pet-search product, where the workflow was repeatedly applied to real feature development and maintenance.
-
-This public repository intentionally contains only the reusable parts of that operating model: the prompt workflow, documentation conventions, verification mechanisms, and a minimal executable sample. Product-specific code, domain rules, operational data, and most real Questions / Answers remain in the private product repository and are not published here.
-
-As a result, the examples in this repository are deliberately smaller and cleaner than the system from which the workflow was derived. The absence of production-domain Questions here should not be read as the absence of Questions in actual use; the public sample exists to make the protocol inspectable without exposing private product context.
-
 ## Human prompts
 
 Optional bootstrap for a new product: [0. Greenfield bootstrap](./prompts/00-greenfield.md). The normal development loop remains the five entry/resume prompts below.
@@ -80,6 +72,14 @@ Implementation AI classifies findings against SoT, fixes valid ones, and returns
 The 4-point set is a human-readable current feature overview maintained by AI and also a verification surface for implementation/tests. Human code or document approval is not a normal gate.
 
 The five prompts are entry/resume points, not five human approval gates. Once answers and permissions are sufficient, AI continues authorized stages.
+
+## Origin and scope
+
+Human-on-Exception is not a purely conceptual framework. It was extracted from approximately six months of practical use in a separate private product, where the workflow was repeatedly applied to real feature development and maintenance.
+
+This public repository intentionally contains only the reusable parts of that operating model: the prompt workflow, documentation conventions, verification mechanisms, and a minimal executable sample. Product-specific code, domain rules, operational data, and most real Questions / Answers remain in the private product repository and are not published here.
+
+As a result, the examples in this repository are deliberately smaller and cleaner than the system from which the workflow was derived. The absence of production-domain Questions here should not be read as the absence of Questions in actual use; the public sample exists to make the protocol inspectable without exposing private product context.
 
 ## Adoption
 
