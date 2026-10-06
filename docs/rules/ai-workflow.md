@@ -6,7 +6,7 @@
 
 Humans decide Intent, Scope (in/out), Answers to specification ambiguity, and Risk acceptance. This includes the semantic boundary: what may be treated as the same meaning and what must remain distinct.
 
-AI owns investigation, design, Issue creation, implementation, tests, static analysis, self-review, docs, PR/evidence, finding classification, fixes, and re-verification. AI is the execution owner that propagates agreed meaning. It is not the semantic authority that may invent or finalize unagreed meaning.
+AI owns investigation, design, Issue creation, implementation, tests, static analysis, docs, PR/evidence, finding classification, fixes, and re-verification. AI is the execution owner that propagates agreed meaning. It is not the semantic authority that may invent or finalize unagreed meaning.
 
 Human code reading, implementation, and line-by-line code review are neither prerequisites nor required gates in the normal workflow. Optional human review is allowed. The five prompts are entry/resume points, not five mandatory approval gates. Once a stage is already authorized, continue it. Merge, release, or destructive operations must remain within previously agreed permissions.
 
@@ -73,7 +73,7 @@ AI decides implementation splitting and branch names. Split by contracts/depende
 
 AI plans and implements from the Issue AC and applicable rules, and keeps tests, the 4-point docs, and Pack aligned in the same change series. Return only new specification decisions to Questions. Do not expand allowed scope "while here".
 
-Self-review is part of the implementer's responsibility and does not replace a separate-context independent review. Follow [ai-review.md](./ai-review.md).
+Implementer self-review is optional. It does not replace a separate-context independent review when independent review is required. Follow [ai-review.md](./ai-review.md).
 
 The PR must record Issue, Pack, Flow ID, allowed paths vs actual diff, why the change exists, evidence per AC, commands/results/revision, and reasons for anything not run/failed/N/A. Do not confuse attempted execution with success, or test-ID existence with executed success. Do not hide environment problems by deleting tests or weakening CI.
 
@@ -82,7 +82,7 @@ Even when an aggregate command succeeds, verify each required stage's exit resul
 ## 5. Completion and merge
 
 - Every AC has verification evidence. 4-point docs, Pack, and required counterpart features are aligned. Gap A = 0 alone is not Done.
-- Independent AI review has run, and no valid or unclassified finding remains.
+- Independent AI review of the target head has run, and no valid or unclassified finding remains. A pre-PR separate-context review counts only when its recorded head is that target head. An external PR-service review counts only when it ran against that same head. Follow [ai-review.md](./ai-review.md).
 - Required checks are successful on the target head. Pending/skipped/missing/not-run is not success.
 - If merge is already authorized, AI performs it. Prompt 5 is merge authorization for its target PR. Do not hard-code main/develop; inspect the PR base and repository workflow.
 - Confirm the actual merge result and update linked Issues / Epic. Do not close an Epic until child Issues and integration verification are complete.

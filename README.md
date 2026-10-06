@@ -28,7 +28,7 @@ When using an agent tool such as Cursor or Claude Code, prefer explicitly refere
 
 1. [Define Questions](./prompts/01-define.md) — [existing repo](./prompts/01-define-existing.md) / [greenfield](./prompts/01-define-greenfield.md)
 2. [Apply Answers / Create Issue](./prompts/02-decide.md)
-3. [Implement Issue / PR](./prompts/03-implement.md)
+3. [Implement Issue / PR](./prompts/03-implement.md) — [review then PR](./prompts/03-implement-reviewed.md) / [PR without implementer review](./prompts/03-implement-pr-first.md)
 4. [Resolve PR review](./prompts/04-review.md)
 5. [Merge / update target branch](./prompts/05-merge.md)
 
@@ -41,9 +41,11 @@ AI: investigate the current contract, or design from repo rules in greenfield mo
   ↓
 Human: answer only the decisions
   ↓
-AI: if no blocker remains, create the Issue and own implementation, tests, 4-point docs, and PR
+AI: if no blocker remains, create the Issue and own implementation, tests, and 4-point docs
   ↓
-Independent-context AI reviews the PR
+Independent review of the target head, in either order:
+  3A: a separate-context AI reviews the recorded head, then the implementation AI creates the PR
+  3B: the implementation AI creates the PR, then a separate-context AI reviews that PR head
   ↓
 Implementation AI classifies findings against SoT, fixes valid ones, and returns only decision exceptions to the human
 ```
@@ -63,8 +65,8 @@ Implementation AI classifies findings against SoT, fixes valid ones, and returns
 - **Policy**: repeatable agreed criteria AI may apply
 - **Questions**: evidence, options, recommendations, unresolved items, answers, revision history
 - **Issue**: agreed answers converted into observable acceptance criteria and mapped to Flow/tests/docs
-- **Execution**: implementation, verification, self-review, and evidence are AI-owned
-- **Independent review**: Codex / Cursor Bugbot / Claude or another separate-context reviewer
+- **Execution**: implementation, verification, and evidence are AI-owned; implementer self-review is optional
+- **Independent review**: a separate-context reviewer of the target head, either before PR creation (3A) or on the PR (3B: Codex / Cursor Bugbot / Claude / another reviewer)
 - **Completion**: required checks pass, valid findings are resolved, and AC are evidenced
 
 [Questions template](./docs/templates/questions.md) · [workflow conformance](./docs/testing/workflow-conformance.md) · [AI review](./docs/rules/ai-review.md)
@@ -118,7 +120,7 @@ human authority
 This repository is developed by running the workflow itself. In recent trials:
 
 - a deliberately vague greenfield reservation-system request was investigated into a bounded set of human semantic decisions instead of framework / file-layout questions
-- an Issue implementation produced a cross-cutting backend / frontend / database / test / CI / docs PR with self-review and verification evidence
+- an Issue implementation produced a cross-cutting backend / frontend / database / test / CI / docs PR with verification evidence
 - an independent Codex review of a CI-green implementation still found substantive issues including a concurrency race, frontend/backend validation mismatch, UI state inconsistency, and missing audit evidence
 
 These are observations from specific runs, not guarantees of defect-free autonomous development. The point of the harness is to make authority, evidence, failures, and unresolved decisions explicit enough for another agent—or a human—to inspect.
