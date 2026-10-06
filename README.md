@@ -18,6 +18,14 @@ Human coding, code reading, and line-by-line code review are not normal required
 - **4-point docs** — flow / ui / validation / db as a human-readable current feature overview and verification surface
 - **Executable example** — a minimal Laravel / Next.js Task CRUD
 
+## Where this came from
+
+Human-on-Exception is not a purely conceptual framework. It was extracted from roughly six months of practical use in a separate private product, where the workflow was repeatedly applied to real feature development and maintenance.
+
+This public repository intentionally contains only the reusable parts: the prompt workflow, documentation conventions, verification mechanisms, and a minimal executable example. Product-specific code, domain rules, operational data, and the concrete Questions / Answers produced in that private product are not published here.
+
+The absence of those production Questions / Answers in this repository should therefore not be read as an absence of real-world use; they remain with the private product from which this template was generalized.
+
 Start with README → [AI execution contract](./docs/rules/ai-workflow.md) → [Questions template](./docs/templates/questions.md) → [Task CRUD example](./docs/testing/questions/task-crud.md) → [Independent AI review](./docs/rules/ai-review.md).
 
 ## Human prompts
