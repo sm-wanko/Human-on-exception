@@ -44,9 +44,11 @@ Every investigation must consider the following. If a dimension is not applicabl
 | Create / update | POST vs PUT, rollback on conflict, existing data, flag rollback |
 | UX continuity | Entry → selection → create/edit → completion → return; query/context continuity; 0/1/many candidates |
 | Failure | Successful empty result vs unauthenticated vs unavailable; fallback; rate limit; timeout |
-| Evidence / safety | Authentication, authorization, audit, candidate vs confirmed, history, external cost, irreversibility |
+| Evidence / safety | Authentication, authorization, audit, candidate vs confirmed, history, external cost, irreversibility. Identify any known cross-cutting risk area clearly activated by the change (for example security/privacy, data integrity, concurrency/idempotency, or external-service constraints) and inspect the applicable repository rule, accepted Policy/ADR, platform constraint, or verification method. |
 | Cross-cutting | Paired features, public API/generated types/docs, callers and fakes |
 | Verification | Positive, reverse, boundary, regression; SYS / FE-ID; commands; reasoned N/A for external boundaries |
+
+This checklist is not a claim that investigation can discover every unknown risk. Do not report a change as safe or complete merely because every listed dimension was visited. When the change clearly enters a known risk area, use the relevant existing knowledge and verification surface; when no trusted criterion exists, record that gap under Risks / Unknowns / Assumptions instead of silently assuming safety.
 
 ## 3. Answers → Issue
 
