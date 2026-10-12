@@ -48,7 +48,7 @@ Every investigation must consider the following. If a dimension is not applicabl
 | Cross-cutting | Paired features, public API/generated types/docs, callers and fakes |
 | Verification | Positive, reverse, boundary, regression; SYS / FE-ID; commands; reasoned N/A for external boundaries |
 
-This checklist is not a claim that investigation can discover every unknown risk. Do not report a change as safe or complete merely because every listed dimension was visited. When the change clearly enters a known risk area, use the relevant existing knowledge and verification surface; when no trusted criterion exists, record that gap under Risks / Unknowns / Assumptions instead of silently assuming safety.
+This checklist is not a claim that investigation can discover every unknown risk. Do not report a change as safe or complete merely because every listed dimension was visited. When the change clearly activates a known cross-cutting risk area, inspect the applicable repository rule, accepted Policy/ADR, platform constraint, or verification method. Do not require an evidence kind that does not apply. When no trusted criterion exists, record that gap under Risks / Unknowns / Assumptions instead of silently assuming safety.
 
 ## 3. Answers → Issue
 
