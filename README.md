@@ -85,7 +85,7 @@ The five prompts are entry/resume points, not five human approval gates. Once an
 
 ## Adoption
 
-Human-on-Exception is not limited to greenfield repositories. Existing codebases can adopt the workflow by first letting AI reconstruct the current contracts from implementation and tests, then create or align the 4-point docs, concept, Questions, ADR, and Policy only where they are needed. No greenfield rewrite is required.
+Human-on-Exception is not limited to greenfield repositories. For an existing product, run [Existing repository adoption](./prompts/00-existing-adoption.md). It reconstructs one bounded current behavior at a time into a 4-point set and Pack without changing product behavior. Questions are only for semantic or authority decisions that repository facts cannot recover. Concept, ADR, and Policy changes stay in the normal 01–02 workflow after a human answer. No greenfield rewrite is required.
 
 For a new product, run `make greenfield DRY_RUN=1` first. After confirming the plan, run `make greenfield CONFIRM=1`. The executable example is archived locally under gitignored `.trash/`, active references are reset to zero-product state, and the workflow/rules/templates/application skeleton remain. Then begin with [1B. Greenfield](./prompts/01-define-greenfield.md).
 

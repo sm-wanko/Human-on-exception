@@ -63,8 +63,9 @@ Include:
 - existing SYS / FE / integration test IDs and paths
 - completion / verification commands that actually exist in this repository
 - known missing evidence, explicitly marked as missing rather than passed
+- `docs/testing/core-features.md`: the bundle, Pack, Flow ID, implementation paths, and completion commands that actually exist
 
-Do not invent tests, commands, IDs, or successful verification.
+Do not invent tests, commands, IDs, or successful verification. Do not copy flow bodies into the Pack or the index.
 
 ### 4. Questions are only for unrecoverable meaning
 
@@ -108,7 +109,7 @@ At completion, report:
 
 - supplied seed and the related paths actually followed
 - selected Flow ID and why this is the correct behavioral boundary
-- Pack and 4-point files created/updated
+- Pack, 4-point files, and feature index created/updated
 - entry points and implementation paths inspected
 - tests/evidence mapped
 - commands actually run and their results
@@ -165,6 +166,8 @@ docs 作成前に、選択した境界・含む entry point・除外する隣接
 
 current-state docs は **repo が現在実際に行うこと**を書く。怪しい挙動を勝手に「あるべき仕様」へ直さない。
 
+実装と既存 docs が食い違うときは、repository の Source of Truth 順で現状事実を確定し、矛盾または evidence の欠落を明示して記録すること。
+
 ### 3. Pack を作成または更新する
 
 `docs/ai/packs/<pack>.md` を bounded な navigation / evidence bundle として作成・更新すること。
@@ -179,8 +182,9 @@ create/edit/delete 系のように 1 つのまとまりを構成する場合は�
 - 既存 SYS / FE / integration test ID と path
 - repo に実在する completion / verification command
 - evidence 欠落は success にせず missing と明示
+- `docs/testing/core-features.md`: 束、Pack、Flow ID、実装 path、実在する completion command
 
-test・command・ID・成功結果を捏造しないこと。
+test・command・ID・成功結果を捏造しないこと。flow 本文を Pack にも索引にも複製しないこと。
 
 ### 4. Questions は repo から復元できない「意味」だけ
 
@@ -188,13 +192,28 @@ docs が無いこと自体は AI-owned reconstruction であり、人間への Q
 
 repo facts、tests、accepted concept / ADR / Policy、existing behavior から確定できない semantic / actor-boundary / aggregation-unit / time-semantics / destructive-risk / authority decision のみ Question にすること。
 
+通常 Question にしない例:
+
+- file name
+- document placement
+- Flow ID の命名
+- framework convention
+- 既知の挙動をどの controller / service / repository が実装しているか
+- code / test から観測できる既存の error / status / transaction の文書化
+
+現在の挙動自体が不整合なときは、次を分けること。
+
+1. 文書化できる事実
+2. 矛盾または欠落
+3. 本当に人間の権限が必要な意味決定
+
 疑わしい bug を新しい product decision に変換しないこと。
 
 ### 5. 導入は documentation-first
 
 この prompt では 4 点セットを綺麗にするために product behavior を変更しないこと。
 
-実装・tests を読み、4 点セットと Pack を作成・整合し、既存 evidence を mapping し、矛盾・未検証を報告する。docs change に必要な repo-native docs / survey / lint command があれば実行する。
+実装・tests を読み、4 点セットと Pack を作成・整合し、既存 evidence を mapping し、矛盾・未検証を報告する。docs 変更に必要な repository 固有の documentation / survey / lint command がある場合だけ、それらを実行する。
 
 追加 test、refactor、bug fix、behavior change が必要なら follow-up として提案し、挙動変更は `prompts/01-define-existing.md` から通常 workflow を開始すること。
 
@@ -206,7 +225,7 @@ repo facts、tests、accepted concept / ADR / Policy、existing behavior から�
 
 - 指定された seed と、実際に辿った関連 path
 - 選択した Flow ID と、その behavioral boundary が妥当な理由
-- 作成・更新した Pack / 4 点セット
+- 作成・更新した Pack / 4 点セット / feature index
 - 調査した entry point / implementation path
 - mapping した tests / evidence
 - 実行した command と実結果
