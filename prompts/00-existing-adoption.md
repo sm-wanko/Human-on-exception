@@ -213,7 +213,7 @@ repo facts、tests、accepted concept / ADR / Policy、existing behavior から�
 
 この prompt では 4 点セットを綺麗にするために product behavior を変更しないこと。
 
-実装・tests を読み、4 点セットと Pack を作成・整合し、既存 evidence を mapping し、矛盾・未検証を報告する。docs 変更に必要な repository 固有の documentation / survey / lint command がある場合だけ、それらを実行する。
+実装・tests を読み、4 点セットと Pack を作成・整合し、既存 evidence を mapping し、矛盾・未検証を報告する。このパスで実行するのは、docs 変更に必要で repository に実在する documentation / survey / lint command だけである。
 
 追加 test、refactor、bug fix、behavior change が必要なら follow-up として提案し、挙動変更は `prompts/01-define-existing.md` から通常 workflow を開始すること。
 
