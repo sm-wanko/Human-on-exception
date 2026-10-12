@@ -17,6 +17,7 @@ Human-on-Exception のルールが、単なる文章ではなく一貫した開�
 | valid / false positive / decision required を分類する | ai-review | 普通の修正を人間へ転送しない |
 | pending / skipped / not-run を成功扱いしない | ai-workflow §4–5 | 実行証拠と対象revisionを確認する |
 | 人間コードレビューを必須gateにしない | ai-workflow §5 | 必須チェックと独立AIレビューで完了判断する |
+| 子 head の成功は Epic 統合 head の成功ではない | ai-workflow §5 / `prompts/05-merge.md` | 子の証拠は記録した子 head に限る。Epic 完了には統合 head の integration verification が別途必要。子 head 自身の必須検証は減らない |
 
 ## Acceptance scenarios
 
@@ -31,6 +32,7 @@ Human-on-Exception のルールが、単なる文章ではなく一貫した開�
 | aggregate command が成功したが子工程がskip | 未完了として扱い、対象revisionと各工程を確認 | Fail=0だけでDoneにする |
 | docsとimplementationが矛盾 | current-state調査では implementation → system test → flow の順で事実確認 | docsだけを根拠に既存実装を削除 |
 | agreed change後のdocsが古い | target contractに合わせてコード・tests・4-point docsを同期 | current-state SoTを理由に古いdocsを放置 |
+| 子 PR の検証が成功し、Epic 作業ブランチへマージする | その成功は子 head の証拠である。Epic は統合 head の integration verification まで完了にしない。子の必須コマンドは省略しない | 子の成功だけで Epic を閉じる / 子の required commands を未実施のままマージ可能にする |
 
 ## Example scope
 

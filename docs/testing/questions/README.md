@@ -18,6 +18,8 @@ Use the [Questions template](../../templates/questions.md) and [AI execution con
 
 [Owned Task login](./owned-task-login.md) is a real decision-history example showing how an existing unauthenticated Task contract was extended with login and per-user ownership. It separates human semantic decisions from delegated AI implementation decisions.
 
+[Verification granularity](./verification-granularity.md) records an open investigation. Its recommendations are not accepted answers.
+
 ## 日本語
 
 **用途**: 依頼者（人間）と AI の **要件定義・Q&A・決定の経緯**だけを置く。
@@ -35,5 +37,7 @@ Use the [Questions template](../../templates/questions.md) and [AI execution con
 [Task CRUD](./task-crud.md) は既存実装に基づく教材用決定例で、実在する人間回答の証拠ではない。新規依頼でこれを回答として流用しない。
 
 [本人 Task のログイン](./owned-task-login.md) は、既存の未認証 Task 契約へログインと本人所有を追加した実際の意思決定履歴の例で、人間の意味判断と AI に委譲された実装判断の境界を示す。
+
+[検証の粒度](./verification-granularity.md) は未決の調査記録である。推奨は受諾済みの回答ではない。
 
 Language parity / 言語一致: [language-policy](../../rules/language-policy.md).

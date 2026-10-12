@@ -87,6 +87,8 @@ Even when an aggregate command succeeds, verify each required stage's exit resul
 - If merge is already authorized, AI performs it. Prompt 5 is merge authorization for its target PR. Do not hard-code main/develop; inspect the PR base and repository workflow.
 - Confirm the actual merge result and update linked Issues / Epic. Do not close an Epic until child Issues and integration verification are complete.
 
+Evidence applies only to the revision that produced it. A successful child head does not prove a later Epic integrated head. Completing the Epic still requires integration verification on that integrated head, and each child head must still record its own required verification. Do not treat the Epic rule as permission to skip the child head's required commands.
+
 Do not add mandatory human code review to the normal workflow. If existing branch protection requires human approval, do not disable or bypass it; report the concrete mismatch between repository settings and this contract.
 
 ## 6. Current-state facts vs target change contract
