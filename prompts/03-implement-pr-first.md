@@ -1,4 +1,4 @@
-# 3B. Implement Issue / PR Without Implementer Review — Issue 実装 / レビューなし PR
+# 3B. Implement Issue / PR Without Implementer Review — Issue 実装 / 実装者レビューなし PR
 
 ## English
 
@@ -10,7 +10,7 @@ Apply relevant concept / ADR / Policy. Work already determined by accepted crite
 
 For child Issues, use the Epic work branch as the base and state dependency order and PR base.
 
-**Do not perform or require implementer self-review.** After implementation, tests, static analysis, required completion / `make` commands, and docs/Pack updates are complete, create the PR.
+**Do not perform or require implementer self-review.** After implementation, tests, static analysis, required completion / `make` commands, and docs/Pack updates are complete, create the PR. After the PR is created, comment `@codex review` on that PR.
 
 Record Issue / Pack / Flow ID / evidence per AC / completion command results and any not-run reason in the PR. Mark independent AI review as `pending` when it has not run yet.
 
@@ -26,7 +26,7 @@ Issue #<number> に沿って実装から PR 作成まで実施すること。
 
 子 Issue は Epic 作業ブランチを基準にし、依存順と PR base を明示すること。
 
-**実装者による自己レビューは実施・必須化しないこと。** 実装、テスト、静的解析、必要な完了/`make` コマンド、4点セット・Pack 更新が完了したら PR を作成すること。
+**実装者による自己レビューは実施・必須化しないこと。** 実装、テスト、静的解析、必要な完了/`make` コマンド、4点セット・Pack 更新が完了したら PR を作成すること。PR 作成後、その PR に `@codex review` とコメントすること。
 
 PR には Issue / Pack / Flow ID / AC ごとの証拠 / 完了コマンド結果・未実行理由を記録すること。独立 AI レビューがまだ実施されていない場合は `pending` と記録すること。
 

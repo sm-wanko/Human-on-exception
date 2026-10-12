@@ -73,7 +73,7 @@ AI decides implementation splitting and branch names. Split by contracts/depende
 
 AI plans and implements from the Issue AC and applicable rules, and keeps tests, the 4-point docs, and Pack aligned in the same change series. Return only new specification decisions to Questions. Do not expand allowed scope "while here".
 
-Implementer self-review is optional. It does not replace a separate-context independent review when independent review is required. Follow [ai-review.md](./ai-review.md).
+Keep the implementation AI and the review AI in separate contexts. Implementer self-review before PR creation is not recommended. If it is performed, it does not replace a separate-context independent review when independent review is required. Follow [ai-review.md](./ai-review.md). After the PR is created, comment `@codex review` on that PR.
 
 The PR must record Issue, Pack, Flow ID, allowed paths vs actual diff, why the change exists, evidence per AC, commands/results/revision, and reasons for anything not run/failed/N/A. Do not confuse attempted execution with success, or test-ID existence with executed success. Do not hide environment problems by deleting tests or weakening CI.
 

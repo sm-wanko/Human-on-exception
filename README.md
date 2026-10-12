@@ -45,6 +45,8 @@ Independent review of the target head, in either order:
   3A: a separate-context AI reviews the recorded head, then the implementation AI creates the PR
   3B: the implementation AI creates the PR, then a separate-context AI reviews that PR head
   ↓
+After the PR exists, comment `@codex review` on it
+  ↓
 Implementation AI classifies findings against SoT, fixes valid ones, and returns only decision exceptions to the human
 ```
 
@@ -63,7 +65,7 @@ Implementation AI classifies findings against SoT, fixes valid ones, and returns
 - **Policy**: repeatable agreed criteria AI may apply
 - **Questions**: evidence, options, recommendations, unresolved items, answers, revision history
 - **Issue**: agreed answers converted into observable acceptance criteria and mapped to Flow/tests/docs
-- **Execution**: implementation, verification, and evidence are AI-owned; implementer self-review is optional
+- **Execution**: implementation, verification, and evidence are AI-owned; implementer self-review before the PR is not recommended
 - **Independent review**: a separate-context reviewer of the target head, either before PR creation (3A) or on the PR (3B: Codex / Cursor Bugbot / Claude / another reviewer)
 - **Completion**: required checks pass, valid findings are resolved, and AC are evidenced
 

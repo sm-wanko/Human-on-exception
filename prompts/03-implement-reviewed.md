@@ -14,7 +14,7 @@ After implementation and verification, hand the change to a **different AI sessi
 
 Record the reviewed base ref and head commit. That review is evidence only for the recorded head. If the head changes, repeat the separate-context review of the new head before creating the PR.
 
-Resolve authorized valid findings, rerun verification, and repeat separate-context review as needed. Then create the PR.
+Resolve authorized valid findings, rerun verification, and repeat separate-context review as needed. Then create the PR. After the PR is created, comment `@codex review` on that PR.
 
 Record Issue / Pack / Flow ID / evidence per AC / completion command results / reviewed base and head / independent-review result and any not-run reason in the PR.
 
@@ -32,6 +32,6 @@ Issue #<number> に沿って実装し、**別セッション / 別コンテキ�
 
 レビューした base と head commit を記録すること。そのレビューは記録した head に対する証拠である。head が変わった場合は、PR 作成前に新しい head を別コンテキストで再レビューすること。
 
-許可済みの valid 指摘は修正し、再検証・必要な再レビューまで進めたうえで PR を作成すること。
+許可済みの valid 指摘は修正し、再検証・必要な再レビューまで進めたうえで PR を作成すること。PR 作成後、その PR に `@codex review` とコメントすること。
 
 PR には Issue / Pack / Flow ID / AC ごとの証拠 / 完了コマンド結果 / レビューした base と head / 独立レビュー結果 / 未実行理由を記録すること。

@@ -2,7 +2,7 @@
 
 ## Implementer vs reviewer
 
-The reviewer runs in a separate session / context from the implementer, such as Codex or Cursor Bugbot. Implementer self-review is not required. If it is performed, it is only supplementary evidence and does not count as an independent review. A mere change in tone/persona does not count as an independent review.
+The reviewer runs in a separate session / context from the implementer, such as Codex or Cursor Bugbot. Implementer self-review before PR creation is not recommended and is not required. If it is performed, it is only supplementary evidence and does not count as an independent review. A mere change in tone/persona does not count as an independent review.
 
 Do not treat the implementer's "done" statement as evidence. Independently inspect the Issue, accepted decisions, applicable rules, diff, and tests.
 
