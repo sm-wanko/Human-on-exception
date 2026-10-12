@@ -8,7 +8,7 @@ Humans decide Intent, Scope (in/out), Answers to specification ambiguity, and Ri
 
 AI owns investigation, design, Issue creation, implementation, tests, static analysis, self-review, docs, PR/evidence, finding classification, fixes, and re-verification. AI is the execution owner that propagates agreed meaning. It is not the semantic authority that may invent or finalize unagreed meaning.
 
-Human code reading, implementation, and line-by-line code review are neither prerequisites nor required gates in the normal workflow. Optional human review is allowed. The five prompts are entry/resume points, not five mandatory approval gates. Once a stage is already authorized, continue it. Merge, release, or destructive operations must remain within previously agreed permissions.
+Human code reading, implementation, and line-by-line code review are neither prerequisites nor required gates in the normal workflow. Optional human review is allowed. The five prompts are entry/resume points for one change, not five mandatory approval gates. Prompt 6 is an optional Pack drift audit, not a sixth gate and not required to finish a change. Once a stage is already authorized, continue it. Merge, release, or destructive operations must remain within previously agreed permissions.
 
 Return to the human only when, after investigation, purpose/scope still has multiple meaningful interpretations; when an irreversible/destructive action is not yet authorized; when security/privacy/cost risk acceptance is required; or when rules conflict in a way AI cannot resolve.
 
@@ -96,3 +96,11 @@ For current-state investigation, SoT order is `implementation → system test �
 For an agreed change, the target contract comes from Answers / Issue AC plus active decisions. Do not preserve an acknowledged bug merely because implementation is top SoT for current-state facts. Return to decision-making only when old and new contracts cannot be distinguished.
 
 Questions are decision history. After implementation, current behavior lives in code + flow/ui/validation/db; active durable decisions live in ADR / Policy; progress lives in Issue / PR. Do not turn Questions into an Issue-close work log.
+
+## 7. Periodic Pack drift audit
+
+Prompt 6 audits one Pack after accumulated change. It is not a step between merge and the next change, and a change can complete under §5 without it. The audit classifies drift and does not repair the Pack in that session.
+
+Use §6 to keep the two disagreements apart. A document that lags implementation and tests is current-state drift. An implementation that lags an accepted Answer, Issue AC, active ADR, or Policy is target-contract drift. Do not treat those as the same defect, and do not delete implementation or tests during the audit.
+
+Severity records impact. Routing records where the finding goes. A severe finding does not add a human code-review gate and does not skip tests or independent review. Return to the human only when meaning, scope, actor boundary, aggregation unit, evidence promotion, or risk acceptance is still unresolved.
