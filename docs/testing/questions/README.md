@@ -36,4 +36,4 @@ Use the [Questions template](../../templates/questions.md) and [AI execution con
 
 [本人 Task のログイン](./owned-task-login.md) は、既存の未認証 Task 契約へログインと本人所有を追加した実際の意思決定履歴の例で、人間の意味判断と AI に委譲された実装判断の境界を示す。
 
-Language parity / 言語一致: [language-policy](../../rules/language-policy.md).
+Language selection / translation / 言語選択・翻訳: [language-policy](../../rules/language-policy.md).
