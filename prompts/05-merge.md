@@ -10,7 +10,7 @@ Verify required concept / ADR / Policy / 4-point doc synchronization and actual 
 
 Confirm the PR base and repository branch workflow, merge, then confirm the actual merge result and update linked Issue / Epic state. Do not hard-code main/develop.
 
-When this PR merges a child change into an Epic work branch, that merge does not complete the Epic. The child head's command results and review are evidence only for that child head. Integration verification still runs on the later integrated head. This does not reduce the verification the child head must already have recorded.
+A child PR merged into an Epic work branch does not complete the Epic. Its evidence applies only to that child head. The integration head, the PR entering the branch that receives completed work, needs full `make test`, full `make survey`, and a separate-context review of that head. Child results do not supply that proof. Several Epics in one PR repeat those three on the combined head. A later Epic already verified on a head that contains the earlier Epic does not repeat that same head. One Issue with no Epic treats its PR into the receiving branch as the integration head.
 
 This prompt is merge authorization for the target PR; do not request duplicate approval. Do not bypass protection settings. Return only decisions outside the authorized scope.
 
@@ -24,6 +24,6 @@ PR #<number> をマージすること。
 
 PR base とブランチ運用を確認してマージし、実際のマージ結果・関連 Issue / Epic の状態を更新すること。main / develop を決め打ちしないこと。
 
-この PR が子変更を Epic 作業ブランチへマージする場合、そのマージは Epic を完了にしない。子 head のコマンド結果とレビューは、その子 head の証拠である。integration verification は、その後の統合 head で行う。子 head が記録すべき検証を、この区別で減らさないこと。
+Epic 作業ブランチへの子 PR のマージは Epic を完了にしない。その証拠はその子 head に限る。完了した作業を受け取るブランチへ入る統合 head は、full `make test`、full `make survey`、その head の別コンテキストレビューを要する。子の結果はその証明にならない。複数 Epic を 1 つの PR に入れるときは、合体後の head でこの 3 つをやり直す。先の Epic を含む head で後の Epic を検証済みなら、同じ head ではやり直さない。Epic が無い 1 本の Issue は、受け側ブランチへ入る PR を統合 head とする。
 
 この指示が対象 PR のマージ許可なので再承認を要求しないこと。保護設定を迂回せず、許可範囲外の判断が必要な場合だけ根拠を示すこと。

@@ -113,4 +113,4 @@
 | `tests/Feature/` | HTTP + Laravel + DB |
 | `tests/System/` | vertical SIT; see [system-test-strategy.md](./system-test-strategy.md) |
 
-**Before backend completion**: root `make lint` → `cd apps/backend && make test`. For structure/flow changes also run `make survey`.
+**Verification level** follows [ai-workflow.md](./ai-workflow.md) §4. A child head runs `make lint` and the targeted tests that prove the Issue AC, including that Flow's system tests when the change persists data or crosses a boundary, plus `make survey` when a route, flow test matrix, or 4-point structure changes. An integration head runs full `make test` and full `make survey`.

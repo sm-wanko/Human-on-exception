@@ -6,7 +6,7 @@
 
 Humans decide Intent, Scope (in/out), Answers to specification ambiguity, and Risk acceptance. This includes the semantic boundary: what may be treated as the same meaning and what must remain distinct.
 
-AI owns investigation, design, Issue creation, implementation, tests, static analysis, self-review, docs, PR/evidence, finding classification, fixes, and re-verification. AI is the execution owner that propagates agreed meaning. It is not the semantic authority that may invent or finalize unagreed meaning.
+AI owns investigation, design, Issue creation, implementation, tests, static analysis, docs, PR/evidence, finding classification, fixes, and re-verification. AI is the execution owner that propagates agreed meaning. It is not the semantic authority that may invent or finalize unagreed meaning.
 
 Human code reading, implementation, and line-by-line code review are neither prerequisites nor required gates in the normal workflow. Optional human review is allowed. The five prompts are entry/resume points, not five mandatory approval gates. Once a stage is already authorized, continue it. Merge, release, or destructive operations must remain within previously agreed permissions.
 
@@ -44,9 +44,11 @@ Every investigation must consider the following. If a dimension is not applicabl
 | Create / update | POST vs PUT, rollback on conflict, existing data, flag rollback |
 | UX continuity | Entry → selection → create/edit → completion → return; query/context continuity; 0/1/many candidates |
 | Failure | Successful empty result vs unauthenticated vs unavailable; fallback; rate limit; timeout |
-| Evidence / safety | Authentication, authorization, audit, candidate vs confirmed, history, external cost, irreversibility |
+| Evidence / safety | Authentication, authorization, audit, candidate vs confirmed, history, external cost, irreversibility. Identify any known cross-cutting risk area clearly activated by the change (for example security/privacy, data integrity, concurrency/idempotency, or external-service constraints) and inspect the applicable repository rule, accepted Policy/ADR, platform constraint, or verification method. |
 | Cross-cutting | Paired features, public API/generated types/docs, callers and fakes |
 | Verification | Positive, reverse, boundary, regression; SYS / FE-ID; commands; reasoned N/A for external boundaries |
+
+This checklist is not a claim that investigation can discover every unknown risk. Do not report a change as safe or complete merely because every listed dimension was visited. When the change clearly activates a known cross-cutting risk area, inspect the applicable repository rule, accepted Policy/ADR, platform constraint, or verification method. Do not require an evidence kind that does not apply. When no trusted criterion exists, record that gap under Risks / Unknowns / Assumptions instead of silently assuming safety.
 
 ## 3. Answers → Issue
 
@@ -73,21 +75,32 @@ AI decides implementation splitting and branch names. Split by contracts/depende
 
 AI plans and implements from the Issue AC and applicable rules, and keeps tests, the 4-point docs, and Pack aligned in the same change series. Return only new specification decisions to Questions. Do not expand allowed scope "while here".
 
-Self-review is part of the implementer's responsibility and does not replace a separate-context independent review. Follow [ai-review.md](./ai-review.md).
+Keep the implementation AI and the review AI in separate contexts. Implementer self-review before PR creation is not recommended. If it is performed, it does not replace a separate-context independent review when independent review is required. Follow [ai-review.md](./ai-review.md). After the PR is created, comment `@codex review` on that PR.
 
 The PR must record Issue, Pack, Flow ID, allowed paths vs actual diff, why the change exists, evidence per AC, commands/results/revision, and reasons for anything not run/failed/N/A. Do not confuse attempted execution with success, or test-ID existence with executed success. Do not hide environment problems by deleting tests or weakening CI.
 
 Even when an aggregate command succeeds, verify each required stage's exit result, target revision, and skip/exclusion state. A historical success report or an aggregate Fail=0 is not completion evidence by itself. If actual behavior and contract differ, fix within authorized scope or record the work as incomplete.
 
+Verification evidence applies only to the head that produced it. Do not hard-code `develop` or `main`. Inspect the PR base.
+
+A **child head** is a PR whose base is an Epic work branch. It proves that Issue's AC only. Record, for that head:
+
+- targeted tests that directly prove the AC, using this repository's existing test commands scoped to those tests. When the change persists data or crosses a boundary, include that Flow's system tests. The full suite is not the child proof.
+- lint and static analysis
+- survey when the change touches a route, a flow test matrix, or flow / ui / validation / db structure. When none of those changed, the child does not run survey.
+- independent review of that child PR head
+
+An **integration head** is the PR that enters the branch receiving completed work: one Epic, several Epics in one PR, or a single Issue with no Epic. Its completion proof, for that head, is full `make test`, full `make survey`, and a separate-context review of that same head. Child results, including the child review, are not this proof.
+
+When one PR contains more than one Epic, run those three on the combined head. When a later Epic is verified on a head that already contains the earlier Epic, that run is the combined proof. Do not repeat it for the same head.
+
 ## 5. Completion and merge
 
 - Every AC has verification evidence. 4-point docs, Pack, and required counterpart features are aligned. Gap A = 0 alone is not Done.
-- Independent AI review has run, and no valid or unclassified finding remains.
+- Independent AI review of the target head has run, and no valid or unclassified finding remains. A pre-PR separate-context review counts only when its recorded head is that target head. An external PR-service review counts only when it ran against that same head. Follow [ai-review.md](./ai-review.md).
 - Required checks are successful on the target head. Pending/skipped/missing/not-run is not success.
 - If merge is already authorized, AI performs it. Prompt 5 is merge authorization for its target PR. Do not hard-code main/develop; inspect the PR base and repository workflow.
-- Confirm the actual merge result and update linked Issues / Epic. Do not close an Epic until child Issues and integration verification are complete.
-
-Evidence applies only to the revision that produced it. A successful child head does not prove a later Epic integrated head. Completing the Epic still requires integration verification on that integrated head, and each child head must still record its own required verification. Do not treat the Epic rule as permission to skip the child head's required commands.
+- Confirm the actual merge result and update linked Issues / Epic. Merging a child PR into an Epic work branch does not complete the Epic. Do not close an Epic until the integration head has passed full `make test`, full `make survey`, and a separate-context review on that integrated head.
 
 Do not add mandatory human code review to the normal workflow. If existing branch protection requires human approval, do not disable or bypass it; report the concrete mismatch between repository settings and this contract.
 

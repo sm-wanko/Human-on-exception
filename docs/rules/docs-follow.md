@@ -37,4 +37,4 @@ Do not duplicate the same response contract, happy-path prose, or error table ac
 
 ## Completion when docs change
 
-Run `make docs` / `make survey`. See root [`AGENTS.md`](../../AGENTS.md).
+A change that touches a route, a flow test matrix, or flow / ui / validation / db structure runs `make survey` on that head. The integration head still runs full `make survey` with full `make test`. See root [`AGENTS.md`](../../AGENTS.md) and [ai-workflow.md](./ai-workflow.md) §4.

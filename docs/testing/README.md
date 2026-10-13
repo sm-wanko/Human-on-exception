@@ -28,8 +28,10 @@ SIT の正本: [`docs/rules/system-test-strategy.md`](../rules/system-test-strat
   → Issue 起票（1 テーマ = 1 Issue）
   → 実装 + テスト + docs（同一変更系列）
   → PR 前: 実装 === docs の確認
-  → PR（関連 Issue 紐づけ必須）
-  → 別人格 AI レビュー
+  → PR（関連 Issue 紐づけ必須）。独立レビューは PR の前でも後でも成立する
+      3A: 別コンテキスト AI が記録した head をレビューしてから PR
+      3B: 実装 AI が PR を作り、その head を別コンテキスト AI がレビュー
+  → いずれの場合も PR 作成後に `@codex review` とコメントする
   → 実装 AI が指摘を判定・修正
   → マージ · Issue Close
 ```
@@ -47,9 +49,9 @@ SIT の正本: [`docs/rules/system-test-strategy.md`](../rules/system-test-strat
 |--------|------|
 | **1 Issue = 1 PR** | 1 テーマ 1 ブランチ 1 PR。チェーン分割は **Issue 本文**に書く |
 | **変更単位** | 1 サブタスクの **実装** · **テスト** · **docs** を同一コミット・PRに揃える |
-| **PR 前チェック** | **実装 === docs**（触った `docs/flow` の `*-FE-*` / `*-SYS-*` とテスト名 1:1、必要なら `make survey`） |
+| **PR 前チェック** | **実装 === docs**（触った `docs/flow` の `*-FE-*` / `*-SYS-*` とテスト名 1:1）。route、flow の test matrix、4点セット構造に触れた head は `make survey` |
 | **PR 紐づけ** | PR 本文 `Closes #n` 等で関連 Issue を必ずリンク |
-| **検証** | 触った範囲の `make lint-*` / `make test-*`（構造変更時 `make survey`） |
+| **検証** | [ai-workflow.md](../rules/ai-workflow.md) §4。子 head は AC の targeted test と lint。統合 head は full `make test` と full `make survey` |
 
 ---
 

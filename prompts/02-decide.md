@@ -14,7 +14,7 @@ If this re-investigation finds a new decision that requires human authority, app
 
 Do not create an implementation Issue merely because the original Questions are all answered. Create the Issue only when the re-investigated target contract has zero unresolved human-authority implementation blockers.
 
-Include Q-ID → AC-ID → verification mapping, Pack / Flow ID, allowed paths, prohibitions, and completion `make` commands.
+Include Q-ID → AC-ID → verification mapping, Pack / Flow ID, allowed paths, prohibitions, and completion commands for that Issue's head under `docs/rules/ai-workflow.md` §4. A child Issue records the targeted proof. The Epic's integration PR, or a single Issue with no Epic, records full `make test` and full `make survey`.
 
 AI owns splitting, Epic structure, and dependency order. Cross-link real Issues and Questions. Do not mark an unresolved design Issue Ready for implementation. If implementation was already authorized, continue the authorized workflow.
 
@@ -32,6 +32,6 @@ AI owns splitting, Epic structure, and dependency order. Cross-link real Issues 
 
 元の Questions がすべて回答済みという理由だけで実装 Issue を起票してはならない。再調査後の target contract に unresolved な human-authority implementation blocker が 0 件になった時だけ Issue を起票すること。
 
-Q-ID → AC-ID → 検証方法の対応、Pack / Flow ID / 許可パス / 禁止 / 完了 `make` を含めること。
+Q-ID → AC-ID → 検証方法の対応、Pack / Flow ID / 許可パス / 禁止 / `docs/rules/ai-workflow.md` §4 のその head の完了コマンドを含めること。子 Issue は targeted の証明を記す。Epic の統合 PR、または Epic が無い 1 本の Issue は、full `make test` と full `make survey` を記す。
 
 分割・Epic・依存順は AI が具体化し、実在する Issue と Questions を相互リンクすること。未決の設計 Issue を実装 Ready にしないこと。既に実装まで許可されていれば続行すること。
