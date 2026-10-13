@@ -52,4 +52,4 @@ Record who had decision authority and the answer source. Do not mark an AI-gener
 
 目的・用語は [concept](../../concept/README.md)、反復作業の具体的基準は [Policy](../policy/README.md) を参照する。ADRには選択理由と見直し条件を残し、運用基準を重複管理しない。判断主体と回答の出所を明記し、人間が回答していない案を Accepted にしない。
 
-Language parity / 言語一致: [language-policy](../../rules/language-policy.md).
+Language selection / translation / 言語選択・翻訳: [language-policy](../../rules/language-policy.md).

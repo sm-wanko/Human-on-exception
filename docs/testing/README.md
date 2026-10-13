@@ -28,8 +28,10 @@ SIT の正本: [`docs/rules/system-test-strategy.md`](../rules/system-test-strat
   → Issue 起票（1 テーマ = 1 Issue）
   → 実装 + テスト + docs（同一変更系列）
   → PR 前: 実装 === docs の確認
-  → PR（関連 Issue 紐づけ必須）
-  → 別人格 AI レビュー
+  → PR（関連 Issue 紐づけ必須）。独立レビューは PR の前でも後でも成立する
+      3A: 別コンテキスト AI が記録した head をレビューしてから PR
+      3B: 実装 AI が PR を作り、その head を別コンテキスト AI がレビュー
+  → いずれの場合も PR 作成後に `@codex review` とコメントする
   → 実装 AI が指摘を判定・修正
   → マージ · Issue Close
 ```
