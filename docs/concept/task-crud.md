@@ -38,4 +38,4 @@ The decision-teaching material is [Questions](../testing/questions/task-crud.md)
 
 判断の教材は [Questions](../testing/questions/task-crud.md) と [Issue例](../testing/examples/task-crud-issue.md)。教材の削除仕様を、本番データを破壊する許可に転用しない。
 
-Language parity / 言語一致: [language-policy](../rules/language-policy.md).
+Language selection / translation / 言語選択・翻訳: [language-policy](../rules/language-policy.md).

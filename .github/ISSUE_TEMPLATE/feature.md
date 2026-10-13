@@ -12,7 +12,7 @@ labels: ['enhancement', 'feature']
 | **Pack**（束） | 例: `example-flow` |
 | **Flow ID** | 例: `EXAMPLE_FLOW` / `EXAMPLE_FLOW-FE-003` |
 | **触ってよいパス** | 例: `apps/frontend/src/lib/example/` のみ |
-| **完了時 make** | 例: `make lint` → `make test` |
+| **完了時 make** | 子: AC の targeted test と `make lint`（構造に触れたら `make survey`）。統合 head: full `make test` と full `make survey`。基準は `docs/rules/ai-workflow.md` §4 |
 
 手順: [`AGENTS.md`](../../AGENTS.md)
 

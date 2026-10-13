@@ -40,4 +40,4 @@ AI は基準が明確な作業を進め、曖昧な項目だけを保留する�
 
 Questions には未決と回答経緯を残す。進捗・バッチ番号は Issue または専用の運用資料へ置き、確定した基準を複数文書に再掲しない。
 
-Language parity / 言語一致: [language-policy](../../rules/language-policy.md).
+Language selection / translation / 言語選択・翻訳: [language-policy](../../rules/language-policy.md).

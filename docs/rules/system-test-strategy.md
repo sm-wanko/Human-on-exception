@@ -99,6 +99,8 @@ Paid APIs, OAuth, real email, or other paths that cannot be deterministic local 
 
 ## 7. Completion
 
-- `make test`
-- when flow / SYS / FE changes, run `make survey`
-- if a gap remains, state whether it is unimplemented or N/A
+Follow [ai-workflow.md](./ai-workflow.md) §4. System remains primary for persistence and cross-boundary behavior.
+
+- On a child head, include that Flow's system tests in the targeted proof when the change persists data or crosses a boundary. Run `make survey` when the change touches a route, a flow test matrix, or flow / ui / validation / db structure.
+- On an integration head, run full `make test` and full `make survey`.
+- If a gap remains, state whether it is unimplemented or N/A. A child run does not prove the integration head.

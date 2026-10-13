@@ -1,29 +1,25 @@
 # 3. Implement Issue / PR — Issue 実装 / PR
 
-## English
+Choose the prompt that matches how review will be performed.
 
-Implement Issue #<number> through PR creation.
+- [3A. Implement → separate-context review → PR](./03-implement-reviewed.md)
+- [3B. Implement → PR without implementer review](./03-implement-pr-first.md)
 
-Follow `AGENTS.md` and `docs/rules/ai-workflow.md` §4. Confirm AC, allowed paths, and prohibitions. Own design, implementation, tests, static analysis, self-review, 4-point docs, and Pack updates.
+Both variants keep the same implementation requirements: Issue AC, allowed paths/prohibitions, tests, static analysis, the verification level in `docs/rules/ai-workflow.md` §4, 4-point docs, Pack updates, and PR evidence.
 
-Apply relevant concept / ADR / Policy. Work already determined by accepted criteria is AI execution. Return only unresolved semantic, actor-boundary, aggregation-unit, or risk decisions to the human.
+A child PR, whose base is an Epic work branch, records targeted tests for that Issue's AC, lint / static analysis, survey when a route, flow test matrix, or 4-point structure changes, and independent review of that child head. A change that persists data or crosses a boundary includes that Flow's system tests. The full suite is the integration head's proof, not the child's. A single Issue with no Epic uses the PR into the receiving branch as the integration head: full `make test`, full `make survey`, and a separate-context review of that head. Do not hard-code `develop` or `main`.
 
-For child Issues, use the Epic work branch as the base and state dependency order and PR base.
-
-Record Issue / Pack / Flow ID / evidence per AC / completion command results and any not-run reason in the PR.
-
-Independent AI review follows `docs/rules/ai-review.md`. Implementer self-review is not separate-context review. Continue authorized finding resolution and re-verification.
+Recommended: keep the implementation AI and the review AI in separate contexts, and do not have the implementation AI self-review before creating the PR. In either variant, after the PR is created, comment `@codex review` on that PR.
 
 ## 日本語
 
-Issue #<number> に沿って実装から PR 作成まで実施すること。
+レビューの実行方法に合わせて、次のどちらかを使うこと。
 
-`AGENTS.md` と `docs/rules/ai-workflow.md` §4 に従い、AC・許可パス・禁止を確認し、設計・実装・テスト・静的解析・自己レビュー・4点セット・Pack を更新すること。
+- [3A. 実装 → 別コンテキストレビュー → PR](./03-implement-reviewed.md)
+- [3B. 実装 → 実装者レビューなし → PR](./03-implement-pr-first.md)
 
-関係する concept・ADR・Policy を適用し、合意済み基準で決まる個別作業は AI が実行すること。意味・主体・集約単位・未許容リスクを変える未決だけを人間へ戻すこと。
+どちらも、Issue の AC・許可パス・禁止、テスト、静的解析、`docs/rules/ai-workflow.md` §4 の検証レベル、4点セット、Pack 更新、PR への証拠記録は維持すること。
 
-子 Issue は Epic 作業ブランチを基準にし、依存順と PR base を明示すること。
+Epic 作業ブランチが base の子 PR は、その Issue の AC に対する targeted test、lint / 静的解析、route・flow の test matrix・4点セット構造に触れたときの survey、その子 head の独立レビューを記録する。永続化や境界をまたぐ変更は、その Flow の system test を targeted test に含める。full suite は子の証明ではなく、統合 head の証明である。Epic が無い 1 本の Issue は、受け側ブランチへ入る PR を統合 head とし、full `make test`、full `make survey`、その head の別コンテキストレビューを行う。`develop` や `main` を決め打ちしない。
 
-PR には Issue / Pack / Flow ID / AC ごとの証拠 / 完了コマンド結果・未実行理由を記録すること。
-
-独立 AI レビューは `docs/rules/ai-review.md` に従うこと。実装者の自己レビューを別人格レビューとして申告しないこと。許可済みの指摘対応・再検証まで進めること。
+推奨は、実装 AI とレビュー AI を別コンテキストに分け、PR 作成前に実装 AI が自己レビューしないこと。いずれの場合も、PR 作成後にその PR へ `@codex review` とコメントすること。

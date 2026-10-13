@@ -18,7 +18,7 @@ From the relevant Pack / Flow, follow only the related concept, active ADR, and 
 
 For a new product, AI drafts concept material and asks only about unresolved purpose/boundary decisions. Do not require humans to author documentation. Create ADR / Policy only when there is an actual decision or repeatable rule; do not create empty files to satisfy a count.
 
-Follow [language-policy.md](./language-policy.md) for bilingual human-facing decision material.
+Follow [language-policy.md](./language-policy.md) for human-facing decision material and translation.
 
 ## Checks that protect meaning
 
