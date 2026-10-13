@@ -10,7 +10,7 @@ For meaning-related findings, compare against concept / ADR / Policy. Do not rem
 
 For valid findings, fix them and rerun the verification level of that PR under `docs/rules/ai-workflow.md` §4. A child PR reruns its targeted proof. An integration PR reruns full `make test`, full `make survey`, and review of the new head. Reply with evidence and commit. For false positives, cite the agreed contract plus implementation/test evidence.
 
-Check independent AI re-review of the latest target head and required checks. A review of only the incremental diff since the previous head does not complete that check. If review of the target head did not run, keep it pending. Return only true decision exceptions to the human.
+Check independent AI re-review of the latest target head and required checks. A review of only the incremental diff since the previous head does not complete that check. If review of the target head did not run, keep it pending. Do not return ordinary fixes to the human. Return only matters outside AI authority to Questions.
 
 ## 日本語
 

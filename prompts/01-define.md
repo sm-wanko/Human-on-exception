@@ -2,12 +2,12 @@
 
 Choose the entry that matches the target.
 
-- [1A. Existing repository / 既存 repo](./01-define-existing.md) — the target already has implementation, tests, docs, or accepted contracts to investigate.
-- [1B. Greenfield / ゼロプロ](./01-define-greenfield.md) — the target has no implementation or accepted feature contract yet.
+- [1A. Existing repository / 既存 repo](./01-define-existing.md) — the target already has implementation, tests, docs, or accepted contracts. Start from a current-state investigation.
+- [1B. Greenfield / ゼロプロ](./01-define-greenfield.md) — the target has no implementation or accepted feature contract yet. Build a provisional design from the human intent and repository rules.
 
 If it is unclear which mode applies, inspect only enough to determine whether a current target contract exists. Do not ask the human to choose a mode when the repository can determine it.
 
-Prompts 1 and 2 form a decision loop, not a one-pass sequence. After answers are applied in Prompt 2, any newly introduced or changed product meaning must be reinvestigated. If that reveals another human-authority Question, return to the Questions/Answers loop. Create implementation Issues only after no such blockers remain.
+Prompts 1 and 2 form a decision loop, not a one-pass sequence. After answers are applied in Prompt 2, reinvestigate any newly introduced or changed product meaning or semantic boundary. If that reveals another human-authority Question, return to the Questions/Answers loop. Create implementation Issues only after no such blockers remain.
 
 ## 日本語
 

@@ -12,7 +12,7 @@ Human-on-Exception has two optional bootstrap prompts, five normal entry/resume 
 5. Merge / update target branch / マージ・対象ブランチ更新
 6. [Pack drift audit / Pack の契約ドリフト監査](./06-drift-audit.md) — optional, after accumulated change; not required for each change
 
-The five normal workflow files are **not five approval gates**. The two optional bootstraps are setup, and Prompt 6 is not a sixth approval gate. Humans own purpose, scope, answers, and risk acceptance. Once an authorized stage has enough information, AI continues execution.
+The five normal workflow files are **not five approval gates**. The two optional bootstraps are setup, and Prompt 6 is not a sixth approval gate. Humans own only purpose, scope, answers, and risk acceptance. Once an authorized stage has enough information, AI continues execution.
 
 Prompts 1 and 2 are iterative. Applying an answer can expose a new semantic decision that did not exist before that answer. In that case, AI adds the follow-up Question and returns through the Answers step. Issue creation happens only after this loop converges and no unresolved human-authority implementation blocker remains.
 
