@@ -4,7 +4,7 @@
 
 Implement Issue #<number> through PR creation.
 
-Follow `AGENTS.md` and `docs/rules/ai-workflow.md` §4. Confirm AC, allowed paths, and prohibitions. Own design, implementation, tests, static analysis, required completion / `make` commands, 4-point docs, and Pack updates.
+Follow `AGENTS.md` and `docs/rules/ai-workflow.md` §4. Confirm AC, allowed paths, and prohibitions. Own design, implementation, tests, static analysis, the child or integration verification level in `docs/rules/ai-workflow.md` §4, 4-point docs, and Pack updates.
 
 Apply relevant concept / ADR / Policy. Work already determined by accepted criteria is AI execution. Return only unresolved semantic, actor-boundary, aggregation-unit, or risk decisions to the human.
 
@@ -22,7 +22,7 @@ Record Issue / Pack / Flow ID / evidence per AC / completion command results / r
 
 Issue #<number> に沿って実装し、**別セッション / 別コンテキストの AI にレビューさせてから PR を作成**すること。
 
-`AGENTS.md` と `docs/rules/ai-workflow.md` §4 に従い、AC・許可パス・禁止を確認し、設計・実装・テスト・静的解析・必要な完了/`make` コマンド・4点セット・Pack を更新すること。
+`AGENTS.md` と `docs/rules/ai-workflow.md` §4 に従い、AC・許可パス・禁止を確認し、設計・実装・テスト・静的解析・`docs/rules/ai-workflow.md` §4 の子または統合の検証レベル・4点セット・Pack を更新すること。
 
 関係する concept・ADR・Policy を適用し、合意済み基準で決まる個別作業は AI が実行すること。意味・主体・集約単位・未許容リスクを変える未決だけを人間へ戻すこと。
 

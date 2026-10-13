@@ -49,9 +49,9 @@ SIT の正本: [`docs/rules/system-test-strategy.md`](../rules/system-test-strat
 |--------|------|
 | **1 Issue = 1 PR** | 1 テーマ 1 ブランチ 1 PR。チェーン分割は **Issue 本文**に書く |
 | **変更単位** | 1 サブタスクの **実装** · **テスト** · **docs** を同一コミット・PRに揃える |
-| **PR 前チェック** | **実装 === docs**（触った `docs/flow` の `*-FE-*` / `*-SYS-*` とテスト名 1:1、必要なら `make survey`） |
+| **PR 前チェック** | **実装 === docs**（触った `docs/flow` の `*-FE-*` / `*-SYS-*` とテスト名 1:1）。route、flow の test matrix、4点セット構造に触れた head は `make survey` |
 | **PR 紐づけ** | PR 本文 `Closes #n` 等で関連 Issue を必ずリンク |
-| **検証** | 触った範囲の `make lint-*` / `make test-*`（構造変更時 `make survey`） |
+| **検証** | [ai-workflow.md](../rules/ai-workflow.md) §4。子 head は AC の targeted test と lint。統合 head は full `make test` と full `make survey` |
 
 ---
 

@@ -40,16 +40,19 @@ When Codex is invoked as a PR reviewer, apply the [independent AI review contrac
 
 1. Follow reading order **0→5**. Read one relevant flow and one relevant pack, not the whole repository by default. In greenfield state, zero bundles/flows/tests is valid; do not search `.trash/` to manufacture current facts.
 2. Every created Issue / PR must include **Pack**, **Flow ID**, **allowed paths**, and completion **`make`** commands.
-3. Before completion, run the required `make lint-*` / `make test-*` commands below. For structural changes, also run `make survey` as applicable. Add PHPDoc / JSDoc to touched exported/public surfaces.
-4. Use `make` or the app's existing commands for verification. Do not make an ad-hoc environment the source of truth.
+3. Before completion, run the verification level in [ai-workflow.md](./docs/rules/ai-workflow.md) §4 for that PR's base. Add PHPDoc / JSDoc to touched exported/public surfaces.
+4. Use `make` or the app's existing commands for verification. Do not make an ad-hoc environment the source of truth. Evidence applies only to the head that produced it.
 
 ## Completion requirements
 
-| Change area | Minimum | When structure/docs change |
+Inspect the PR base. Do not hard-code `develop` or `main`.
+
+| Head | When | Record for that head |
 |---|---|---|
-| Backend | root `make lint` → `cd apps/backend && make test` | same + `make survey` for the relevant flow |
-| Frontend | root `make lint` → `cd apps/frontend && make test` | `make survey` / `make docs` when flow or route changes |
-| Cross-cutting | `make test` | `make survey` / `make docs` |
+| Child | PR base is an Epic work branch | targeted tests that prove the Issue AC, including that Flow's system tests when the change persists data or crosses a boundary; `make lint`; `make survey` when the change touches a route, a flow test matrix, or flow / ui / validation / db structure; independent review of that child PR |
+| Integration | PR base is the branch that receives completed work: one Epic, several Epics in one PR, or a single Issue with no Epic | full `make test`, full `make survey`, and a separate-context review of that head |
+
+Child results do not prove the integration head. Several Epics in one PR repeat the integration row on the combined head. A later Epic already verified on a head that contains the earlier Epic does not repeat that same head.
 
 ---
 

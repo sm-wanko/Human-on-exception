@@ -81,13 +81,26 @@ The PR must record Issue, Pack, Flow ID, allowed paths vs actual diff, why the c
 
 Even when an aggregate command succeeds, verify each required stage's exit result, target revision, and skip/exclusion state. A historical success report or an aggregate Fail=0 is not completion evidence by itself. If actual behavior and contract differ, fix within authorized scope or record the work as incomplete.
 
+Verification evidence applies only to the head that produced it. Do not hard-code `develop` or `main`. Inspect the PR base.
+
+A **child head** is a PR whose base is an Epic work branch. It proves that Issue's AC only. Record, for that head:
+
+- targeted tests that directly prove the AC, using this repository's existing test commands scoped to those tests. When the change persists data or crosses a boundary, include that Flow's system tests. The full suite is not the child proof.
+- lint and static analysis
+- survey when the change touches a route, a flow test matrix, or flow / ui / validation / db structure. When none of those changed, the child does not run survey.
+- independent review of that child PR head
+
+An **integration head** is the PR that enters the branch receiving completed work: one Epic, several Epics in one PR, or a single Issue with no Epic. Its completion proof, for that head, is full `make test`, full `make survey`, and a separate-context review of that same head. Child results, including the child review, are not this proof.
+
+When one PR contains more than one Epic, run those three on the combined head. When a later Epic is verified on a head that already contains the earlier Epic, that run is the combined proof. Do not repeat it for the same head.
+
 ## 5. Completion and merge
 
 - Every AC has verification evidence. 4-point docs, Pack, and required counterpart features are aligned. Gap A = 0 alone is not Done.
 - Independent AI review of the target head has run, and no valid or unclassified finding remains. A pre-PR separate-context review counts only when its recorded head is that target head. An external PR-service review counts only when it ran against that same head. Follow [ai-review.md](./ai-review.md).
 - Required checks are successful on the target head. Pending/skipped/missing/not-run is not success.
 - If merge is already authorized, AI performs it. Prompt 5 is merge authorization for its target PR. Do not hard-code main/develop; inspect the PR base and repository workflow.
-- Confirm the actual merge result and update linked Issues / Epic. Do not close an Epic until child Issues and integration verification are complete.
+- Confirm the actual merge result and update linked Issues / Epic. Merging a child PR into an Epic work branch does not complete the Epic. Do not close an Epic until the integration head has passed full `make test`, full `make survey`, and a separate-context review on that integrated head.
 
 Do not add mandatory human code review to the normal workflow. If existing branch protection requires human approval, do not disable or bypass it; report the concrete mismatch between repository settings and this contract.
 

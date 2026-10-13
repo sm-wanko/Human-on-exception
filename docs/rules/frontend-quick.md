@@ -116,4 +116,4 @@ In the same PR, update `docs/transition/遷移定義.md` and run `make docs` / `
 
 **Principle**: branching belongs in a resolver (lib). The authoritative contract is the `*-FE-*` matrix in `docs/flow/<feature>.md`.
 
-**Before frontend completion**: root `make lint` → `cd apps/frontend && make test`. See [frontend-coding-conventions.md](./frontend-coding-conventions.md).
+**Verification level** follows [ai-workflow.md](./ai-workflow.md) §4. A child head runs `make lint` and the targeted frontend tests that prove the Issue AC, plus `make survey` when a route, flow test matrix, or 4-point structure changes. An integration head runs full `make test` and full `make survey`. See [frontend-coding-conventions.md](./frontend-coding-conventions.md).
