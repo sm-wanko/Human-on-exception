@@ -18,9 +18,19 @@ Human coding, code reading, and line-by-line code review are not normal required
 - **4-point docs** — flow / ui / validation / db as a human-readable current feature overview and verification surface
 - **Executable example** — a minimal Laravel / Next.js Task CRUD
 
+## Where this came from
+
+Human-on-Exception is not a purely conceptual framework. It was extracted from roughly six months of practical use in a separate private product, where the workflow was repeatedly applied to real feature development and maintenance.
+
+This public repository intentionally contains only the reusable parts: the prompt workflow, documentation conventions, verification mechanisms, and a minimal executable example. Product-specific code, domain rules, operational data, and the concrete Questions / Answers produced in that private product are not published here.
+
+The absence of those production Questions / Answers in this repository should therefore not be read as an absence of real-world use; they remain with the private product from which this template was generalized.
+
 Start with README → [AI execution contract](./docs/rules/ai-workflow.md) → [Questions template](./docs/templates/questions.md) → [Task CRUD example](./docs/testing/questions/task-crud.md) → [Independent AI review](./docs/rules/ai-review.md).
 
 ## Human prompts
+
+Optional bootstrap for an existing product: [Existing repository adoption](./prompts/00-existing-adoption.md). It reconstructs one bounded current feature at a time into a 4-point set and Pack without changing product behavior.
 
 Optional bootstrap for a new product: [0. Greenfield bootstrap](./prompts/00-greenfield.md). The normal development loop remains the five entry/resume prompts below.
 
@@ -87,7 +97,7 @@ As a result, the examples in this repository are deliberately smaller and cleane
 
 ## Adoption
 
-Human-on-Exception is not limited to greenfield repositories. Existing codebases can adopt the workflow by first letting AI reconstruct the current contracts from implementation and tests, then create or align the 4-point docs, concept, Questions, ADR, and Policy only where they are needed. No greenfield rewrite is required.
+Human-on-Exception is not limited to greenfield repositories. For an existing product, run [Existing repository adoption](./prompts/00-existing-adoption.md). It reconstructs one bounded current behavior at a time into a 4-point set and Pack without changing product behavior. Questions are only for semantic or authority decisions that repository facts cannot recover. Concept, ADR, and Policy changes stay in the normal 01–02 workflow after a human answer. No greenfield rewrite is required.
 
 For a new product, run `make greenfield DRY_RUN=1` first. After confirming the plan, run `make greenfield CONFIRM=1`. The executable example is archived locally under gitignored `.trash/`, active references are reset to zero-product state, and the workflow/rules/templates/application skeleton remain. Then begin with [1B. Greenfield](./prompts/01-define-greenfield.md).
 
