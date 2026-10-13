@@ -32,6 +32,8 @@ Start with README → [AI execution contract](./docs/rules/ai-workflow.md) → [
 
 Optional bootstrap for an existing product: [Existing repository adoption](./prompts/00-existing-adoption.md). It reconstructs one bounded current feature at a time into a 4-point set and Pack without changing product behavior.
 
+Optional bootstrap for an existing product that has no written coding rules for an area: [Existing area coding rules](./prompts/00-coding-rules.md). It reconstructs that area's always-read rule file from repeated implementation. It does not change product behavior.
+
 Optional bootstrap for a new product: [0. Greenfield bootstrap](./prompts/00-greenfield.md). The normal development loop remains the five entry/resume prompts below. [6. Pack drift audit](./prompts/06-drift-audit.md) is optional and runs after accumulated change to one Pack. It is not required to complete each change.
 
 When using an agent tool such as Cursor or Claude Code, prefer explicitly referencing the prompt file you want to run (for example, `@prompts/03-implement.md`) instead of relying on the agent to infer the current stage from this README.
@@ -98,7 +100,7 @@ As a result, the examples in this repository are deliberately smaller and cleane
 
 ## Adoption
 
-Human-on-Exception is not limited to greenfield repositories. For an existing product, run [Existing repository adoption](./prompts/00-existing-adoption.md). It reconstructs one bounded current behavior at a time into a 4-point set and Pack without changing product behavior. Questions are only for semantic or authority decisions that repository facts cannot recover. Concept, ADR, and Policy changes stay in the normal 01–02 workflow after a human answer. No greenfield rewrite is required.
+Human-on-Exception is not limited to greenfield repositories. For an existing product, run [Existing repository adoption](./prompts/00-existing-adoption.md). It reconstructs one bounded current behavior at a time into a 4-point set and Pack without changing product behavior. When an area has implementation and no written coding rules, run [Existing area coding rules](./prompts/00-coding-rules.md) for that area. Questions are only for semantic or authority decisions that repository facts cannot recover. Concept, ADR, and Policy changes stay in the normal 01–02 workflow after a human answer. No greenfield rewrite is required.
 
 For a new product, run `make greenfield DRY_RUN=1` first. After confirming the plan, run `make greenfield CONFIRM=1`. The executable example is archived locally under gitignored `.trash/`, active references are reset to zero-product state, and the workflow/rules/templates/application skeleton remain. Then begin with [1B. Greenfield](./prompts/01-define-greenfield.md).
 
@@ -114,7 +116,7 @@ When adopting the workflow in another language, framework, or architecture, keep
 - define where domain meaning is allowed to live so agents do not duplicate business semantics across controllers, components, hooks, serializers, or equivalent layers
 - map the repository's actual verification commands into Issues / PRs so an agent can prove completion without inventing ad-hoc checks
 
-For example, a Go, Rust, Python, Java, mobile, or monorepo adoption should replace the sample Laravel / Next.js coding rules with rules that describe that repository's real architecture and verification surface. Do **not** copy framework-specific conventions merely because they exist in this sample.
+For example, a Go, Rust, Python, Java, mobile, or monorepo adoption should replace the sample Laravel / Next.js coding rules with rules that describe that repository's real architecture and verification surface. Do **not** copy framework-specific conventions merely because they exist in this sample. When that repository has implementation and no written rules for the area, run [Existing area coding rules](./prompts/00-coding-rules.md). One seed is not a repository-wide rule.
 
 The portable part of this repository is the execution model:
 

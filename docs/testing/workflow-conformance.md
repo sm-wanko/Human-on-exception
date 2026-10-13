@@ -40,6 +40,7 @@ Human-on-Exception のルールが、単なる文章ではなく一貫した開�
 | 子 PR の base が Epic 作業ブランチ | その head で AC の targeted test、lint、構造に触れたときの survey、子 PR の独立レビューを記録する | full `make test` の成功を子の完了にする / 子の成功で Epic を閉じる |
 | Epic、複数 Epic、または Epic の無い 1 Issue が受け側ブランチへ入る | その統合 head で full `make test`、full `make survey`、別コンテキストレビューを行う。複数 Epic を一度に入れるときは合体後 head でやり直す。先の Epic を含む head で検証済みなら同じ head ではやり直さない | 子のレビューや targeted test を統合 head の証明にする / 別 head の成功を流用する |
 | 妥当な変更が積み重なり Pack の意味がずれる | Prompt 6 が repo から SoT を再構成し、severity と routing を分けて分類する。意味の未決だけを Question にする | 監査中に修復する / P1 を人間のコードレビュー gate にする / 毎回の変更完了に Prompt 6 を要求する |
+| 既存領域に実行規則が無い | 指定した領域と seed から、繰り返す配置だけを quick に書く。seed が 1 つ、または配置が食い違う部分は MUST にしない。プロダクト挙動は変えない | repo 全体を走査して領域を決める / 1 つの入口から全体の MUST を書く / 書いた規則に合わせて実装を直す / テンプレートの Laravel や Next.js の規則を写す |
 | docs が実装より古いが tests と合意契約は実装と一致する | 現状事実の docs drift として routing し、実装を削除しない | docs を単独の正本として実装を削除する |
 | 変更が既知の横断リスク領域に明確に入る | 適用される repository rule、accepted Policy/ADR、platform constraint、verification method を調べる | 一覧を訪れただけで調査済みにする / platform constraint だけが根拠なのにそれを見ない / 存在しない decision を必須にする |
 | 既知リスクに信頼できる基準がない | その欠落を Risks / Unknowns / Assumptions に記録する | 基準がないことを安全またはレビュー通過とみなす |

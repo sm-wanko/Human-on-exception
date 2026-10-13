@@ -1,5 +1,7 @@
 # Backend Quick Rules (Always Read)
 
+Sample stack for this repository: Laravel (`apps/backend/`). These rules are authoritative here. Another product keeps this path and replaces the contents.
+
 **Scope**: `apps/backend/` only.  
 **AI**: this file is authoritative for everyday backend work. Open [backend-coding-conventions.md](./backend-coding-conventions.md) only for detailed examples/background.
 

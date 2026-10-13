@@ -1,5 +1,7 @@
 # Frontend Quick Rules (Always Read)
 
+Sample stack for this repository: Next.js (`apps/frontend/`). These rules are authoritative here. Another product keeps this path and replaces the contents.
+
 **Scope**: `apps/frontend/` only.  
 **AI**: this file is authoritative. Read [frontend-coding-conventions.md](./frontend-coding-conventions.md) only for detailed examples/background.
 

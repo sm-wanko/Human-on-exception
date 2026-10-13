@@ -1,8 +1,9 @@
 # Human Prompts / 人間用プロンプト
 
-Human-on-Exception has two optional bootstrap prompts, five normal entry/resume prompts, and one optional Pack drift audit.
+Human-on-Exception has three optional bootstrap prompts, five normal entry/resume prompts, and one optional Pack drift audit.
 
 - [Existing repository adoption / 既存リポジトリ導入](./00-existing-adoption.md) — reconstruct one bounded current feature at a time into a 4-point set and Pack without changing product behavior
+- [Existing area coding rules / 既存領域の実行規則](./00-coding-rules.md) — reconstruct one area's always-read rules from repeated implementation, without changing product behavior
 - [Greenfield bootstrap / Greenfield 初期化](./00-greenfield.md) — retire the executable example before starting a new product
 
 1. Define Questions / Questions 作成
@@ -12,11 +13,11 @@ Human-on-Exception has two optional bootstrap prompts, five normal entry/resume 
 5. Merge / update target branch / マージ・対象ブランチ更新
 6. [Pack drift audit / Pack の契約ドリフト監査](./06-drift-audit.md) — optional, after accumulated change; not required for each change
 
-The five normal workflow files are **not five approval gates**. The two optional bootstraps are setup, and Prompt 6 is not a sixth approval gate. Humans own only purpose, scope, answers, and risk acceptance. Once an authorized stage has enough information, AI continues execution.
+The five normal workflow files are **not five approval gates**. The three optional bootstraps are setup, and Prompt 6 is not a sixth approval gate. Humans own only purpose, scope, answers, and risk acceptance. Once an authorized stage has enough information, AI continues execution.
 
 Prompts 1 and 2 are iterative. Applying an answer can expose a new semantic decision that did not exist before that answer. In that case, AI adds the follow-up Question and returns through the Answers step. Issue creation happens only after this loop converges and no unresolved human-authority implementation blocker remains.
 
-通常フローの5本は **5回の人間承認を意味しない**。2つの任意 bootstrap は初期化であり、Prompt 6 は6番目の承認ゲートではない。人間は目的・範囲・回答・リスク許容だけを持ち、許可済み工程は AI が継続する。
+通常フローの5本は **5回の人間承認を意味しない**。3つの任意 bootstrap は初期化であり、Prompt 6 は6番目の承認ゲートではない。人間は目的・範囲・回答・リスク許容だけを持ち、許可済み工程は AI が継続する。
 
 Prompt 1 と 2 は反復可能である。回答を反映したことで、それ以前には存在しなかった新しい semantic decision が顕在化することがある。その場合 AI は follow-up Question を追加し、再び Answers の工程へ戻る。このループが収束し、unresolved な human-authority implementation blocker が 0 件になった後にだけ Issue を起票する。
 

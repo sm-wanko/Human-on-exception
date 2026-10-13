@@ -1,5 +1,7 @@
 # Frontend Coding Conventions — Detailed Reference
 
+Sample stack for this repository: Next.js (`apps/frontend/`). These rules are authoritative here. Another product keeps this path and replaces the contents.
+
 > **AI (Cursor / Claude Code / CodeX)**: the always-read source of truth is [frontend-quick.md](./frontend-quick.md).  
 > This file provides deeper examples/procedures. MUST rules, layer responsibility, and lib ownership remain authoritative in quick.
 

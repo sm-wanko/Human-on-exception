@@ -1,5 +1,7 @@
 # Backend Coding Conventions — Detailed Reference
 
+Sample stack for this repository: Laravel (`apps/backend/`). These rules are authoritative here. Another product keeps this path and replaces the contents.
+
 > **AI (Cursor / Claude Code / CodeX)**: the always-read source of truth is [backend-quick.md](./backend-quick.md).  
 > This file provides deeper examples and procedures. MUST / prohibitions / layer responsibilities remain authoritative in quick; do not duplicate them here.
 
