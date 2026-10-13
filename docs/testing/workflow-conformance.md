@@ -17,6 +17,8 @@ Human-on-Exception のルールが、単なる文章ではなく一貫した開�
 | valid / false positive / decision required を分類する | ai-review | 普通の修正を人間へ転送しない |
 | pending / skipped / not-run を成功扱いしない | ai-workflow §4–5 | 実行証拠と対象revisionを確認する |
 | 人間コードレビューを必須gateにしない | ai-workflow §5 | 必須チェックと独立AIレビューで完了判断する |
+| 既知リスク領域は適用可能な根拠を調べる | ai-workflow §2 Evidence / safety、ai-review | 変更が既知の横断リスク領域に明確に入るとき、適用される repository rule、accepted Policy/ADR、platform constraint、verification method を確認する。適用されない種類を必須にしない |
+| 信頼できる基準がなければ欠落を記録する | ai-workflow §2、ai-review | Risks / Unknowns / Assumptions に記録する。チェックリストを訪問しただけでは安全・完了にしない。未知リスクの発見は保証しない |
 
 ## Acceptance scenarios
 
@@ -31,6 +33,8 @@ Human-on-Exception のルールが、単なる文章ではなく一貫した開�
 | aggregate command が成功したが子工程がskip | 未完了として扱い、対象revisionと各工程を確認 | Fail=0だけでDoneにする |
 | docsとimplementationが矛盾 | current-state調査では implementation → system test → flow の順で事実確認 | docsだけを根拠に既存実装を削除 |
 | agreed change後のdocsが古い | target contractに合わせてコード・tests・4-point docsを同期 | current-state SoTを理由に古いdocsを放置 |
+| 変更が既知の横断リスク領域に明確に入る | 適用される repository rule、accepted Policy/ADR、platform constraint、verification method を調べる | 一覧を訪れただけで調査済みにする / platform constraint だけが根拠なのにそれを見ない / 存在しない decision を必須にする |
+| 既知リスクに信頼できる基準がない | その欠落を Risks / Unknowns / Assumptions に記録する | 基準がないことを安全またはレビュー通過とみなす |
 
 ## Example scope
 
