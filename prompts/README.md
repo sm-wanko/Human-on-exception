@@ -5,7 +5,7 @@ Human-on-Exception has one optional bootstrap prompt plus five normal entry/resu
 0. Greenfield bootstrap / Greenfield 初期化 — retire the executable example before starting a new product
 1. Define Questions / Questions 作成
 2. Apply Answers / Create Issue / Answers 反映・Issue 起票
-3. Implement Issue / PR / Issue 実装・PR
+3. Implement Issue / PR / Issue 実装・PR — [別コンテキストレビュー後にPR](./03-implement-reviewed.md) / [実装者レビューなしでPR](./03-implement-pr-first.md)
 4. Resolve PR findings / PR 指摘対応
 5. Merge / update target branch / マージ・対象ブランチ更新
 
