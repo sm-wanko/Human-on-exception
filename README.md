@@ -32,7 +32,7 @@ Start with README → [AI execution contract](./docs/rules/ai-workflow.md) → [
 
 Optional bootstrap for an existing product: [Existing repository adoption](./prompts/00-existing-adoption.md). It reconstructs one bounded current feature at a time into a 4-point set and Pack without changing product behavior.
 
-Optional bootstrap for a new product: [0. Greenfield bootstrap](./prompts/00-greenfield.md). The normal development loop remains the five entry/resume prompts below.
+Optional bootstrap for a new product: [0. Greenfield bootstrap](./prompts/00-greenfield.md). The normal development loop remains the five entry/resume prompts below. [6. Pack drift audit](./prompts/06-drift-audit.md) is optional and runs after accumulated change to one Pack. It is not required to complete each change.
 
 When using an agent tool such as Cursor or Claude Code, prefer explicitly referencing the prompt file you want to run (for example, `@prompts/03-implement.md`) instead of relying on the agent to infer the current stage from this README.
 
@@ -41,6 +41,7 @@ When using an agent tool such as Cursor or Claude Code, prefer explicitly refere
 3. [Implement Issue / PR](./prompts/03-implement.md) — [review then PR](./prompts/03-implement-reviewed.md) / [PR without implementer review](./prompts/03-implement-pr-first.md)
 4. [Resolve PR review](./prompts/04-review.md)
 5. [Merge / update target branch](./prompts/05-merge.md)
+6. [Pack drift audit](./prompts/06-drift-audit.md) — optional, after accumulated change to one Pack
 
 Normal flow:
 
@@ -85,7 +86,7 @@ Implementation AI classifies findings against SoT, fixes valid ones, and returns
 
 The 4-point set is a human-readable current feature overview maintained by AI and also a verification surface for implementation/tests. Human code or document approval is not a normal gate.
 
-The five prompts are entry/resume points, not five human approval gates. Once answers and permissions are sufficient, AI continues authorized stages.
+The five prompts are entry/resume points for one change, not five human approval gates. Prompt 6 is not an additional approval gate. Once answers and permissions are sufficient, AI continues authorized stages.
 
 ## Origin and scope
 

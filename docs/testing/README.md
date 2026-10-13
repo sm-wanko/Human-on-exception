@@ -36,6 +36,8 @@ SIT の正本: [`docs/rules/system-test-strategy.md`](../rules/system-test-strat
   → マージ · Issue Close
 ```
 
+このフローは 1 変更の経路である。Pack に変更が蓄積したあとの契約ドリフトは [Prompt 6](../../prompts/06-drift-audit.md) で監査する。このフローの完了条件にはしない。
+
 | 段階 | 正本 | `docs/testing` の役割 |
 |------|------|------------------------|
 | **Questions** | Issue 本文 +（任意）`questions/*.md` | **起票前に** UX / 設計の未決を潰す Archive |
