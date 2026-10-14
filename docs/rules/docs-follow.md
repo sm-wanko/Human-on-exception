@@ -30,6 +30,18 @@ Purpose/core concepts live in concept, adopted reasons in ADR, repeatable decisi
 
 Do not duplicate the same response contract, happy-path prose, or error table across multiple files.
 
+A finding that touches more than one quadrant still updates each affected file in the same change series. The non-owning file gets one sentence and a link. It does not get a second copy of the prose. Review replies stay in the PR. Do not append them to the 4-point set.
+
+Example: a confirm retry identified by an operation key, and a later migration that adds columns for rows already stored.
+
+| Fact | Write it in | In the other files |
+|---|---|---|
+| What the screen keeps, disables, or discards while the retry is in flight | `ui` | one sentence and a link |
+| Key format, and the 400 when the same key is sent with a different payload | `validation` | one sentence and a link |
+| The operation table, the lock, the stored request hash, and the response saved in the same transaction | `db` | one sentence and a link |
+| The user-visible order of preview and confirm, and the SYS/FE matrix row | `flow` | do not copy the matrix |
+| Migration order, and that existing rows keep their values while new columns stay null | `db` | `flow` keeps a single matrix row. `ui` and `validation` do not describe the migration |
+
 ## Feature unit — 1 : bounded N
 
 - A feature should normally have at most the 4-point set.
