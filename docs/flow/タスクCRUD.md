@@ -49,7 +49,7 @@ Flow ID: EXAMPLE_TASK_CRUD
 
 ## DB Write
 
-作成・更新・削除は各 1 文。SQL は [DB](../db/タスクCRUD.md)。
+作成と削除は各 1 文。更新は存在確認、値が変わったときの UPDATE、読み戻し。SQL は [DB](../db/タスクCRUD.md)。
 
 ## Response
 

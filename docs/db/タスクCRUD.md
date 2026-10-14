@@ -14,11 +14,11 @@ DB ID: EXAMPLE_TASK_CRUD
 
 ## DB Write Order
 
-1. create: tasks INSERT
-2. update: tasks UPDATE
-3. delete: tasks DELETE
+1. create: `tasks` へ 1 回の INSERT
+2. update: 存在確認の SELECT。行が無ければ終了。行があるとき、値が変わった場合だけ UPDATE し、その後に読み戻す
+3. delete: `tasks` へ 1 回の DELETE
 
-各 request は単一 table write。
+create と delete は 1 文。update は下の 3 段。
 
 ## テーブル登録項目
 
@@ -34,7 +34,7 @@ DB ID: EXAMPLE_TASK_CRUD
 
 ## SQL / Query 例
 
-各 request は 1 文。ロックや版チェックは無い。
+ロックや版チェックは無い。
 
 ### 一覧
 
@@ -63,12 +63,30 @@ RETURNING id;
 
 ### 更新
 
-対象が無いときは 0 行。あるときは次の 1 文のあと、詳細と同じ `SELECT` で読み戻す。
+1. 分岐を決める存在確認。行が無ければここで終わり、UPDATE は走らない。
+
+```sql
+SELECT *
+FROM tasks
+WHERE id = ?
+LIMIT 1;
+```
+
+2. `title` と `description` が既存行と違うときだけ更新する。同じ値のときは、この UPDATE は走らない。
 
 ```sql
 UPDATE tasks
 SET title = ?, description = ?, updated_at = ?
 WHERE id = ?;
+```
+
+3. 行があったときは、UPDATE の有無にかかわらず読み戻す。
+
+```sql
+SELECT *
+FROM tasks
+WHERE id = ?
+LIMIT 1;
 ```
 
 ### 削除
