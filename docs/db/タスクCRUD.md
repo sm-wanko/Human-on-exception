@@ -14,11 +14,11 @@ DB ID: EXAMPLE_TASK_CRUD
 
 ## DB Write Order
 
-1. create: tasks INSERT
-2. update: tasks UPDATE
-3. delete: tasks DELETE
+1. create: `tasks` へ 1 回の INSERT
+2. update: 存在確認の SELECT。行が無ければ終了。行があるとき、値が変わった場合だけ UPDATE し、その後に読み戻す
+3. delete: `tasks` へ 1 回の DELETE
 
-各 request は単一 table write。
+create と delete は 1 文。update は下の 3 段。
 
 ## テーブル登録項目
 
@@ -32,10 +32,89 @@ DB ID: EXAMPLE_TASK_CRUD
 | created_at | timestamp | Laravel |
 | updated_at | timestamp | Laravel |
 
-## Query
+## SQL / Query 例
 
-- list Quick: `id,title` のみ
-- detail: `id,title,description,created_at,updated_at`
+ロックや版チェックは無い。
+
+### 一覧
+
+```sql
+SELECT id, title
+FROM tasks
+ORDER BY id;
+```
+
+### 詳細
+
+```sql
+SELECT *
+FROM tasks
+WHERE id = ?
+LIMIT 1;
+```
+
+### 作成
+
+```sql
+INSERT INTO tasks (title, description, created_at, updated_at)
+VALUES (?, ?, ?, ?)
+RETURNING id;
+```
+
+### 更新
+
+1. 分岐を決める存在確認。行が無ければここで終わり、UPDATE は走らない。
+
+```sql
+SELECT *
+FROM tasks
+WHERE id = ?
+LIMIT 1;
+```
+
+2. `fill()` は `title` と `description` だけを載せる。読み込んだ行と両方同じなら `save()` は UPDATE を出さない。時刻が進んだだけでは `updated_at` は dirty にならない。
+
+どちらかが違うときだけ UPDATE する。`SET` に入るのは dirty な列と、そのときに付く `updated_at` である。
+
+`title` だけが違うとき:
+
+```sql
+UPDATE tasks
+SET title = ?, updated_at = ?
+WHERE id = ?;
+```
+
+`description` だけが違うとき:
+
+```sql
+UPDATE tasks
+SET description = ?, updated_at = ?
+WHERE id = ?;
+```
+
+両方違うとき:
+
+```sql
+UPDATE tasks
+SET title = ?, description = ?, updated_at = ?
+WHERE id = ?;
+```
+
+3. 行があったときは、UPDATE の有無にかかわらず読み戻す。
+
+```sql
+SELECT *
+FROM tasks
+WHERE id = ?
+LIMIT 1;
+```
+
+### 削除
+
+```sql
+DELETE FROM tasks
+WHERE id = ?;
+```
 
 ## DB 非関与エンドポイント（N/A）
 

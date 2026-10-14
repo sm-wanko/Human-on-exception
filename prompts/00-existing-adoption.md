@@ -41,7 +41,7 @@ Create or align one cohesive 4-point set anchored at `docs/flow/<feature>.md`.
 | `flow` | route/controller/handler, orchestration, tests | Scope, actor/entry point, normal flow, error branches, API/order, SYS/FE test matrix |
 | `ui` | route/page/component/client behavior | display, interaction, loading/error/success/return behavior; explicit N/A when no UI responsibility exists |
 | `validation` | parser/request/auth/domain validation/error mapping | inputs, required/optional rules, authorization, normalization, errors; explicit N/A when absent |
-| `db` | repository/query/model/migration/transaction behavior | reads/writes, persisted meaning, transaction/order/concurrency effects; explicit N/A when no persistence responsibility exists |
+| `db` | repository/query/model/migration/transaction behavior | reads/writes as SQL statements, including the `WHERE`, `ON CONFLICT`, or `FOR UPDATE` that decides the result; persisted meaning; transaction/order/concurrency effects; explicit N/A when no persistence responsibility exists. A source path does not satisfy this |
 
 Do not copy the same prose into all four documents. Each document owns its responsibility as defined by `docs/rules/docs-follow.md`.
 
@@ -160,7 +160,7 @@ docs 作成前に、選択した境界・含む entry point・除外する隣接
 - `flow`: Scope、actor / entry point、normal flow、error branch、API/order、SYS/FE test matrix
 - `ui`: 表示、interaction、loading/error/success/return。UI 責務が本当に無ければ理由付き N/A
 - `validation`: input、required/optional、authorization、normalization、error。責務が無ければ N/A
-- `db`: read/write、persisted meaning、transaction/order/concurrency。永続化責務が無ければ N/A
+- `db`: read/write を SQL で書く。結果を決める `WHERE` / `ON CONFLICT` / `FOR UPDATE` を含める。persisted meaning、transaction/order/concurrency。永続化責務が無ければ N/A。ソースファイルへのパスでは、この節を満たさない
 
 4 ファイルへ同じ説明を複製せず、`docs/rules/docs-follow.md` の責務分離に従うこと。
 

@@ -26,7 +26,32 @@ DB ID: {{ID}}
 
 ## SQL / Query 例
 
-- （Repository / Eloquent query）
+ソースファイルへのパスでは、この節を満たさない。各 write と、分岐・ロック・競合・版を決める read を文で書く。`WHERE`、`ON CONFLICT`、`FOR UPDATE` は文の中に置く。プレースホルダはこのリポジトリの `?` または `$1` を使う。
+
+### 参照
+
+```sql
+SELECT id, title
+FROM example_table
+WHERE owner_id = ?
+ORDER BY id;
+```
+
+### 作成（1 トランザクション）
+
+```sql
+INSERT INTO example_table (title, created_at, updated_at)
+VALUES (?, ?, ?)
+RETURNING id;
+```
+
+### 更新（条件に合う行だけ）
+
+```sql
+UPDATE example_table
+SET title = ?, updated_at = ?
+WHERE id = ? AND version = ?;
+```
 
 ## DB 非関与エンドポイント（N/A）
 

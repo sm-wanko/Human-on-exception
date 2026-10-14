@@ -30,13 +30,13 @@ Flow ID: EXAMPLE_TASK_CRUD
 1. **Client** `GET /api/tasks`
 2. **Controller** Service を呼ぶ
 3. **Service** Repository の Quick query を呼ぶ
-4. **Repository** `id,title` のみ取得
+4. **Repository** が一覧の行を返す。列と文は [DB](../db/タスクCRUD.md)
 5. **Server** TaskQuick 一覧を返す
 
 ### 詳細
 
 1. **Client** `GET /api/tasks/{id}`
-2. **Service** Repository の Detail query
+2. **Service** が詳細の行を読む。文は [DB](../db/タスクCRUD.md)
 3. **Server** TaskDetail を返す
 
 ### mutation
@@ -49,9 +49,7 @@ Flow ID: EXAMPLE_TASK_CRUD
 
 ## DB Write
 
-- create: tasks insert
-- update: tasks update
-- delete: hard delete
+作成と削除は各 1 文。更新は存在確認、値が変わったときの UPDATE、読み戻し。SQL は [DB](../db/タスクCRUD.md)。
 
 ## Response
 
