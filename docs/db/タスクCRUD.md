@@ -72,7 +72,27 @@ WHERE id = ?
 LIMIT 1;
 ```
 
-2. `title` と `description` が既存行と違うときだけ更新する。同じ値のときは、この UPDATE は走らない。
+2. `fill()` は `title` と `description` だけを載せる。読み込んだ行と両方同じなら `save()` は UPDATE を出さない。時刻が進んだだけでは `updated_at` は dirty にならない。
+
+どちらかが違うときだけ UPDATE する。`SET` に入るのは dirty な列と、そのときに付く `updated_at` である。
+
+`title` だけが違うとき:
+
+```sql
+UPDATE tasks
+SET title = ?, updated_at = ?
+WHERE id = ?;
+```
+
+`description` だけが違うとき:
+
+```sql
+UPDATE tasks
+SET description = ?, updated_at = ?
+WHERE id = ?;
+```
+
+両方違うとき:
 
 ```sql
 UPDATE tasks
