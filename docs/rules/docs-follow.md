@@ -26,9 +26,13 @@ Purpose/core concepts live in concept, adopted reasons in ADR, repeatable decisi
 | `flow` | user journey, API order, test matrix |
 | `ui` | display and interaction |
 | `validation` | input, auth, errors |
-| `db` | persisted state, transactions, write results |
+| `db` | persisted state, transactions, and write results, written as SQL |
 
 Do not duplicate the same response contract, happy-path prose, or error table across multiple files.
+
+The 4-point set is readable without opening implementation files. A source path does not replace the behavior.
+
+`db` writes the statement for each write step, and for each read that decides a branch, a lock, a conflict, or a version check. Include the `WHERE`, `ON CONFLICT`, or `FOR UPDATE` that decides the result. Use this repository's placeholders (`?` or `$1`). A path to a repository file does not satisfy the SQL section. `flow` names the journey and links to `db` for those statements. `ui` and `validation` do not repeat them.
 
 A finding that touches more than one quadrant still updates each affected file in the same change series. The non-owning file gets one sentence and a link. It does not get a second copy of the prose. Review replies stay in the PR. Do not append them to the 4-point set.
 

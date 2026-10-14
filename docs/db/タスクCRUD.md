@@ -32,10 +32,51 @@ DB ID: EXAMPLE_TASK_CRUD
 | created_at | timestamp | Laravel |
 | updated_at | timestamp | Laravel |
 
-## Query
+## SQL / Query 例
 
-- list Quick: `id,title` のみ
-- detail: `id,title,description,created_at,updated_at`
+各 request は 1 文。ロックや版チェックは無い。
+
+### 一覧
+
+```sql
+SELECT id, title
+FROM tasks
+ORDER BY id;
+```
+
+### 詳細
+
+```sql
+SELECT *
+FROM tasks
+WHERE id = ?
+LIMIT 1;
+```
+
+### 作成
+
+```sql
+INSERT INTO tasks (title, description, created_at, updated_at)
+VALUES (?, ?, ?, ?)
+RETURNING id;
+```
+
+### 更新
+
+対象が無いときは 0 行。あるときは次の 1 文のあと、詳細と同じ `SELECT` で読み戻す。
+
+```sql
+UPDATE tasks
+SET title = ?, description = ?, updated_at = ?
+WHERE id = ?;
+```
+
+### 削除
+
+```sql
+DELETE FROM tasks
+WHERE id = ?;
+```
 
 ## DB 非関与エンドポイント（N/A）
 
