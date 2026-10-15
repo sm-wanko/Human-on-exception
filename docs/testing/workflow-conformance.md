@@ -17,8 +17,8 @@ Human-on-Exception のルールが、単なる文章ではなく一貫した開�
 | valid / false positive / decision required を分類する | ai-review | 普通の修正を人間へ転送しない |
 | pending / skipped / not-run を成功扱いしない | ai-workflow §4–5 | 実行証拠と対象revisionを確認する |
 | 人間コードレビューを必須gateにしない | ai-workflow §5 | 必須チェックと独立AIレビューで完了判断する |
-| 子 head は Issue の AC を局所証明する | ai-workflow §4 / AGENTS completion | targeted test、lint / static、route・matrix・4点セット構造に触れたときの survey、その子 PR の独立レビュー。永続化や境界をまたぐ変更は、その Flow の system test を含む。full suite は子の証明にしない |
-| 統合 head が完了証明である | ai-workflow §4–§5 | full `make test`、full `make survey`、その head の別コンテキストレビュー。子の結果は流用しない。ブランチ名は決め打ちしない |
+| 子 head は Issue の AC を局所証明する | ai-workflow §4 / AGENTS completion | targeted test、lint / static、route・matrix・4点セット構造に触れたときの survey、その子 PR のレビューカバレッジ。有効な独立レビューは 1 つで足り、Codex と Bugbot の両方は推奨。永続化や境界をまたぐ変更は、その Flow の system test を含む。full suite は子の証明にしない |
+| 統合 head が完了証明である | ai-workflow §4–§5 | full `make test`、full `make survey`、その head のレビューカバレッジ。初回の全体レビューは必須で、子の結果は代替しない。以降は ai-review のカバレッジ判定。ブランチ名は決め打ちしない |
 | Pack drift audit は変更ごとの gate ではない | ai-workflow §7 / `prompts/06-drift-audit.md` | 1 Pack の蓄積変更を監査し、その場では修復しない。01–05 の完了に Prompt 6 を要求しない |
 | drift は現状事実と目標契約を区別する | ai-workflow §6–§7 | docs の遅れを、tests と合意契約が実装を支持しているときに契約違反へ上げない。合意済み target に実装が遅れているのを、現状 SoT の順位を理由に許容しない |
 | 既知リスク領域は適用可能な根拠を調べる | ai-workflow §2 Evidence / safety、ai-review | 変更が既知の横断リスク領域に明確に入るとき、適用される repository rule、accepted Policy/ADR、platform constraint、verification method を確認する。適用されない種類を必須にしない |
@@ -32,13 +32,15 @@ Human-on-Exception のルールが、単なる文章ではなく一貫した開�
 | 回答が既存仕様を変更する | Answers / Issue AC を target contract とし、実装・tests・docsを更新 | 現状実装がSoT上位だからという理由で変更を拒否 |
 | 変更されたAPIに関連docsがdiffにない | reviewerが影響範囲から未更新ファイルを発見して指摘 | PR diffにないため確認対象外にする |
 | review finding が出る | AIが valid / false positive / decision required に分類し、validは修正 | 全件を人間へ転送 / 全件を無条件採用 |
+| 指摘を修正したあと | 実装 AI は修正と §4 の検証を記録し、別コンテキストまたは PR レビューサービスへ再レビューを依頼する。未実施なら pending。実装 AI の追加の自己レビューは任意で、デフォルトでは行わない | 自己レビューで独立レビューを完了扱いにする / 自己レビューが終わるまで後続を止める |
+| Stacked PR の指摘対応 | 修正前に依存元の最新 push 済み head を確認し、未取り込みなら merge する。依存元の独立レビュー完了は同期の条件にしない。同期後の木で指摘を再評価し、解消済みは重ねて直さない。残る指摘は導入元か責務のある PR で直す。head が変わったらその head で検証し、別コンテキストに再利用・部分再レビュー・全面再レビューを判定させて未確認範囲を依頼する。PR 本文には依存元 PR、ブランチ、取り込んだ revision を書く | 古い依存の上で同じ指摘を下流へ重ねる / 依存元の独立レビュー完了まで同期を止める / 実装 AI が再利用可能と宣言する |
 | tests が失敗する | AIが原因を調査・修正し、再検証 | 「例外」として人間へ実装修正を戻す |
 | 新しい意味・権限境界が必要 | 証拠、選択肢、推奨をQuestionsで人間へ返す | AIが慣例だけで意味を確定する |
 | aggregate command が成功したが子工程がskip | 未完了として扱い、対象revisionと各工程を確認 | Fail=0だけでDoneにする |
 | docsとimplementationが矛盾 | current-state調査では implementation → system test → flow の順で事実確認 | docsだけを根拠に既存実装を削除 |
 | agreed change後のdocsが古い | target contractに合わせてコード・tests・4-point docsを同期 | current-state SoTを理由に古いdocsを放置 |
-| 子 PR の base が Epic 作業ブランチ | その head で AC の targeted test、lint、構造に触れたときの survey、子 PR の独立レビューを記録する | full `make test` の成功を子の完了にする / 子の成功で Epic を閉じる |
-| Epic、複数 Epic、または Epic の無い 1 Issue が受け側ブランチへ入る | その統合 head で full `make test`、full `make survey`、別コンテキストレビューを行う。複数 Epic を一度に入れるときは合体後 head でやり直す。先の Epic を含む head で検証済みなら同じ head ではやり直さない | 子のレビューや targeted test を統合 head の証明にする / 別 head の成功を流用する |
+| 子 PR の base が Epic 作業ブランチ | その head で AC の targeted test、lint、構造に触れたときの survey、レビューカバレッジを記録する。証拠は base/head、範囲、指摘と解決、影響の再確認である。未確認範囲は pending。未解決の valid はレビューが 1 つあっても残る | full `make test` の成功を子の完了にする / 子の成功で Epic を閉じる / 実装 AI の宣言で再利用可能にする |
+| Epic、複数 Epic、または Epic の無い 1 Issue が受け側ブランチへ入る | 初回は、その統合 head 全体の別コンテキストレビューを行う。子のレビューはその初回を代替しない。その証拠が記録されたあとの修正 head は、不変条件と影響範囲を別コンテキストが確認し、不変範囲の証拠を引き継ぎ、変更範囲を再レビューする。影響を限定できなければ全面へ戻す。full `make test` と full `make survey` はその head の別ゲートである。複数 Epic を一度に入れるときは合体後 head の初回を全体でやり直す。先の Epic を含む head で検証済みなら同じ head ではやり直さない。レビューカバレッジは失敗した必須チェックを成功にしない。技術的な修正が難しいことだけでは人間へ実装判断を戻さない | 子のレビューや targeted test を初回の全体レビューの代わりにする / 影響を限定できないのに部分再レビューで完了にする / 別 head の成功を流用する / レビュー証拠で `root-make-test` の失敗を消す / 修正が難しいことだけを `decision required` にする |
 | 妥当な変更が積み重なり Pack の意味がずれる | Prompt 6 が repo から SoT を再構成し、severity と routing を分けて分類する。意味の未決だけを Question にする | 監査中に修復する / P1 を人間のコードレビュー gate にする / 毎回の変更完了に Prompt 6 を要求する |
 | 既存領域に実行規則が無い | 指定した領域と seed から、繰り返す配置だけを quick に書く。seed が 1 つ、または配置が食い違う部分は MUST にしない。プロダクト挙動は変えない | repo 全体を走査して領域を決める / 1 つの入口から全体の MUST を書く / 書いた規則に合わせて実装を直す / テンプレートの Laravel や Next.js の規則を写す |
 | 4点セットで永続の結果を示す | db に、write 順の各段と、分岐・ロック・競合・版を決める read の SQL を書く。flow は導線とリンクに留める | リポジトリや migration へのパスだけで SQL 節を満たす / 同じ SQL を ui と validation に写す |

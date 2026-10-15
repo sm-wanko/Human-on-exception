@@ -75,9 +75,9 @@ AI decides implementation splitting and branch names. Split by contracts/depende
 
 AI plans and implements from the Issue AC and applicable rules, and keeps tests, the 4-point docs, and Pack aligned in the same change series. Return only new specification decisions to Questions. Do not expand allowed scope "while here".
 
-Keep the implementation AI and the review AI in separate contexts. Implementer self-review before PR creation is not recommended. If it is performed, it does not replace a separate-context independent review when independent review is required. Follow [ai-review.md](./ai-review.md). After the PR is created, comment `@codex review` on that PR.
+Keep the implementation AI and the review AI in separate contexts. Implementer self-review before PR creation, and additional self-review by the implementation AI while resolving review findings, is not required. The default is not to perform it. If it is performed, it does not replace a separate-context independent review when independent review is required. Follow [ai-review.md](./ai-review.md). After the PR is created, comment `@codex review` on that PR.
 
-The PR must record Issue, Pack, Flow ID, allowed paths vs actual diff, why the change exists, evidence per AC, commands/results/revision, and reasons for anything not run/failed/N/A. Do not confuse attempted execution with success, or test-ID existence with executed success. Do not hide environment problems by deleting tests or weakening CI.
+The PR must record Issue, Pack, Flow ID, allowed paths vs actual diff, why the change exists, evidence per AC, commands/results/revision, and reasons for anything not run/failed/N/A. When the PR stacks on another work branch, the PR body also records the upstream PR, the base branch, and the base revision contained in the head. Do not confuse attempted execution with success, or test-ID existence with executed success. Do not hide environment problems by deleting tests or weakening CI.
 
 Even when an aggregate command succeeds, verify each required stage's exit result, target revision, and skip/exclusion state. A historical success report or an aggregate Fail=0 is not completion evidence by itself. If actual behavior and contract differ, fix within authorized scope or record the work as incomplete.
 
@@ -88,19 +88,19 @@ A **child head** is a PR whose base is an Epic work branch. It proves that Issue
 - targeted tests that directly prove the AC, using this repository's existing test commands scoped to those tests. When the change persists data or crosses a boundary, include that Flow's system tests. The full suite is not the child proof.
 - lint and static analysis
 - survey when the change touches a route, a flow test matrix, or flow / ui / validation / db structure. When none of those changed, the child does not run survey.
-- independent review of that child PR head
+- independent review coverage of that child PR head, per [ai-review.md](./ai-review.md). One valid independent review is enough. Codex and Cursor Bugbot together are recommended. Record a service that did not run.
 
-An **integration head** is the PR that enters the branch receiving completed work: one Epic, several Epics in one PR, or a single Issue with no Epic. Its completion proof, for that head, is full `make test`, full `make survey`, and a separate-context review of that same head. Child results, including the child review, are not this proof.
+An **integration head** is the PR that enters the branch receiving completed work: one Epic, several Epics in one PR, or a single Issue with no Epic. Its completion proof, for that head, is full `make test`, full `make survey`, and independent review coverage of that same head under [ai-review.md](./ai-review.md). The first of those reviews inspects that whole head. Child results, including the child review, do not supply that first review. After it is recorded, a later head reuses evidence only under that coverage table.
 
 When one PR contains more than one Epic, run those three on the combined head. When a later Epic is verified on a head that already contains the earlier Epic, that run is the combined proof. Do not repeat it for the same head.
 
 ## 5. Completion and merge
 
 - Every AC has verification evidence. 4-point docs, Pack, and required counterpart features are aligned. Gap A = 0 alone is not Done.
-- Independent AI review of the target head has run, and no valid or unclassified finding remains. A pre-PR separate-context review counts only when its recorded head is that target head. An external PR-service review counts only when it ran against that same head. Follow [ai-review.md](./ai-review.md).
-- Required checks are successful on the target head. Pending/skipped/missing/not-run is not success.
+- Independent review coverage of the target head is complete under [ai-review.md](./ai-review.md), and no valid or unclassified finding remains. Unchanged scope carries an older review only when a separate context records that the invariant and dependent behavior still hold. Changed scope needs its own separate-context review. When the impact cannot be bounded, coverage requires a full re-review. One valid independent review is enough for a child once that coverage is complete. An integration head's first review is of that whole head; child coverage does not supply it. After that first review, the same coverage table applies. A pre-PR review counts only for the base, head, and scope it recorded. A difficult fix is not a reason to return the implementation to the human.
+- Required checks are successful on the target head. Pending/skipped/missing/not-run is not success. Review coverage does not make a failed or not-run check successful.
 - If merge is already authorized, AI performs it. Prompt 5 is merge authorization for its target PR. Do not hard-code main/develop; inspect the PR base and repository workflow.
-- Confirm the actual merge result and update linked Issues / Epic. Merging a child PR into an Epic work branch does not complete the Epic. Do not close an Epic until the integration head has passed full `make test`, full `make survey`, and a separate-context review on that integrated head.
+- Confirm the actual merge result and update linked Issues / Epic. Merging a child PR into an Epic work branch does not complete the Epic. Do not close an Epic until the integration head has passed full `make test`, full `make survey`, and independent review coverage of that integrated head under [ai-review.md](./ai-review.md).
 
 Do not add mandatory human code review to the normal workflow. If existing branch protection requires human approval, do not disable or bypass it; report the concrete mismatch between repository settings and this contract.
 
