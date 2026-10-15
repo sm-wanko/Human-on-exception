@@ -15,7 +15,7 @@
 | 実際の差分・範囲外差分 | |
 | 禁止 / Non-goals | |
 | 完了時 make | |
-| base / head | |
+| base / head | Stacked のときは依存元 PR、ブランチ、head が含む revision。それ以外は PR base と head |
 
 ## 受け入れ条件と Evidence
 
