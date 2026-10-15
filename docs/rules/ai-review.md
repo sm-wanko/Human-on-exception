@@ -49,7 +49,7 @@ A separate context confirms the invariant and the impact bound before unchanged 
 
 On one head, divide the work into four ranges: scope an earlier review inspected and that is still unchanged; scope this head changed; scope a separate context rechecked for this head; scope not yet reviewed. An uncovered range keeps the head pending. Coverage is complete when those ranges account for the head and no valid or unclassified finding remains. One finished review does not erase an unresolved finding.
 
-A child head needs at least one valid independent review that, with any reused unchanged scope, covers that head. A second service, such as both Codex and Cursor Bugbot, is recommended. Record a service that did not run. Both services failing to run leaves the head pending.
+A child head needs at least one valid independent review that, with any reused unchanged scope, covers that head. A second service, such as both Codex and Cursor Bugbot, is recommended. Record a service that did not run. Both services failing to run leaves the head pending only when no other valid independent review covers that head.
 
 An integration head, the PR into the branch that receives completed work, including Epic to that branch, needs a first separate-context review of that whole head. Child coverage does not supply that first review. If it did not run, the head stays pending. A usage limit is not success and is not a reason to skip to a passed review. After that whole-head review is recorded, a later head on the same integration PR uses this same coverage table. A difficult fix stays with the implementation AI. It is not `decision required`, and it is not returned to the human.
 

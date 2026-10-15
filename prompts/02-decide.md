@@ -18,7 +18,7 @@ Include Q-ID → AC-ID → verification mapping, Pack / Flow ID, allowed paths, 
 
 AI owns splitting, Epic structure, and dependency order. Cross-link real Issues and Questions. Do not mark an unresolved design Issue Ready for implementation. If implementation was already authorized, continue the authorized workflow.
 
-When Issue creation is complete, commit the contract documents produced up to that point and push only the Epic branch; cut each child Issue work branch from that Epic branch.
+When Issue creation is complete, commit the contract documents produced up to that point. If an Epic was created, push only that Epic branch and cut each child Issue work branch from it. A single Issue with no Epic has no Epic branch and no child branch: push that Issue's work branch. That PR is the integration head.
 
 ## 日本語
 
@@ -38,4 +38,4 @@ Q-ID → AC-ID → 検証方法の対応、Pack / Flow ID / 許可パス / 禁�
 
 分割・Epic・依存順は AI が具体化し、実在する Issue と Questions を相互リンクすること。未決の設計 Issue を実装 Ready にしないこと。既に実装まで許可されていれば続行すること。
 
-Issue 起票が完了したら、そこまでの契約文書を Epic ブランチへコミットしてそのブランチだけを push し、子 Issue の作業ブランチはその Epic ブランチから切ること。
+Issue 起票が完了したら、そこまでの契約文書をコミットすること。Epic を作ったときは、その Epic ブランチだけを push し、子 Issue の作業ブランチはその Epic ブランチから切ること。Epic が無い 1 本の Issue には Epic ブランチも子ブランチもなく、その Issue の作業ブランチを push する。その PR が統合 head である。
