@@ -9,13 +9,28 @@ PHP_FUNC_ID=re.compile(r"function\s+test_([A-Z0-9_]+)_SYS_(\d{3})")
 def claimed_ids(text, pattern):
     result=set()
     skip=False
+    fence=None
     for line in text.splitlines():
-        stripped=line.strip()
-        if stripped=="## 未検証事項・矛盾":
-            skip=True
+        marker=re.match(r"^ {0,3}(```+|~~~+)", line.rstrip())
+        if marker:
+            token=marker.group(1)[0]
+            fence=None if fence==token else token
+            if not skip:
+                result.update(pattern.findall(line))
             continue
-        if skip and stripped.startswith("#") and not stripped.startswith("###"):
-            skip=False
+        if fence:
+            if not skip:
+                result.update(pattern.findall(line))
+            continue
+        heading=re.match(r"^ {0,3}(#{1,6})[ \t]+(.*)$", line)
+        if heading:
+            level=len(heading.group(1))
+            title=re.sub(r"\s+#+\s*$", "", heading.group(2).strip()).strip()
+            if level==2 and title=="未検証事項・矛盾":
+                skip=True
+                continue
+            if skip and level<=2:
+                skip=False
         if skip:
             continue
         result.update(pattern.findall(line))
