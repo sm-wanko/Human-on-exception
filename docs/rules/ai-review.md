@@ -30,15 +30,17 @@ Record the thread in the repository that holds the 4-point set:
 
 Append one short SHA per code repository, in the header's order, separated by `-`. Example: `docs/reviews/AIPASS_RESERVATION_INFO_UPDATE/20261019-7e4f84cc-9550a299.md`.
 
-One file is one reviewed combination of commits. A later commit gets a new file. The older file remains evidence for the combination it names. Do not read the other files in that directory while reviewing one combination. The file names are the index.
+One file is one reviewed combination of code commits. A later code commit gets a new file. The older file remains evidence for the combination it names. Do not read the other files in that directory while reviewing one combination. The file names are the index.
 
 The header names each repository, its full commit, and its PR number. Before a PR exists, leave the PR number blank and fill it in when the PR is opened. The filename does not contain the PR number.
 
 Each finding records the severity, repository, path, line, quoted lines, commit, author, the supporting rule or AC, and the impact. A reply records its author, the classification (`valid`, `false positive`, or `decision required`), and the contract or code it uses. A dismissal that cites neither does not close the finding.
 
-Each repository's PR still receives `@codex review` for that repository's head. The PR body links to this file and the commit that contains it. When any recorded commit changes, review the new combination and write a new file.
+Each repository's PR still receives `@codex review` for that repository's head. The PR body links to this file and the commit that contains it. When a recorded code commit changes, review the new combination and write a new file.
 
-Do not copy the thread into the 4-point set or into Questions. A `decision required` finding still returns to Questions. Use [the template](../templates/local-review.md). The optional prompt is `prompts/04-local-review.md`. It is not an additional approval gate.
+A commit that changes only `docs/reviews/` does not change the reviewed code. The header's commits remain the reviewed combination. Adding this file, or filling in a PR number, does not require another cross-repository review. A commit that also changes code, tests, or the 4-point set is a new combination. The PR head may be the commit that stores the record. The cross-repository evidence covers the code commits named in the header.
+
+Do not copy the thread into the 4-point set or into Questions. A `decision required` finding still returns to Questions. Use [the template](../templates/local-review.md). `prompts/04-local-review.md` is the entry for this record. It is not a human approval gate. When one PR review cannot open all of the behavior's code, the behavior is not complete until this record exists for that combination.
 
 ### External PR review service
 

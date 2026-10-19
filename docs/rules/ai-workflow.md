@@ -77,7 +77,7 @@ AI plans and implements from the Issue AC and applicable rules, and keeps tests,
 
 Keep the implementation AI and the review AI in separate contexts. Implementer self-review before PR creation is not recommended. If it is performed, it does not replace a separate-context independent review when independent review is required. Follow [ai-review.md](./ai-review.md). After the PR is created, comment `@codex review` on that PR.
 
-When one behavior's code spans repositories that a single PR review cannot open, record the cross-repository thread once per reviewed combination under `docs/reviews/<Flow ID>/`, as [ai-review.md](./ai-review.md) specifies. That record does not replace `@codex review` on each repository's PR. A review of an older combination does not cover a later commit.
+When one behavior's code spans repositories that a single PR review cannot open, record the cross-repository thread once per reviewed code combination under `docs/reviews/<Flow ID>/`, as [ai-review.md](./ai-review.md) specifies. That record is required before the behavior is complete. It does not replace `@codex review` on each repository's PR. A review of an older code combination does not cover a later code commit. A commit that changes only `docs/reviews/` does not create that later code combination.
 
 The PR must record Issue, Pack, Flow ID, allowed paths vs actual diff, why the change exists, evidence per AC, commands/results/revision, and reasons for anything not run/failed/N/A. Do not confuse attempted execution with success, or test-ID existence with executed success. Do not hide environment problems by deleting tests or weakening CI.
 

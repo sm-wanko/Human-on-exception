@@ -1,6 +1,6 @@
 # 4L. Local cross-repository review / 横断リポジトリのローカルレビュー
 
-Optional. This is not an approval gate. Findings that the PR's own review service can see stay on `prompts/04-review.md`.
+This is not a human approval gate. When one behavior's code spans repositories that a single PR review cannot open, this review is required before that behavior is complete. Findings that the PR's own review service can see stay on `prompts/04-review.md`.
 
 ## English
 
@@ -12,7 +12,7 @@ Write one file:
 
 `docs/reviews/<Flow ID>/<YYYYMMDD>-<short-sha>-<short-sha>.md`
 
-The short SHAs follow the header order. One file is one combination of commits. A new commit gets a new file. Open that file only. Do not read the other files in the directory.
+The short SHAs follow the header order. One file is one combination of code commits. A later commit that changes code, tests, or the 4-point set gets a new file. A commit that changes only `docs/reviews/` does not. The header's commits stay the reviewed combination, including the commit that adds this file. Open that file only. Do not read the other files in the directory.
 
 The header records each repository, its full commit, and its PR number. Leave the PR number blank until that PR exists, then fill it in. Do not put the PR number in the filename.
 
@@ -22,7 +22,7 @@ Each repository's PR still gets `@codex review`. The PR body links to this file 
 
 ## 日本語
 
-任意である。承認ゲートではない。PR 自身のレビューサービスが見られる指摘は `prompts/04-review.md` に残す。
+人間の承認ゲートではない。1つの挙動のコードが複数リポジトリに分かれ、1つの PR レビューから全体を見られないときは、この照合が終わるまでその挙動は完了しない。PR 自身のレビューサービスが見られる指摘は `prompts/04-review.md` に残す。
 
 1つの PR からコードの全体を見られない挙動を照合すること。
 
@@ -32,7 +32,7 @@ Each repository's PR still gets `@codex review`. The PR body links to this file 
 
 `docs/reviews/<Flow ID>/<YYYYMMDD>-<short-sha>-<short-sha>.md`
 
-短縮 SHA は先頭に書いた順にする。1ファイルは commit の組み合わせ 1 回である。commit が増えたら新しいファイルにする。開くのはそのファイルだけとし、同じディレクトリの他のファイルは読まないこと。
+短縮 SHA は先頭に書いた順にする。1ファイルはコード commit の組み合わせ 1 回である。コード、テスト、4点セットを変える後続 commit は新しいファイルにする。`docs/reviews/` だけを変える commit は新しい組み合わせにしない。このファイルを追加した commit も、先頭に書いたコード commit の証拠のままである。開くのはそのファイルだけとし、同じディレクトリの他のファイルは読まないこと。
 
 先頭に、各リポジトリ、完全な commit、PR 番号を書くこと。PR が無いあいだ番号は空欄にし、PR を作ったときに埋めること。ファイル名に PR 番号を入れないこと。
 
