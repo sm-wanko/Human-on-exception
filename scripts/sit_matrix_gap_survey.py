@@ -6,13 +6,25 @@ ROOT=Path(__file__).resolve().parents[1]
 LITERAL_ID=re.compile(r"([A-Z0-9_]+-SYS-\d{3})")
 PHP_FUNC_ID=re.compile(r"function\s+test_([A-Z0-9_]+)_SYS_(\d{3})")
 
+def claimed_ids(text, pattern):
+    result=set()
+    skip=False
+    for line in text.splitlines():
+        stripped=line.strip()
+        if stripped=="## 未検証事項・矛盾":
+            skip=True
+            continue
+        if skip and stripped.startswith("#") and not stripped.startswith("###"):
+            skip=False
+        if skip:
+            continue
+        result.update(pattern.findall(line))
+    return result
+
 def doc_ids():
     result=set()
     for p in (ROOT/"docs/flow").glob("*.md"):
-        for line in p.read_text().splitlines():
-            if "未実装" in line:
-                continue
-            result.update(LITERAL_ID.findall(line))
+        result.update(claimed_ids(p.read_text(), LITERAL_ID))
     return result
 
 def test_ids():

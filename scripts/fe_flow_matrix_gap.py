@@ -5,16 +5,28 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 ID=re.compile(r"([A-Z0-9_]+-FE-\d{3})")
 
+def claimed_ids(text, pattern):
+    result=set()
+    skip=False
+    for line in text.splitlines():
+        stripped=line.strip()
+        if stripped=="## 未検証事項・矛盾":
+            skip=True
+            continue
+        if skip and stripped.startswith("#") and not stripped.startswith("###"):
+            skip=False
+        if skip:
+            continue
+        result.update(pattern.findall(line))
+    return result
+
 def ids(paths):
     result=set()
     for p in paths:
         try: text=p.read_text()
         except UnicodeDecodeError: continue
         if p.parent == (ROOT/"docs/flow"):
-            for line in text.splitlines():
-                if "未実装" in line:
-                    continue
-                result.update(ID.findall(line))
+            result.update(claimed_ids(text, ID))
             continue
         result.update(ID.findall(text))
     return result

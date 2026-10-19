@@ -53,6 +53,7 @@ FE は SIT を置き換えない。
 4. **FLOW-ID / docs / fixture / test を 1:1**
    - 正本: `docs/flow/<機能>.md` の Frontend 契約マトリクス
    - `it('<FLOW>-FE-NNN: …')` の ID は完全一致
+   - `## 未検証事項・矛盾` に書いた ID はマトリクス行ではない。survey はその節を 1:1 の対象にしない
 
 5. **docs を flow contract の正本として扱う**
    実装変更時は同一変更系列で docs マトリクス・test・resolver を更新。

@@ -53,7 +53,7 @@ If implementation and existing docs disagree, establish current facts using the 
 
 A fact the code already determines stays a fact. If changing it would require a human decision, label it `Question candidate when this behavior is changed` and do not open a Question in this prompt. Do not draft concept, ADR, or Policy when the product has none.
 
-Put a `*-SYS-*` or `*-FE-*` token in the flow matrix only when a test with that name exists. Describe a missing test in `未検証事項・矛盾`. A matrix row whose line contains `未実装` is not a claim that the test exists.
+Put a `*-SYS-*` or `*-FE-*` token in the flow matrix only when a test with that name exists. Describe a missing test under `## 未検証事項・矛盾`. An ID in that section is missing evidence, not a matrix claim, and survey does not require a matching test. A matrix row remains a claim that the test exists, including a row that says `未実装`.
 
 When the implementation lives in another repository, prefix paths with that repository's name and record the inspected commit and branch on the flow. Completion commands are commands that exist in the repository that holds the code. If the human says not to record them, record that omission as missing evidence. Do not substitute this sample's `make test` or `make survey`. Survey in this repository checks documents here. It does not read the other repository. Do not reuse a sample Pack or Flow ID for the product.
 
@@ -182,7 +182,7 @@ current-state docs は **repo が現在実際に行うこと**を書く。怪し
 
 コードで既に決まる事実は事実のまま書く。それを変えるのに人間の決定が要るなら、`この挙動を変えるときの Question 候補` とラベルし、この prompt では Question を開かない。製品に concept / ADR / Policy が無いとき、00 で起草しない。
 
-`*-SYS-*` / `*-FE-*` を flow のマトリクスに置くのは、その名前のテストが存在するときだけである。無いテストは `未検証事項・矛盾` に書く。行に `未実装` とあるマトリクス行は、テストが存在する主張ではない。
+`*-SYS-*` / `*-FE-*` を flow のマトリクスに置くのは、その名前のテストが存在するときだけである。無いテストは `## 未検証事項・矛盾` に書く。その節の ID はマトリクスの主張ではなく、survey は対応するテストを要求しない。マトリクス行は、`未実装` と書いてあっても、テストが存在するという主張のままである。
 
 実装が別リポジトリにあるときは、パスの頭にそのリポジトリ名を付け、調べた commit と branch を flow に記録する。完了コマンドは、コードがあるリポジトリに実在するコマンドだけを書く。人間が記録しないと言った場合は、欠落として記録し、この見本の `make test` や `make survey` を代わりに書かない。このリポジトリの survey は、ここにある文書を見る。別リポジトリのコードは読まない。見本の Pack 名や Flow ID を製品に再利用しない。
 
