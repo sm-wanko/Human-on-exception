@@ -8,8 +8,15 @@ ID=re.compile(r"([A-Z0-9_]+-FE-\d{3})")
 def ids(paths):
     result=set()
     for p in paths:
-        try: result.update(ID.findall(p.read_text()))
-        except UnicodeDecodeError: pass
+        try: text=p.read_text()
+        except UnicodeDecodeError: continue
+        if p.parent == (ROOT/"docs/flow"):
+            for line in text.splitlines():
+                if "未実装" in line:
+                    continue
+                result.update(ID.findall(line))
+            continue
+        result.update(ID.findall(text))
     return result
 
 def main():

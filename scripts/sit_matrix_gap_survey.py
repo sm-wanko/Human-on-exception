@@ -9,7 +9,10 @@ PHP_FUNC_ID=re.compile(r"function\s+test_([A-Z0-9_]+)_SYS_(\d{3})")
 def doc_ids():
     result=set()
     for p in (ROOT/"docs/flow").glob("*.md"):
-        result.update(LITERAL_ID.findall(p.read_text()))
+        for line in p.read_text().splitlines():
+            if "未実装" in line:
+                continue
+            result.update(LITERAL_ID.findall(line))
     return result
 
 def test_ids():

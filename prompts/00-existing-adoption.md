@@ -49,6 +49,14 @@ Current-state docs must describe **what the repository actually does now**. Do n
 
 If implementation and existing docs disagree, establish current facts using the repository Source of Truth order. Record contradictions or missing evidence explicitly.
 
+`docs/flow` owns the section `## 未検証事項・矛盾`. That list holds inconsistent current behavior, estimates that were not executed, and tests that do not exist. `ui`, `validation`, and `db` get one sentence and a link. Do not copy the list, and do not rewrite it into an intended design.
+
+A fact the code already determines stays a fact. If changing it would require a human decision, label it `Question candidate when this behavior is changed` and do not open a Question in this prompt. Do not draft concept, ADR, or Policy when the product has none.
+
+Put a `*-SYS-*` or `*-FE-*` token in the flow matrix only when a test with that name exists. Describe a missing test in `未検証事項・矛盾`. A matrix row whose line contains `未実装` is not a claim that the test exists.
+
+When the implementation lives in another repository, prefix paths with that repository's name and record the inspected commit and branch on the flow. Completion commands are commands that exist in the repository that holds the code. If the human says not to record them, record that omission as missing evidence. Do not substitute this sample's `make test` or `make survey`. Survey in this repository checks documents here. It does not read the other repository. Do not reuse a sample Pack or Flow ID for the product.
+
 ### 3. Create or update a Pack
 
 Create or update `docs/ai/packs/<pack>.md` as the bounded navigation and evidence bundle.
@@ -61,7 +69,7 @@ Include:
 - 4-point doc links per Flow ID
 - relevant frontend/backend/worker/integration implementation paths
 - existing SYS / FE / integration test IDs and paths
-- completion / verification commands that actually exist in this repository
+- completion / verification commands that actually exist in the repository that holds the code
 - known missing evidence, explicitly marked as missing rather than passed
 - `docs/testing/core-features.md`: the bundle, Pack, Flow ID, implementation paths, and completion commands that actually exist
 
@@ -114,7 +122,9 @@ At completion, report:
 - tests/evidence mapped
 - commands actually run and their results
 - contradictions / missing evidence
+- actors, units, and evidence strength: the fact the code determines, or a reasoned N/A. Do not open a Question only because a dimension matters
 - any true human-authority Questions
+- Question candidates that stay closed until that behavior is changed
 - recommended next seed / uncovered unit (suggestion only; do not continue unless explicitly requested)
 
 The repository can adopt Human-on-Exception incrementally. A partially documented repository is not permission to invent contracts for uncovered areas.
@@ -168,6 +178,14 @@ current-state docs は **repo が現在実際に行うこと**を書く。怪し
 
 実装と既存 docs が食い違うときは、repository の Source of Truth 順で現状事実を確定し、矛盾または evidence の欠落を明示して記録すること。
 
+`docs/flow` が `## 未検証事項・矛盾` を持つ。不整合な現行挙動、実行していない推定、存在しないテストをそこへ書く。`ui` / `validation` / `db` は一文とリンクだけとし、一覧を写さない。意図した仕様へ書き換えない。
+
+コードで既に決まる事実は事実のまま書く。それを変えるのに人間の決定が要るなら、`この挙動を変えるときの Question 候補` とラベルし、この prompt では Question を開かない。製品に concept / ADR / Policy が無いとき、00 で起草しない。
+
+`*-SYS-*` / `*-FE-*` を flow のマトリクスに置くのは、その名前のテストが存在するときだけである。無いテストは `未検証事項・矛盾` に書く。行に `未実装` とあるマトリクス行は、テストが存在する主張ではない。
+
+実装が別リポジトリにあるときは、パスの頭にそのリポジトリ名を付け、調べた commit と branch を flow に記録する。完了コマンドは、コードがあるリポジトリに実在するコマンドだけを書く。人間が記録しないと言った場合は、欠落として記録し、この見本の `make test` や `make survey` を代わりに書かない。このリポジトリの survey は、ここにある文書を見る。別リポジトリのコードは読まない。見本の Pack 名や Flow ID を製品に再利用しない。
+
 ### 3. Pack を作成または更新する
 
 `docs/ai/packs/<pack>.md` を bounded な navigation / evidence bundle として作成・更新すること。
@@ -180,7 +198,7 @@ create/edit/delete 系のように 1 つのまとまりを構成する場合は�
 - Flow ID ごとの 4 点セット
 - 関係する実装 path
 - 既存 SYS / FE / integration test ID と path
-- repo に実在する completion / verification command
+- コードがあるリポジトリに実在する completion / verification command
 - evidence 欠落は success にせず missing と明示
 - `docs/testing/core-features.md`: 束、Pack、Flow ID、実装 path、実在する completion command
 
@@ -230,7 +248,9 @@ repo facts、tests、accepted concept / ADR / Policy、existing behavior から�
 - mapping した tests / evidence
 - 実行した command と実結果
 - contradiction / missing evidence
+- 主体、単位、証拠の強さ。コードが決める事実、または理由付き N/A。観点が重要だというだけでは Question を開かない
 - 本当に必要な human-authority Questions
+- その挙動を変えるときまで開かない Question 候補
 - 次候補となる seed / uncovered unit（提案だけ。明示依頼がない限り続行しない）
 
 repo は段階導入できる。未整備領域について契約を推測してよいという意味ではない。
