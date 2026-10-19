@@ -20,6 +20,26 @@ A review before a PR exists counts when a different session / context inspects a
 - If later commits change the head, review the new head again before treating independent review as complete. Evidence for an older head does not cover the later commits.
 - This form does not depend on an external PR-review service. Do not mark it not performed only because no PR service is connected.
 
+### Cross-repository review record
+
+A PR review service that can open only the PR's repository does not review a behavior whose code lives in another repository. A separate session that can open each repository reviews that combination. When PRs for the behavior exist, review the commits those PRs contain. A review before any PR records the commits and leaves the PR numbers blank. Each repository's own review remains. Those results do not add up to the cross-repository review.
+
+Record the thread in the repository that holds the 4-point set:
+
+`docs/reviews/<Flow ID>/<YYYYMMDD>-<short-sha>-<short-sha>.md`
+
+Append one short SHA per code repository, in the header's order, separated by `-`. Example: `docs/reviews/AIPASS_RESERVATION_INFO_UPDATE/20261019-7e4f84cc-9550a299.md`.
+
+One file is one reviewed combination of commits. A later commit gets a new file. The older file remains evidence for the combination it names. Do not read the other files in that directory while reviewing one combination. The file names are the index.
+
+The header names each repository, its full commit, and its PR number. Before a PR exists, leave the PR number blank and fill it in when the PR is opened. The filename does not contain the PR number.
+
+Each finding records the severity, repository, path, line, quoted lines, commit, author, the supporting rule or AC, and the impact. A reply records its author, the classification (`valid`, `false positive`, or `decision required`), and the contract or code it uses. A dismissal that cites neither does not close the finding.
+
+Each repository's PR still receives `@codex review` for that repository's head. The PR body links to this file and the commit that contains it. When any recorded commit changes, review the new combination and write a new file.
+
+Do not copy the thread into the 4-point set or into Questions. A `decision required` finding still returns to Questions. Use [the template](../templates/local-review.md). The optional prompt is `prompts/04-local-review.md`. It is not an additional approval gate.
+
 ### External PR review service
 
 When the review depends on a connected PR service such as Codex, Cursor Bugbot, GitHub Copilot, or Claude, verify that the service is connected and that automatic review is configured in the target environment. If the service is not connected or did not run against the target head, record that service review as not performed. If the recorded review covers an older head, record that revision and review the later changes again.

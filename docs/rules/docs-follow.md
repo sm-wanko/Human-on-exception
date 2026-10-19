@@ -34,7 +34,7 @@ The 4-point set is readable without opening implementation files. A source path 
 
 `db` writes the statement for each write step, and for each read that decides a branch, a lock, a conflict, or a version check. Include the `WHERE`, `ON CONFLICT`, or `FOR UPDATE` that decides the result. Use this repository's placeholders (`?` or `$1`). A path to a repository file does not satisfy the SQL section. `flow` names the journey and links to `db` for those statements. `ui` and `validation` do not repeat them.
 
-A finding that touches more than one quadrant still updates each affected file in the same change series. The non-owning file gets one sentence and a link. It does not get a second copy of the prose. Review replies stay in the PR. Do not append them to the 4-point set.
+A finding that touches more than one quadrant still updates each affected file in the same change series. The non-owning file gets one sentence and a link. It does not get a second copy of the prose. Review replies stay in the PR. When the review spans repositories, the thread is one file under `docs/reviews/<Flow ID>/` and each PR links to it. Do not append either kind of reply to the 4-point set.
 
 Example: a confirm retry identified by an operation key, and a later migration that adds columns for rows already stored.
 
