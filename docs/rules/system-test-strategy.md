@@ -15,7 +15,7 @@ This is not browser E2E. It verifies the vertical path **HTTP → Laravel → DB
 
 - Docs follow [docs-follow.md](./docs-follow.md).
 - N/A follows [docs-na-conventions.md](./docs-na-conventions.md).
-- Every `<FLOW>-SYS-NNN` in the Flow matrix must be extractable from a test name or data-provider name.
+- Every `<FLOW>-SYS-NNN` in the Flow matrix must be extractable from a test name or data-provider name. An ID under `## 未検証事項・矛盾` is missing evidence, not a matrix row, and survey does not require a test for it.
 
 ## 1. Three test layers
 
@@ -47,7 +47,7 @@ Core journey branching, route, and context continuity use pure resolvers + `*-FE
 - reverse/negative: `<FLOW>-SYS-101`–`199`
 - frontend: `<FLOW>-FE-NNN`
 
-Flow IDs must exactly match between the `docs/flow/<feature>.md` matrix and test names.
+Flow IDs in the matrix must exactly match test names. An ID under `## 未検証事項・矛盾` is not a matrix row.
 
 ---
 
