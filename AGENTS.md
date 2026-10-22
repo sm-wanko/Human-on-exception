@@ -14,7 +14,7 @@ Follow the [language policy](./docs/rules/language-policy.md). Agent-facing rule
 
 ## Review guidelines
 
-When Codex is invoked as a PR reviewer, apply the [independent AI review contract](./docs/rules/ai-review.md) **in full**. The reviewer is not the implementation agent described below; use a separate context and independently inspect accepted Answers / Issue AC, current-state SoT, applicable concept / active ADR / Policy, diff, and tests. **Required:** identify affected SoT/docs and test artifacts for every behavior/contract change and detect missing updates **including files absent from the PR diff**. Do not mistake the current-state SoT priority for permission to override the agreed target contract. Do not accept the implementer's completion claim as evidence.
+When Codex is invoked as a PR reviewer, apply the [independent AI review contract](./docs/rules/ai-review.md) **in full**. The reviewer is not the implementation agent described below; use a separate context and independently inspect accepted Answers / Issue AC, current-state SoT, applicable concept / active ADR / Policy, diff, and tests. **Required:** identify affected SoT/docs and test artifacts for every behavior/contract change and detect missing updates **including files absent from the PR diff**. Do not mistake the current-state SoT priority for permission to override the agreed target contract. Do not accept the implementer's completion claim as evidence. For an integration head, the first review inspects that whole head, and child evidence does not replace it. A later head is reusable, partial, or full under that contract. A diff-only look does not complete an uncovered range.
 
 ## Minimal reading order
 
@@ -49,8 +49,8 @@ Inspect the PR base. Do not hard-code `develop` or `main`.
 
 | Head | When | Record for that head |
 |---|---|---|
-| Child | PR base is an Epic work branch | targeted tests that prove the Issue AC, including that Flow's system tests when the change persists data or crosses a boundary; `make lint`; `make survey` when the change touches a route, a flow test matrix, or flow / ui / validation / db structure; independent review of that child PR |
-| Integration | PR base is the branch that receives completed work: one Epic, several Epics in one PR, or a single Issue with no Epic | full `make test`, full `make survey`, and a separate-context review of that head |
+| Child | PR base is an Epic work branch | targeted tests that prove the Issue AC, including that Flow's system tests when the change persists data or crosses a boundary; `make lint`; `make survey` when the change touches a route, a flow test matrix, or flow / ui / validation / db structure; review coverage of that child head per `docs/rules/ai-review.md`. One valid independent review is enough |
+| Integration | PR base is the branch that receives completed work: one Epic, several Epics in one PR, or a single Issue with no Epic | full `make test`, full `make survey`, and review coverage of that head per `docs/rules/ai-review.md`. The first review inspects that whole head; child coverage does not supply it. A later head reuses evidence only under that coverage table. Review coverage does not replace a failed required check |
 
 Child results do not prove the integration head. Several Epics in one PR repeat the integration row on the combined head. A later Epic already verified on a head that contains the earlier Epic does not repeat that same head.
 

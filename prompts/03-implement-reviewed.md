@@ -8,7 +8,7 @@ Follow `AGENTS.md` and `docs/rules/ai-workflow.md` §4. Confirm AC, allowed path
 
 Apply relevant concept / ADR / Policy. Work already determined by accepted criteria is AI execution. Return only unresolved semantic, actor-boundary, aggregation-unit, or risk decisions to the human.
 
-For child Issues, use the Epic work branch as the base and state dependency order and PR base.
+For child Issues, use the Epic work branch as the base and state dependency order and PR base. When the PR stacks on another work branch, record the upstream PR, that base branch, and the base revision contained in the head in the PR body.
 
 After implementation and verification, hand the change to a **different AI session / context** for review under `docs/rules/ai-review.md`. Do not substitute implementer self-review or a persona change for that review.
 
@@ -26,7 +26,7 @@ Issue #<number> に沿って実装し、**別セッション / 別コンテキ�
 
 関係する concept・ADR・Policy を適用し、合意済み基準で決まる個別作業は AI が実行すること。意味・主体・集約単位・未許容リスクを変える未決だけを人間へ戻すこと。
 
-子 Issue は Epic 作業ブランチを基準にし、依存順と PR base を明示すること。
+子 Issue は Epic 作業ブランチを基準にし、依存順と PR base を明示すること。別の作業ブランチに積むときは、PR 本文に依存元 PR、そのブランチ、head が含む依存元 revision を書くこと。
 
 実装と検証が終わったら、実装者とは **別セッション / 別コンテキストの AI** に `docs/rules/ai-review.md` に従ってレビューさせること。実装者の自己レビューや人格変更で代替しないこと。
 
