@@ -12,7 +12,7 @@ Write one file:
 
 `docs/reviews/<Flow ID>/<YYYYMMDD>-<short-sha>-<short-sha>.md`
 
-The short SHAs follow the header order. One file is one combination of code commits. A later commit that changes code, tests, or the 4-point set gets a new file. A commit that changes only `docs/reviews/` does not. The header's commits stay the reviewed combination, including the commit that adds this file. Open that file only. Do not read the other files in the directory.
+The short SHAs follow the header order. One file is one combination of code commits. A later commit that changes code, tests, or the 4-point set gets a new file. A commit that changes only `docs/reviews/` does not. The header's commits stay the reviewed combination. The commit that adds this file remains evidence for those already-listed code commits. Open that file only. Do not read the other files in the directory.
 
 The header records each repository, its full commit, and its PR number. Leave the PR number blank until that PR exists, then fill it in. Do not put the PR number in the filename.
 
