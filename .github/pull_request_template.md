@@ -15,7 +15,7 @@
 | 実際の差分・範囲外差分 | |
 | 禁止 / Non-goals | |
 | 完了時 make | |
-| base / head | |
+| base / head | Stacked のときは依存元 PR、ブランチ、head が含む revision。それ以外は PR base と head |
 
 ## 受け入れ条件と Evidence
 
@@ -31,8 +31,10 @@
 ## 独立 AI レビュー
 
 - 実装者の自己レビュー（推奨しない。未実施なら N/A）:
-- 独立レビュー者・対象 commit・結果リンク（未実施なら pending）:
+- 独立レビュー者・対象 base / head・結果リンク（未実施なら pending）:
+- 確認した範囲（パスまたは挙動）:
 - 指摘一覧・valid / false positive / decision required・修正/判断の証拠:
+- 影響の再確認（後続 head が以前の証拠を引き継ぐとき）: 不変のままの範囲 / 変わった範囲 / この head で再確認した範囲 / 未確認の範囲。引き継ぎが無い初回は N/A:
 - 再レビューと必須チェックの対象 head:
 
 <!-- 人間コードレビューを required gate にしない。完了判定は docs/rules/ai-workflow.md §5。 -->

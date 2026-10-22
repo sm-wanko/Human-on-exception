@@ -81,7 +81,7 @@ Implementation AI classifies findings against SoT, fixes valid ones, and returns
 - **Questions**: evidence, options, recommendations, unresolved items, answers, revision history
 - **Issue**: agreed answers converted into observable acceptance criteria and mapped to Flow/tests/docs
 - **Execution**: implementation, verification, and evidence are AI-owned; implementer self-review before the PR is not recommended
-- **Independent review**: a separate-context reviewer of the target head, either before PR creation (3A) or on the PR (3B: Codex / Cursor Bugbot / Claude / another reviewer)
+- **Independent review**: a separate-context reviewer assembles valid evidence for the whole range of the target head, either before PR creation (3A) or on the PR (3B: Codex / Cursor Bugbot / Claude / another reviewer). The first review of an integration head inspects that head as a whole, and child reviews do not replace it. A later fix carries unchanged evidence and re-reviews the change and its impact
 - **Completion**: required checks pass, valid findings are resolved, and AC are evidenced
 
 [Questions template](./docs/templates/questions.md) · [workflow conformance](./docs/testing/workflow-conformance.md) · [AI review](./docs/rules/ai-review.md)
