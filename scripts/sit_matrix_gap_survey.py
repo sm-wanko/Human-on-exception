@@ -6,19 +6,28 @@ ROOT=Path(__file__).resolve().parents[1]
 LITERAL_ID=re.compile(r"([A-Z0-9_]+-SYS-\d{3})")
 PHP_FUNC_ID=re.compile(r"function\s+test_([A-Z0-9_]+)_SYS_(\d{3})")
 
+def _fence_run(line):
+    match=re.match(r"^ {0,3}(`{3,}|~{3,})(.*)$", line.rstrip())
+    if not match:
+        return None
+    marks, rest=match.group(1), match.group(2)
+    return marks[0], len(marks), rest
+
 def claimed_ids(text, pattern):
     result=set()
     skip=False
     fence=None
     for line in text.splitlines():
-        marker=re.match(r"^ {0,3}(```+|~~~+)", line.rstrip())
-        if marker:
-            token=marker.group(1)[0]
-            fence=None if fence==token else token
+        run=_fence_run(line)
+        if fence:
+            char, length=fence
+            if run and run[0]==char and run[1]>=length and run[2].strip()=="":
+                fence=None
             if not skip:
                 result.update(pattern.findall(line))
             continue
-        if fence:
+        if run and not (run[0]=="`" and "`" in run[2]):
+            fence=(run[0], run[1])
             if not skip:
                 result.update(pattern.findall(line))
             continue
