@@ -36,7 +36,7 @@ The 4-point set is readable without opening implementation files. A source path 
 
 Inconsistent current behavior, estimates that were not executed, and tests that do not exist belong in `docs/flow` under `## 未検証事項・矛盾`. The other three files get one sentence and a link. Do not copy the list, and do not turn it into an accepted design. An ID in that section is missing evidence, and survey does not require a test for it. A matrix row remains a claim that the test exists.
 
-A finding that touches more than one quadrant still updates each affected file in the same change series. The non-owning file gets one sentence and a link. It does not get a second copy of the prose. Review replies stay in the PR. Do not append them to the 4-point set.
+A finding that touches more than one quadrant still updates each affected file in the same change series. The non-owning file gets one sentence and a link. It does not get a second copy of the prose. Review replies stay in the PR. When the review spans repositories, the thread is one file under `docs/reviews/<Flow ID>/` and each PR links to it. Do not append either kind of reply to the 4-point set.
 
 Example: a confirm retry identified by an operation key, and a later migration that adds columns for rows already stored.
 

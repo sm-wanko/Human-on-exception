@@ -18,6 +18,8 @@ Additional self-review by the implementation AI is optional and is not required.
 
 Confirm coverage of the latest target head: unchanged scope already reviewed, scope rechecked for this head, and any uncovered remainder. An uncovered remainder or an unresolved valid or unclassified finding stays pending. Do not fill that gap with implementer self-review. Required checks are a separate gate. Do not return ordinary fixes to the human. Return only matters outside AI authority to Questions.
 
+When the finding's code is in another repository that this PR's review service cannot open, the thread for that behavior is `prompts/04-local-review.md`. This prompt still handles findings that this PR's review can see.
+
 ## 日本語
 
 PR #<number> の指摘に対応すること。
@@ -35,3 +37,5 @@ PR #<number> の指摘に対応すること。
 実装 AI による追加の自己レビューは任意（optional）であり、必須ではない。デフォルトでは実施しない。自己レビューは独立レビューにならず、修正や再レビュー依頼を止めてはならない。修正とその検証を記録したあと、別コンテキストに、直前の有効な証拠からの差分を `docs/rules/ai-review.md` の再利用可能・部分再レビュー・全面再レビューのどれかで判定させ、未確認の範囲のレビューを依頼すること。実装 AI はその再利用を宣言しない。子 PR は有効な独立レビュー証拠が 1 つあれば足り、Codex と Cursor Bugbot の両方は推奨とする。実施できなかったサービスは記録する。統合 head の初回レビューは、その head 全体を見る。子 PR の証拠では代替しない。その初回が記録されたあとは同じ判定に従う。別コンテキストが不変条件と影響範囲を確認し、不変範囲は証拠を引き継ぎ、変更範囲は独立して再レビューする。影響範囲を限定できなければ全面再レビューへ戻す。技術的な修正が難しいことだけでは、実装判断を人間へ戻さない。
 
 最新 head のカバレッジを確認すること。以前のレビューが確認し、今も変わっていない範囲、この head で再確認した範囲、まだ見ていない範囲を分ける。未確認の範囲、または未解決の valid・未判定の指摘があれば pending とする。その穴を実装者の自己レビューで埋めないこと。必須チェックは別のゲートである。通常の修正を人間へ戻さず、AI に決定権がない事項だけ Questions へ戻すこと。
+
+指摘のコードが、この PR のレビューサービスから開けない別リポジトリにあるときは、その挙動のスレッドを `prompts/04-local-review.md` に残す。このプロンプトは、この PR のレビューが見られる指摘を扱う。
