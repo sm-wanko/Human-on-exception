@@ -131,7 +131,7 @@ The repository can adopt Human-on-Exception incrementally. A partially documente
 
 Writing the 4-point set and Pack does not finish this prompt. After those files exist on a recorded base and head, the implementing context launches a separate-context review under `docs/rules/ai-review.md`. A self-review in the implementing context does not count.
 
-Apply valid findings to the documents. The separate context then reviews only that appended range. Local completion of this prompt stops when that look reports no unresolved valid or unclassified finding. Do not continue until every factual error is proven absent.
+Apply valid findings to the documents. The separate context then reviews only that appended range. Local completion of this prompt stops when that look reports no unresolved valid or unclassified finding. Do not keep iterating to prove that every factual error is absent.
 
 The later PR review is the review of the head proposed for merge. When that head is the one this local review already closed, the PR review is another service on the same head. When the appended fixes changed the head, the PR review covers that changed head. Do not run another full local loop before opening the PR. This prompt remains an optional bootstrap, not a human approval gate for product changes.
 
