@@ -26,6 +26,8 @@ When Codex is invoked as a PR reviewer, apply the [independent AI review contrac
 4. **Implementation files**: manifest in the Issue / PR or `docs/ai/packs/<bundle>.md`.
 5. **Rules**: always read `docs/rules/backend-quick.md` / `frontend-quick.md` for touched BE/FE areas. Read detailed conventions only when needed.
 
+When the prompt being run names a file, read that file for this run. "Only when the task changes meaning" and "do not read every file under `docs/rules`" do not cancel a file the current prompt names.
+
 ## Avoid during initial exploration
 
 - `.trash/**` — local retired example artifacts only; never use as active Source of Truth or normal discovery input
