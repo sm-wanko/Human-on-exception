@@ -18,6 +18,8 @@ When a confirmed record refers to mutable master data, mappings, membership, rol
 
 If the repository lacks documentation for behavior that clearly exists in implementation/tests, treat that as an AI-owned reconstruction task. Do not convert missing docs into a human question unless the missing information is semantic and cannot be recovered from current behavior or accepted decisions.
 
+Before the human is asked to answer, the implementing context launches a separate-context review under `docs/rules/ai-review.md`. A self-review does not count. The review checks current-behavior facts and the grounds of each Question: the concrete example matches the code or an accepted decision, the reason human authority is required is not already settled by that code or decision, and the blocked scope follows from those facts. It does not choose an option, and it does not treat the recommendation as an answer. A claim the repository cannot settle stays under Risks / Unknowns / Assumptions. Apply valid findings to the Questions. The separate context then reviews only that appended range. The human may answer when that look reports no unresolved valid or unclassified finding. Do not keep iterating to prove that every factual error is absent. When there are zero Questions, run the same review on the recorded facts and on the claim that no human-authority question remains. Prompt 2 starts only after the answers, and only after that look is clear. The same review applies to follow-up Questions before they are returned to the human.
+
 This investigation may be re-entered after Prompt 2. An accepted answer can introduce a new concept, split an existing meaning, change required fields, or make a previous assumption invalid. Re-run only the affected investigation dimensions and create new Questions when those consequences require human authority. Do not assume that answering the original Questions proves the target contract is complete.
 
 ## 日本語
@@ -37,5 +39,7 @@ current-state の Source of Truth 順に従い、関係する feature bundle だ
 確定記録が、後から変更できるマスター、mapping、membership、role その他の可変な関係を参照する場合は、時間方向の意味を明示的に確認すること。後の変更が将来の操作だけに効くのか、既存の確定記録まで再解釈するのかを区別し、product meaning から決まらない場合は実装へ委ねず Question にすること。
 
 実装やテストに存在する振る舞いの docs が欠けているだけなら、それは AI が再構成する作業として扱うこと。現状挙動や合意済み判断から復元できず、意味そのものが未確定な場合だけ人間への Question にすること。
+
+人間が答える前に、実装側のコンテキストが `docs/rules/ai-review.md` に従って別コンテキストのレビューを起動する。実装側の自己レビューは数えない。照合するのは、現行挙動として書いた事実と、各質問の根拠である。具体例がコードまたは受け入れ済みの決定と一致すること、人間の権限が要る理由がそれらで既に決まっていないこと、止まると書いた範囲がそれらの事実から続くこと。選択肢は選ばない。推奨を回答にしない。リポジトリから決まらない主張は、Risks / Unknowns / Assumptions に残す。妥当な指摘は Questions に足す。別コンテキストは、その足した範囲だけを見る。その一見に未解決の妥当な指摘も未分類の指摘も無いとき、人間は答えてよい。事実の誤りがすべて無いと証明できるまで続けない。Questions が 0 件のときも、記録した事実と、人間の権限が要る質問が残っていないという主張に、同じ照合を行う。Prompt 2 は、回答のあと、かつその一見が済んでから始める。follow-up Questions も、人間へ返す前に同じ照合を行う。
 
 この調査は Prompt 2 の回答反映後にも再実行されうる。Accepted answer により新しい概念が生まれる、既存の意味が分割される、必須項目が変わる、以前の仮定が無効になる場合がある。そのときは影響を受けた investigation dimension だけ再調査し、人間の判断権限が必要な帰結を新しい Question として起こすこと。元の Questions がすべて回答済みであることを、target contract が完全である証拠にしてはならない。
