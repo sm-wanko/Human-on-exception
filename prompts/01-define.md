@@ -7,7 +7,7 @@ Choose the entry that matches the target.
 
 If it is unclear which mode applies, inspect only enough to determine whether a current target contract exists. Do not ask the human to choose a mode when the repository can determine it.
 
-Both entries require a separate-context review of the Questions before the human is asked to answer. The review and its stopping rule are defined in the entry prompt. Prompt 2 does not start until that look reports no unresolved valid or unclassified finding.
+Both entries require a separate-context review of the Questions before the human is asked to answer. The review and its stopping rule are defined in the entry prompt. Prompt 2 does not start until that look reports no unresolved valid or unclassified finding. Zero Questions still produces that Questions record, including the requested change and the AI-owned way it is realized. After that look is clear, Prompt 2 starts without waiting for answers.
 
 Prompts 1 and 2 form a decision loop, not a one-pass sequence. After answers are applied in Prompt 2, reinvestigate any newly introduced or changed product meaning or semantic boundary. If that reveals another human-authority Question, return to the Questions/Answers loop. Create implementation Issues only after no such blockers remain.
 
@@ -20,6 +20,6 @@ Prompts 1 and 2 form a decision loop, not a one-pass sequence. After answers are
 
 どちらか不明な場合は、current target contract の有無を判定するために必要な範囲だけ調査すること。repo から判定できるモード選択を人間に質問しないこと。
 
-どちらの入口でも、人間が答える前に Questions の別コンテキスト照合を行う。照合と止まり方は、各入口のプロンプトに書く。その一見に未解決の妥当な指摘も未分類の指摘も無いまで、Prompt 2 は始めない。
+どちらの入口でも、人間が答える前に Questions の別コンテキスト照合を行う。照合と止まり方は、各入口のプロンプトに書く。その一見に未解決の妥当な指摘も未分類の指摘も無いまで、Prompt 2 は始めない。Questions が 0 件でも、その記録は作る。依頼された変更と、AI が持つ実現方法を含む。その一見が済んだら、回答を待たずに Prompt 2 を始める。
 
 Prompt 1 と 2 は一方向の手順ではなく、意思決定が収束するまでのループである。Prompt 2 で回答を反映した結果、新しい product meaning や semantic boundary が生まれたり変わったりした場合は、その影響を再調査すること。そこで新しい human-authority Question が見つかれば Questions / Answers のループへ戻る。実装 Issue は、その種の blocker が 0 件になってから起票すること。
