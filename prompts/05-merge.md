@@ -12,7 +12,7 @@ Verify required concept / ADR / Policy / 4-point doc synchronization and actual 
 
 Confirm the PR base and repository branch workflow, merge, then confirm the actual merge result and update linked Issue / Epic state. Do not hard-code main/develop.
 
-The PR body must contain `Closes #<issue>` for the Issue this merge completes. Naming the number in a table does not count. A child PR uses `Closes` only for its child Issue and must not close the Epic. An integration PR uses `Closes` for the Epic, or for the single Issue when there is no Epic. Do not merge when that keyword is missing. After the merge, confirm GitHub closed that Issue. If it is still open, the merge is not complete.
+The PR body must contain `Closes #<issue>` for the Issue this merge completes. Naming the number in a table does not count. A child PR uses `Closes` only for its child Issue and must not close the Epic. An integration PR uses `Closes` for the Epic, or for the single Issue when there is no Epic. Do not merge when that keyword is missing. GitHub closes the Issue from that keyword only when the PR base is the repository's default branch. When the base is not the default branch, including a child PR into an Epic work branch, close that Issue explicitly after the merge is confirmed. Then confirm the Issue is closed. If it is still open, the merge is not complete.
 
 A child PR merged into an Epic work branch does not complete the Epic. Its evidence applies only to that child head. The integration head, the PR entering the branch that receives completed work, needs full `make test`, full `make survey`, and review coverage of that head under `docs/rules/ai-review.md`. The first review inspects that whole head, and child results do not supply it. Several Epics in one PR repeat those three on the combined head. A later Epic already verified on a head that contains the earlier Epic does not repeat that same head. One Issue with no Epic treats its PR into the receiving branch as the integration head.
 
@@ -30,7 +30,7 @@ PR #<number> をマージすること。
 
 PR base とブランチ運用を確認してマージし、実際のマージ結果・関連 Issue / Epic の状態を更新すること。main / develop を決め打ちしないこと。
 
-PR 本文には、このマージが完了させる Issue への `Closes #<issue>` が必要である。表の中に番号を書くだけでは数えない。子 PR の `Closes` は、その子 Issue だけであり、Epic を閉じてはならない。統合 PR の `Closes` は Epic、または Epic が無い 1 本の Issue である。そのキーワードが無いときはマージしない。マージのあと、GitHub がその Issue を閉じたことを確認する。開いたままなら、そのマージは完了ではない。
+PR 本文には、このマージが完了させる Issue への `Closes #<issue>` が必要である。表の中に番号を書くだけでは数えない。子 PR の `Closes` は、その子 Issue だけであり、Epic を閉じてはならない。統合 PR の `Closes` は Epic、または Epic が無い 1 本の Issue である。そのキーワードが無いときはマージしない。GitHub がそのキーワードで Issue を閉じるのは、PR の base がリポジトリの default branch のときだけである。base が default branch でないとき、Epic 作業ブランチへの子 PR を含めて、マージを確認したあと、その Issue を明示的に閉じる。そのうえで、Issue が閉じたことを確認する。開いたままなら、そのマージは完了ではない。
 
 Epic 作業ブランチへの子 PR のマージは Epic を完了にしない。その証拠はその子 head に限る。完了した作業を受け取るブランチへ入る統合 head は、full `make test`、full `make survey`、`docs/rules/ai-review.md` のその head のレビューカバレッジを要する。初回レビューはその head 全体を見て、子の結果では代替しない。複数 Epic を 1 つの PR に入れるときは、合体後の head でこの 3 つをやり直す。先の Epic を含む head で後の Epic を検証済みなら、同じ head ではやり直さない。Epic が無い 1 本の Issue は、受け側ブランチへ入る PR を統合 head とする。
 
