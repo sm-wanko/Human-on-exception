@@ -4,7 +4,7 @@
 
 <Questions path / answers by Q-ID / Scope / risk-acceptance decisions>
 
-Follow `AGENTS.md` and `docs/rules/ai-workflow.md` §3. Apply the answers and preserve revision history without changing their original meaning.
+Follow `AGENTS.md` and `docs/rules/ai-workflow.md` §3. Apply the answers and preserve revision history without changing their original meaning. A Questions file with zero Q-IDs has no answers to apply. The separate-context look on that file must already be clear. Re-investigate the requested change against the recorded contract and create the Issue when no human-authority blocker remains.
 
 Promote durable design decisions to ADR, repeatable criteria to Policy, and agreed purpose/core concepts to concept when needed. Avoid duplicating the same prose across sources.
 
@@ -24,7 +24,7 @@ When Issue creation is complete, commit the contract documents produced up to th
 
 <Questions のパス / Q-ID ごとの回答 / Scope / リスク許容判断>
 
-`AGENTS.md` と `docs/rules/ai-workflow.md` §3 に従い、回答と改訂履歴を原意を変えずに反映すること。
+`AGENTS.md` と `docs/rules/ai-workflow.md` §3 に従い、回答と改訂履歴を原意を変えずに反映すること。Q-ID が 0 件の Questions ファイルには、反映する回答がない。そのファイルの別コンテキスト照合は、すでに済んでいなければならない。依頼された変更を、記録された契約に対して再調査し、人間の権限の blocker が 0 件なら Issue を起票すること。
 
 継続する設計判断は ADR、反復作業の基準は Policy、目的と概念は concept へ必要に応じて反映し、本文の重複を避けること。
 
