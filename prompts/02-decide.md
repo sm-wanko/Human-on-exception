@@ -16,9 +16,9 @@ Do not create an implementation Issue merely because the original Questions are 
 
 Include Q-ID → AC-ID → verification mapping, Pack / Flow ID, allowed paths, prohibitions, and completion commands for that Issue's head under `docs/rules/ai-workflow.md` §4. A child Issue records the targeted proof. The Epic's integration PR, or a single Issue with no Epic, records full `make test` and full `make survey`.
 
-AI owns splitting, Epic structure, and dependency order. Cross-link real Issues and Questions. Do not mark an unresolved design Issue Ready for implementation. If implementation was already authorized, continue the authorized workflow.
+AI owns splitting, Epic structure, and dependency order for the request being filed. Create an Epic only when that request becomes more than one Issue. That Epic is new for this request. Do not attach this request to an Epic from earlier work, whether that Epic's integration pull request is already merged or the Epic is still open. Cross-link the Issues and Questions created for this request. Do not satisfy that link by adopting an earlier Epic. Do not mark an unresolved design Issue Ready for implementation. If implementation was already authorized, continue the authorized workflow.
 
-When Issue creation is complete, commit the contract documents produced up to that point. If an Epic was created, push only that Epic branch and cut each child Issue work branch from it. A single Issue with no Epic has no Epic branch and no child branch: push that Issue's work branch. That PR is the integration head.
+When Issue creation is complete, commit the contract documents produced up to that point. If an Epic was created for this request, push only that new Epic branch and cut each child Issue work branch from it. A request that stays one Issue has no Epic parent and no Epic branch: push that Issue's work branch from the branch that receives completed work. That PR is the integration head.
 
 ## 日本語
 
@@ -36,6 +36,6 @@ When Issue creation is complete, commit the contract documents produced up to th
 
 Q-ID → AC-ID → 検証方法の対応、Pack / Flow ID / 許可パス / 禁止 / `docs/rules/ai-workflow.md` §4 のその head の完了コマンドを含めること。子 Issue は targeted の証明を記す。Epic の統合 PR、または Epic が無い 1 本の Issue は、full `make test` と full `make survey` を記す。
 
-分割・Epic・依存順は AI が具体化し、実在する Issue と Questions を相互リンクすること。未決の設計 Issue を実装 Ready にしないこと。既に実装まで許可されていれば続行すること。
+分割・Epic・依存順は、今回の依頼について AI が具体化する。Epic を作るのは、その依頼が複数の Issue になるときだけである。その Epic は、今回の依頼のために新しく作る。以前の作業の Epic を、今回の依頼の親にしない。統合 PR がすでにマージされた Epic も、まだ open の Epic も、親にしない。相互リンクするのは、今回の依頼で作った Issue と Questions である。以前の Epic をリンクして、その相互リンクを満たさない。未決の設計 Issue を実装 Ready にしないこと。既に実装まで許可されていれば続行すること。
 
-Issue 起票が完了したら、そこまでの契約文書をコミットすること。Epic を作ったときは、その Epic ブランチだけを push し、子 Issue の作業ブランチはその Epic ブランチから切ること。Epic が無い 1 本の Issue には Epic ブランチも子ブランチもなく、その Issue の作業ブランチを push する。その PR が統合 head である。
+Issue 起票が完了したら、そこまでの契約文書をコミットすること。今回の依頼のために Epic を作ったときは、その新しい Epic ブランチだけを push し、子 Issue の作業ブランチはその Epic ブランチから切ること。依頼が 1 本の Issue のままなら、Epic の親も Epic ブランチも無い。完了した作業を受け取るブランチから、その Issue の作業ブランチを push する。その PR が統合 head である。
