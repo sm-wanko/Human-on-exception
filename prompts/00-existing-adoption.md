@@ -105,7 +105,7 @@ For this prompt, do not change product behavior merely to make the 4-point set c
 - Create/align the 4-point set and Pack.
 - Map existing evidence.
 - Report uncovered or contradictory areas.
-- Run repository-native documentation or survey commands when they exist and this documentation change needs them. Lint and test runners are required when they exist; see the completion rules below.
+- Run repository-native documentation or survey commands when they exist and this documentation change needs them. Record the lint and test commands that exist. Running them is [00-existing-tests.md](./00-existing-tests.md), and that run is not a completion condition of this prompt.
 
 If stronger tests, refactors, bug fixes, or behavior changes are needed, propose them as follow-up work. Start the normal change workflow with `prompts/01-define-existing.md` when product behavior is to change.
 
@@ -120,7 +120,7 @@ At completion, report:
 - Pack, 4-point files, and feature index created/updated
 - entry points and implementation paths inspected
 - tests/evidence mapped
-- commands actually run and their results
+- lint and test commands that exist, as text. A missing command is recorded as missing. Results of running them belong to [00-existing-tests.md](./00-existing-tests.md)
 - contradictions / missing evidence
 - actors, units, and evidence strength: the fact the code determines, or a reasoned N/A. Do not open a Question only because a dimension matters
 - any true human-authority Questions
@@ -135,13 +135,13 @@ Apply valid findings to the documents. The separate context then reviews only th
 
 The later PR review is the review of the head proposed for merge. When that head is the one this local review already closed, the PR review is another service on the same head. When the appended fixes changed the head, the PR review covers that changed head. Do not run another full local loop before opening the PR. This prompt remains an optional bootstrap, not a human approval gate for product changes.
 
-When the target repository has a linter or a test runner, run it and record the command and the result. PHPUnit and Vitest count even when the repository has no `make test`. Record a missing command as missing. Do not treat a missing `make test` as a failed adoption.
+When the target repository has a linter or a test runner, record that command. PHPUnit and Vitest count even when the repository has no `make test`. Record a missing command as missing. Do not treat a missing `make test` as a failed adoption. Do not run the runner in this prompt. Running it, and recording pass, fail, or why it could not start, is [00-existing-tests.md](./00-existing-tests.md).
 
-This prompt discovers, runs, and records existing tests. It does not judge missing cases, whether assertions match current behavior, or whether a Flow has a system integration test. Report a Flow that persists data or crosses a boundary and has no vertical test as SIT not in place. Completion of this prompt is not SIT verification. These rules do not replace the separate-context review above.
+This prompt discovers and records existing tests. It does not run them, and it does not judge missing cases, whether assertions match current behavior, or whether a Flow has a system integration test. Report a Flow that persists data or crosses a boundary and has no vertical test as SIT not in place. Completion of this prompt is not SIT verification. These rules do not replace the separate-context review above.
 
 ### Optional 00a and 00b
 
-Accepted answers: `docs/testing/questions/existing-adoption-quality.md` Q1–Q3 (2026-10-27). 00a and 00b are optional. They are not completion gates. They become required completion only after that procedure has produced its artifacts and a review can verify those artifacts. Do not weaken the completion rules of this prompt while they remain optional.
+Accepted answers: `docs/testing/questions/existing-adoption-quality.md` Q1–Q3 (2026-10-27) and Q4 (2026-10-29). Q4 moves execution of existing runners out of this prompt's completion. 00a and 00b are optional. They are not completion gates. They become required completion only after that procedure has produced its artifacts and a review can verify those artifacts. Do not weaken the fact-review completion of this prompt while they remain optional.
 
 00a, when requested, audits existing tests for missing cases, whether assertions match current behavior, and missing Flow-level SIT, and designs the missing cases. It does not add tests and does not change product behavior.
 
@@ -249,7 +249,7 @@ repo facts、tests、accepted concept / ADR / Policy、existing behavior から�
 
 この prompt では 4 点セットを綺麗にするために product behavior を変更しないこと。
 
-実装・tests を読み、4 点セットと Pack を作成・整合し、既存 evidence を mapping し、矛盾・未検証を報告する。docs 変更に必要で repository に実在する documentation / survey command は、あるとき実行する。lint とテストランナーは、実在するなら完了条件として実行する。下記を参照する。
+実装・tests を読み、4 点セットと Pack を作成・整合し、既存 evidence を mapping し、矛盾・未検証を報告する。docs 変更に必要で repository に実在する documentation / survey command は、あるとき実行する。実在する lint とテストのコマンドは文面として記録する。起動は [00-existing-tests.md](./00-existing-tests.md) であり、このプロンプトの完了条件ではない。下記を参照する。
 
 追加 test、refactor、bug fix、behavior change が必要なら follow-up として提案し、挙動変更は `prompts/01-define-existing.md` から通常 workflow を開始すること。
 
@@ -264,7 +264,7 @@ repo facts、tests、accepted concept / ADR / Policy、existing behavior から�
 - 作成・更新した Pack / 4 点セット / feature index
 - 調査した entry point / implementation path
 - mapping した tests / evidence
-- 実行した command と実結果
+- 実在する lint とテストのコマンド文面。コマンドが無いことは、無いと記録する。起動の結果は [00-existing-tests.md](./00-existing-tests.md) に属する
 - contradiction / missing evidence
 - 主体、単位、証拠の強さ。コードが決める事実、または理由付き N/A。観点が重要だというだけでは Question を開かない
 - 本当に必要な human-authority Questions
@@ -279,13 +279,13 @@ repo は段階導入できる。未整備領域について契約を推測して
 
 その後の PR レビューは、マージする head を見る関門である。その head がローカル完了で閉じた head と同じなら、PR レビューは同じ head に対する別サービスの確認である。足した修正で head が変わっているなら、PR レビューがその変わった head を見る。PR を開く前に、ローカルの照合をもう一周しない。このプロンプトは任意の導入手順のままであり、挙動変更に対する人間の承認門にはしない。
 
-対象リポジトリに linter またはテストランナーがあるなら、それを実行し、コマンドと結果を記録する。PHPUnit と Vitest は、`make test` が無くてもそのランナーである。コマンドが無いことは、無いと記録する。`make test` が無いことを、導入の失敗にしない。
+対象リポジトリに linter またはテストランナーがあるなら、そのコマンドを記録する。PHPUnit と Vitest は、`make test` が無くてもそのランナーである。コマンドが無いことは、無いと記録する。`make test` が無いことを、導入の失敗にしない。このプロンプトではランナーを起動しない。起動と、緑・赤・起動できなかった理由の記録は [00-existing-tests.md](./00-existing-tests.md) である。
 
-このプロンプトが行うのは、既存テストの発見、実行、記録までである。ケースの漏れ、アサーションが現行の挙動と合っているか、Flow に SIT があるかは判断しない。永続化または境界をまたぐ Flow に縦のテストが無いときは、SIT 未整備として報告する。このプロンプトの完了を、SIT 検証済みと呼ばない。上の別コンテキストの照合は、この規則で置き換えない。
+このプロンプトが行うのは、既存テストの発見と記録までである。実行はしない。ケースの漏れ、アサーションが現行の挙動と合っているか、Flow に SIT があるかは判断しない。永続化または境界をまたぐ Flow に縦のテストが無いときは、SIT 未整備として報告する。このプロンプトの完了を、SIT 検証済みと呼ばない。上の別コンテキストの照合は、この規則で置き換えない。
 
 ### 任意の 00a と 00b
 
-受入済みの回答は [existing-adoption-quality](../docs/testing/questions/existing-adoption-quality.md) の Q1〜Q3（2026-10-27）。00a と 00b は任意であり、このプロンプトの完了条件ではない。所定の成果物ができ、レビューで検証できるようになってから、完了の必須にする。任意の間、このプロンプトの既存の完了条件は緩めない。
+受入済みの回答は [existing-adoption-quality](../docs/testing/questions/existing-adoption-quality.md) の Q1〜Q3（2026-10-27）と Q4（2026-10-29）である。Q4 は、既存ランナーの実行をこのプロンプトの完了から外す。00a と 00b は任意であり、このプロンプトの完了条件ではない。所定の成果物ができ、レビューで検証できるようになってから、完了の必須にする。任意の間、このプロンプトの事実照合の完了条件は緩めない。
 
 00a は、依頼されたとき、既存テストのケース漏れ、アサーションが現行の挙動と合っているか、Flow 単位の SIT 不足を監査し、不足ケースを設計する。テストは足さない。製品の挙動は変えない。
 

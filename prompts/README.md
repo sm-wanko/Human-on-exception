@@ -2,7 +2,8 @@
 
 Human-on-Exception has three optional bootstrap prompts, five normal entry/resume prompts, and one optional Pack drift audit.
 
-- [Existing repository adoption / 既存リポジトリ導入](./00-existing-adoption.md) — reconstruct one bounded current feature at a time into a 4-point set and Pack without changing product behavior
+- [Existing repository adoption / 既存リポジトリ導入](./00-existing-adoption.md) — reconstruct one bounded current feature at a time into a 4-point set and Pack without changing product behavior. It records existing lint and test commands and does not run them
+- [Existing test run / 既存テストの実行](./00-existing-tests.md) — run the lint and test commands that adoption recorded, and record pass, fail, or why the runner could not start. It does not finish the adoption chart
 - [Existing area coding rules / 既存領域の実行規則](./00-coding-rules.md) — reconstruct one area's always-read rules from repeated implementation, without changing product behavior
 - [Greenfield bootstrap / Greenfield 初期化](./00-greenfield.md) — retire the executable example before starting a new product
 
