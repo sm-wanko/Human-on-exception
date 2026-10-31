@@ -1,5 +1,7 @@
 # Human-on-Exception
 
+Public development of this repository stopped at [v0.2.0](https://github.com/sm-wanko/Human-on-exception/releases/tag/v0.2.0).
+
 > **If AI keeps getting better, how much engineering work actually still needs a human?**  
 > This repository takes that question seriously and draws an explicit boundary between human authority and AI execution.
 
